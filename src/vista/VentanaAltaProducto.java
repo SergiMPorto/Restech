@@ -61,6 +61,62 @@ public class VentanaAltaProducto extends JDialog {
 		
 	}
 	
+	public JLabel getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(JLabel nombre) {
+		this.nombre = nombre;
+	}
+
+	public JLabel getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(JLabel precio) {
+		this.precio = precio;
+	}
+
+	public JLabel getProveedor() {
+		return proveedor;
+	}
+
+	public void setProveedor(JLabel proveedor) {
+		this.proveedor = proveedor;
+	}
+
+	public JTextField getCajaTextoNombre() {
+		return cajaTextoNombre;
+	}
+
+	public void setCajaTextoNombre(JTextField cajaTextoNombre) {
+		this.cajaTextoNombre = cajaTextoNombre;
+	}
+
+	public JTextField getCajaTextoPrecio() {
+		return cajaTextoPrecio;
+	}
+
+	public void setCajaTextoPrecio(JTextField cajaTextoPrecio) {
+		this.cajaTextoPrecio = cajaTextoPrecio;
+	}
+
+	public JTextField getCajaTextoProveedor() {
+		return cajaTextoProveedor;
+	}
+
+	public void setCajaTextoProveedor(JTextField cajaTextoProveedor) {
+		this.cajaTextoProveedor = cajaTextoProveedor;
+	}
+
+	public JButton getBotonValidarAltaProducto() {
+		return botonValidarAltaProducto;
+	}
+
+	public void setBotonValidarAltaProducto(JButton botonValidarAltaProducto) {
+		this.botonValidarAltaProducto = botonValidarAltaProducto;
+	}
+
 	public void IniciarListener(ControladorEventos controlador) {
 		
 		botonValidarAltaProducto.addActionListener(controlador);

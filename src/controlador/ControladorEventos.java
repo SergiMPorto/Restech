@@ -3,34 +3,48 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import vista.Menu;
 import vista.VentanaAltaProducto;
 import vista.VentanaLogin;
-import vista.VentanaPrincipal;
+
 
 public class ControladorEventos implements ActionListener{
 	
 	private VentanaLogin ventanaLogin;
+	private Menu menu;
 	private VentanaAltaProducto ventanaAltaProducto;
-	
-	public ControladorEventos(VentanaLogin ventanaLogin) {
-		this.ventanaLogin = ventanaLogin;
-		
-	}
-	
-	public ControladorEventos(VentanaAltaProducto ventanaAltaProducto) {
-		this.ventanaAltaProducto = ventanaAltaProducto;
-		
-	}
 
+	
+	
+
+	public ControladorEventos ( VentanaLogin ventanalogin) {
+		this.ventanaLogin = new VentanaLogin();
+		this.menu = new Menu();
+		this.ventanaAltaProducto = new VentanaAltaProducto();
+		
+		
+	menu.iniciarListener(this);
+	ventanaLogin.iniciarListener(this);
+	ventanaAltaProducto.IniciarListener(this);
+		
+	
+menu.setVisible(false);
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == ventanaLogin.getBotonA1());
+		menu.setVisible(true);
+		ventanaLogin.setVisible(false);
 		
-		VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
-		ventanaPrincipal.setVisible(true);
-		VentanaAltaProducto ventanaAltaProducto = new VentanaAltaProducto();
+		if(e.getSource() == menu.getBotonAltaProducto());
 		ventanaAltaProducto.setVisible(true);
-		
+		menu.setVisible(true);
+			
 	}
+	
+
 
 	
 }

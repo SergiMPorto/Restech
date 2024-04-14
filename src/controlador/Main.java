@@ -6,10 +6,14 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		VentanaLogin ventanaLogin = new VentanaLogin();
-		ControladorEventos controlador = new ControladorEventos(ventanaLogin);
+	VentanaLogin login = new VentanaLogin();
+	ControladorEventos controlador = new ControladorEventos(login);
+	login.iniciarListener(controlador);
+	
 		
-		ventanaLogin.IniciarListener(controlador);	
-	}
+	
+	
 
+
+}
 }

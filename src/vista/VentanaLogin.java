@@ -55,7 +55,49 @@ public class VentanaLogin extends JFrame{
 		
 	}
 	
-	public void IniciarListener(ControladorEventos controlador) {
+	//Getter and Setter
+	
+	public JLabel getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(JLabel usuario) {
+		this.usuario = usuario;
+	}
+
+	public JLabel getPassword() {
+		return password;
+	}
+
+	public void setPassword(JLabel password) {
+		this.password = password;
+	}
+
+	public JTextField getCajaTextoNombre() {
+		return cajaTextoNombre;
+	}
+
+	public void setCajaTextoNombre(JTextField cajaTextoNombre) {
+		this.cajaTextoNombre = cajaTextoNombre;
+	}
+
+	public JTextField getCajaTextoTelefono() {
+		return cajaTextoTelefono;
+	}
+
+	public void setCajaTextoTelefono(JTextField cajaTextoTelefono) {
+		this.cajaTextoTelefono = cajaTextoTelefono;
+	}
+
+	public JButton getBotonA1() {
+		return botonA1;
+	}
+
+	public void setBotonA1(JButton botonA1) {
+		this.botonA1 = botonA1;
+	}
+
+	public void iniciarListener(ControladorEventos controlador) {
 		
 		botonA1.addActionListener(controlador);
 }
