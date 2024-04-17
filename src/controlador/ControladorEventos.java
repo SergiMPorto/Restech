@@ -3,7 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import vista.Menu;
+import vista.Home
 import vista.VentanaAltaProducto;
 import vista.VentanaLogin;
 
@@ -11,7 +11,7 @@ import vista.VentanaLogin;
 public class ControladorEventos implements ActionListener{
 	
 	private VentanaLogin ventanaLogin;
-	private Menu menu;
+	private Home menu;
 	private VentanaAltaProducto ventanaAltaProducto;
 
 	

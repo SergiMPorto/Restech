@@ -1,4 +1,4 @@
-package vista;
+/*package vista;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -109,4 +109,4 @@ public Menu(){
 		
 		botonAltaProducto.addActionListener(controlador);
 }
-}
+}*/
