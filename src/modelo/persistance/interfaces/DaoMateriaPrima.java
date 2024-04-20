@@ -6,9 +6,9 @@ import modelo.entidad.MateriaPrima;
 
 public interface DaoMateriaPrima {
 	
-	public int insertar(MateriaPrima mp);
-	public int borrar(int id);
-	public MateriaPrima modificar(MateriaPrima mp);
+	public boolean insertar(MateriaPrima mp);
+	public boolean borrar(int id);
+	public boolean modificar(MateriaPrima mp);
 	public MateriaPrima buscar(int id);
 	public List<MateriaPrima> listar();
 

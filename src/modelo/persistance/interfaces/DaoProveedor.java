@@ -6,9 +6,9 @@ import modelo.entidad.Proveedor;
 
 public interface DaoProveedor {
 	
-	public int insertar(Proveedor pv);
-	public int borrar(int id);
-	public Proveedor modificar(Proveedor pv);
+	public boolean insertar(Proveedor pv);
+	public boolean borrar(int id);
+	public boolean modificar(Proveedor pv);
 	public Proveedor buscar(int id);
 	public List<Proveedor> listar();
 

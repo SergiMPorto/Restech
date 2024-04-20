@@ -7,7 +7,10 @@ public class Gasto {
 	private Pedido id_pedidoPedido;
 	private float costo;
 	private LocalDate fecha;
+	private int idGasto;
 	
+	
+
 	public Gasto() {
 		
 	}
@@ -42,6 +45,15 @@ public class Gasto {
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
+	
+	public int getIdGasto() {
+		return idGasto;
+	}
+
+	public void setIdGasto(int idGasto) {
+		this.idGasto = idGasto;
+	}
+
 
 	@Override
 	public String toString() {

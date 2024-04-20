@@ -4,8 +4,11 @@ public class Merma {
 	
 	private MateriaPrima id_materiaPrima;
 	private float cantidad;
+	private int idMerma;
 	
 	
+	
+
 	public Merma() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -31,6 +34,16 @@ public class Merma {
 	public void setCantidad(float cantidad) {
 		this.cantidad = cantidad;
 	}
+	
+	public int getIdMerma() {
+		return idMerma;
+	}
+
+
+	public void setIdMerma(int idMerma) {
+		this.idMerma = idMerma;
+	}
+
 	
 	
 	@Override

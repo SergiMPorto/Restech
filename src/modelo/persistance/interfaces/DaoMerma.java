@@ -6,9 +6,9 @@ import modelo.entidad.Merma;
 
 public interface DaoMerma {
 	
-	public int insertar(Merma merm);
-	public int borrar(int id);
-	public Merma modificar(Merma merm);
+	public boolean insertar(Merma merm);
+	public boolean borrar(int id);
+	public boolean modificar(Merma merm);
 	public Merma buscar(int id);
 	public List<Merma> listar();
 

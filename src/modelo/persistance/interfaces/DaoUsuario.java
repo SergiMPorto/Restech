@@ -6,10 +6,12 @@ import modelo.entidad.Usuario;
 
 public interface DaoUsuario {
 	
-	public int insertar(Usuario u);
-	public int borrar(int id);
-	public Usuario modificar(Usuario u);
+	public boolean insertar(Usuario u);
+	public boolean borrar(int id);
+	public boolean modificar(Usuario u);
 	public Usuario buscar(int id);
 	public List<Usuario> listar();
+	
+	
 
 }

@@ -8,3 +8,5 @@
 /DaoIngrediente.class
 /DaoMerma.class
 /DaoHistoialPrecios.class
+/DaoMateriaPrimaMySql.class
+/DaoMermaMySql.class
