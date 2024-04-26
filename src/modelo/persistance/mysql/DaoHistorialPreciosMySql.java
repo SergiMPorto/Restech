@@ -22,21 +22,23 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
         String password = "";
         try {
             conexion = DriverManager.getConnection(url, usuario, password);
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
     }
 
     public boolean cerrarConexion() {
         try {
-            conexion.close();
+            if (conexion != null && !conexion.isClosed()) {
+                conexion.close();
+            }
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
-        return true;
     }
 
     @Override
@@ -49,14 +51,12 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
         String query = "INSERT INTO historial_precios (id_materia_prima, precio, fecha) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, hp.getId_materiaPrima().getId());
+            ps.setInt(1, hp.getMateriaPrima().getId());
             ps.setFloat(2, hp.getPrecio());
             ps.setDate(3, java.sql.Date.valueOf(hp.getFecha()));
 
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                insertar = false;
-            }
+            int filasAfectadas = ps.executeUpdate();
+            insertar = filasAfectadas > 0;
         } catch (SQLException e) {
             System.out.println("Error al insertar HistorialPrecio: " + hp);
             insertar = false;
@@ -80,10 +80,8 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setInt(1, id);
 
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                borrado = false;
-            }
+            int filasAfectadas = ps.executeUpdate();
+            borrado = filasAfectadas > 0;
         } catch (SQLException e) {
             System.out.println("Error al borrar HistorialPrecio con id " + id);
             e.printStackTrace();
@@ -105,15 +103,13 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
         String query = "UPDATE historial_precios SET id_materia_prima = ?, precio = ?, fecha = ? WHERE id_historial = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, hp.getId_materiaPrima().getId());
+            ps.setInt(1, hp.getMateriaPrima().getId());
             ps.setFloat(2, hp.getPrecio());
             ps.setDate(3, java.sql.Date.valueOf(hp.getFecha()));
             ps.setInt(4, hp.getId()); // Asegúrate de tener un método getId() en HistorialPrecio para obtener el ID de historial
 
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                modificado = false;
-            }
+            int filasAfectadas = ps.executeUpdate();
+            modificado = filasAfectadas > 0;
         } catch (SQLException e) {
             System.out.println("Error al modificar HistorialPrecio: " + hp);
             modificado = false;
@@ -131,7 +127,7 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
             return null;
         }
 
-        HistorialPrecio historialPrecio = null;
+        HistorialPrecio hp = null;
         String query = "SELECT id_historial, id_materia_prima, precio, fecha FROM historial_precios WHERE id_historial = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
@@ -139,11 +135,11 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                historialPrecio = new HistorialPrecio();
-                historialPrecio.setId_materiaPrima(new MateriaPrima());
-                historialPrecio.getId_materiaPrima().setId(rs.getInt("id_materia_prima"));
-                historialPrecio.setPrecio(rs.getFloat("precio"));
-                historialPrecio.setFecha(rs.getDate("fecha").toLocalDate());
+                hp = new HistorialPrecio();
+                hp.setMateriaPrima(new MateriaPrima());
+                hp.getMateriaPrima().setId(rs.getInt("id_materia_prima"));
+                hp.setPrecio(rs.getFloat("precio"));
+                hp.setFecha(rs.getDate("fecha").toLocalDate());
             }
         } catch (SQLException e) {
             System.out.println("Error al buscar HistorialPrecio con id " + id);
@@ -152,7 +148,7 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
             cerrarConexion();
         }
 
-        return historialPrecio;
+        return hp;
     }
 
     @Override
@@ -169,12 +165,12 @@ public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                HistorialPrecio historialPrecio = new HistorialPrecio();
-                historialPrecio.setId_materiaPrima(new MateriaPrima());
-                historialPrecio.getId_materiaPrima().setId(rs.getInt("id_materia_prima"));
-                historialPrecio.setPrecio(rs.getFloat("precio"));
-                historialPrecio.setFecha(rs.getDate("fecha").toLocalDate());
-                listaHistorial.add(historialPrecio);
+                HistorialPrecio hp = new HistorialPrecio();
+                hp.setMateriaPrima(new MateriaPrima());
+                hp.getMateriaPrima().setId(rs.getInt("id_materia_prima"));
+                hp.setPrecio(rs.getFloat("precio"));
+                hp.setFecha(rs.getDate("fecha").toLocalDate());
+                listaHistorial.add(hp);
             }
         } catch (SQLException e) {
             System.out.println("Error al listar HistorialPrecio");

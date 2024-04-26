@@ -47,12 +47,13 @@ public class DaoIngredienteMySql implements DaoIngrediente{
         }
 
         boolean insertar = true;
-        String query = "INSERT INTO ingredientes (id_plato, id_materia_prima, cantidad) VALUES (?, ?, ?)";
+        String query = "INSERT INTO ingredientes (id_ingrediente, id_plato, id_materia_prima, cantidad) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, i.getId_plato().getId());
-            ps.setInt(2, i.getId_materiaPrima().getId());
-            ps.setFloat(3, i.getCantidad());
+            ps.setInt(1, i.getId_ingrediente());
+            ps.setInt(2, i.getId_plato().getId());
+            ps.setInt(3, i.getId_materiaPrima().getId());
+            ps.setFloat(4, i.getCantidad());
 
             int numeroFilasAfectadas = ps.executeUpdate();
             if (numeroFilasAfectadas == 0) {
@@ -109,7 +110,7 @@ public class DaoIngredienteMySql implements DaoIngrediente{
             ps.setInt(1, i.getId_plato().getId());
             ps.setInt(2, i.getId_materiaPrima().getId());
             ps.setFloat(3, i.getCantidad());
-            ps.setInt(4, i.getId());
+            ps.setInt(4, i.getId_ingrediente());
 
             int numeroFilasAfectadas = ps.executeUpdate();
             if (numeroFilasAfectadas == 0) {
@@ -141,6 +142,7 @@ public class DaoIngredienteMySql implements DaoIngrediente{
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 ingrediente = new Ingrediente();
+                ingrediente.setId_ingrediente(rs.getInt("id_ingrediente"));
                 ingrediente.setId_plato(new Plato());
                 ingrediente.getId_plato().setId(rs.getInt("id_plato"));
                 ingrediente.setId_materiaPrima(new MateriaPrima());
@@ -172,6 +174,7 @@ public class DaoIngredienteMySql implements DaoIngrediente{
 
             while (rs.next()) {
                 Ingrediente ingrediente = new Ingrediente();
+                ingrediente.setId_ingrediente(rs.getInt("id_ingrediente"));
                 ingrediente.setId_plato(new Plato());
                 ingrediente.getId_plato().setId(rs.getInt("id_plato"));
                 ingrediente.setId_materiaPrima(new MateriaPrima());

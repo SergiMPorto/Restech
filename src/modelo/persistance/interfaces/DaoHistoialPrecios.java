@@ -6,10 +6,11 @@ import modelo.entidad.HistorialPrecio;
 
 public interface DaoHistoialPrecios {
 	
-	public boolean insertar(HistorialPrecio hp);
-	public boolean borrar(int id);
-	public boolean modificar(HistorialPrecio hp);
-	public HistorialPrecio buscar(int id);
-	public List<HistorialPrecio> listar();
+	boolean insertar(HistorialPrecio hp);
+    boolean borrar(int id);
+    boolean modificar(HistorialPrecio hp);
+    HistorialPrecio buscar(int id);
+    List<HistorialPrecio> listar();
+
 
 }

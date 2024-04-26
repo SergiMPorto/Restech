@@ -4,59 +4,71 @@ import java.time.LocalDate;
 
 public class Pedido {
 	
-	private Usuario id_usuario;
-	private Proveedor id_proveedor;
-	private LocalDate fechaPedidoDate;
-	private float costoTotal;
-	
-	
-	public Pedido() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-	
-	
-	public Pedido(Usuario id_usuario, Proveedor id_proveedor, LocalDate fechaPedidoDate, float costoTotal) {
-		super();
-		this.id_usuario = id_usuario;
-		this.id_proveedor = id_proveedor;
-		this.fechaPedidoDate = fechaPedidoDate;
-		this.costoTotal = costoTotal;
-	}
-	
-	
-	public Usuario getId_usuario() {
-		return id_usuario;
-	}
-	public void setId_usuario(Usuario id_usuario) {
-		this.id_usuario = id_usuario;
-	}
-	public Proveedor getId_proveedor() {
-		return id_proveedor;
-	}
-	public void setId_proveedor(Proveedor id_proveedor) {
-		this.id_proveedor = id_proveedor;
-	}
-	public LocalDate getFechaPedidoDate() {
-		return fechaPedidoDate;
-	}
-	public void setFechaPedidoDate(LocalDate fechaPedidoDate) {
-		this.fechaPedidoDate = fechaPedidoDate;
-	}
-	public float getCostoTotal() {
-		return costoTotal;
-	}
-	public void setCostoTotal(float costoTotal) {
-		this.costoTotal = costoTotal;
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "Pedido [id_usuario=" + id_usuario + ", id_proveedor=" + id_proveedor + ", fechaPedidoDate="
-				+ fechaPedidoDate + ", costoTotal=" + costoTotal + "]";
-	}
-	
+	private int id; // Nuevo campo para almacenar el identificador único del pedido
+    private Usuario idUsuario;
+    private Proveedor idProveedor;
+    private LocalDate fechaPedido;
+    private double costoTotal; // Cambié el tipo de float a double para mayor precisión
+
+    // Constructor vacío
+    public Pedido() {
+        super();
+    }
+
+    // Constructor con parámetros
+    public Pedido(Usuario idUsuario, Proveedor idProveedor, LocalDate fechaPedido, double costoTotal) {
+        this.idUsuario = idUsuario;
+        this.idProveedor = idProveedor;
+        this.fechaPedido = fechaPedido;
+        this.costoTotal = costoTotal;
+    }
+
+    // Métodos de acceso (getters y setters)
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Usuario getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Usuario idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public Proveedor getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(Proveedor idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+
+    public LocalDate getFechaPedido() {
+        return fechaPedido;
+    }
+
+    public void setFechaPedido(LocalDate fechaPedido) {
+        this.fechaPedido = fechaPedido;
+    }
+
+    public double getCostoTotal() {
+        return costoTotal;
+    }
+
+    public void setCostoTotal(double costoTotal) {
+        this.costoTotal = costoTotal;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido [id=" + id + ", idUsuario=" + idUsuario + ", idProveedor=" + idProveedor + ", fechaPedido="
+                + fechaPedido + ", costoTotal=" + costoTotal + "]";
+    }
 	
 
 }

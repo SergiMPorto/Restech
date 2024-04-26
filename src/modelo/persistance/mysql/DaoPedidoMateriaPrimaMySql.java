@@ -46,29 +46,22 @@ public class DaoPedidoMateriaPrimaMySql implements DaoPedidoMateriaPrima {
             return false;
         }
 
-        boolean insertar = true;
-        String query = "INSERT INTO pedido_materias_primas (id_pedido, id_materia_prima, cantidad, costo_unitario, costo_total) VALUES (?, ?, ?, ?, ?)";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, pmp.getId_pedido().getId());
-            ps.setInt(2, pmp.getId_materiaPrima().getId());
+        String query = "INSERT INTO pedido_materias_primas (id_pedido, id_materiaPrima, cantidad, costoUnitario, costoTotal) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setInt(1, pmp.getPedido().getId());
+            ps.setInt(2, pmp.getMateriaPrima().getId());
             ps.setFloat(3, pmp.getCantidad());
             ps.setFloat(4, pmp.getCostoUnitario());
             ps.setFloat(5, pmp.getCostoTotal());
 
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                insertar = false;
-            }
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.out.println("Error al insertar PedidoMateriaPrima: " + pmp);
-            insertar = false;
-            e.printStackTrace();
+            System.err.println("Error al insertar PedidoMateriaPrima: " + e.getMessage());
+            return false;
         } finally {
             cerrarConexion();
         }
-
-        return insertar;
     }
 
     @Override
@@ -77,25 +70,17 @@ public class DaoPedidoMateriaPrimaMySql implements DaoPedidoMateriaPrima {
             return false;
         }
 
-        boolean borrado = true;
-        String query = "DELETE FROM pedido_materias_primas WHERE id_pedido_materia_prima = ?";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
+        String query = "DELETE FROM pedido_materias_primas WHERE id_pedidoMateriaPrima = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setInt(1, id);
-
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                borrado = false;
-            }
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.out.println("Error al borrar PedidoMateriaPrima con id " + id);
-            e.printStackTrace();
-            borrado = false;
+            System.err.println("Error al borrar PedidoMateriaPrima con id " + id + ": " + e.getMessage());
+            return false;
         } finally {
             cerrarConexion();
         }
-
-        return borrado;
     }
 
     @Override
@@ -104,30 +89,23 @@ public class DaoPedidoMateriaPrimaMySql implements DaoPedidoMateriaPrima {
             return false;
         }
 
-        boolean modificado = true;
-        String query = "UPDATE pedido_materias_primas SET id_pedido = ?, id_materia_prima = ?, cantidad = ?, costo_unitario = ?, costo_total = ? WHERE id_pedido_materia_prima = ?";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, pmp.getId_pedido().getId());
-            ps.setInt(2, pmp.getId_materiaPrima().getId());
+        String query = "UPDATE pedido_materias_primas SET id_pedido = ?, id_materiaPrima = ?, cantidad = ?, costoUnitario = ?, costoTotal = ? WHERE id_pedidoMateriaPrima = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setInt(1, pmp.getPedido().getId());
+            ps.setInt(2, pmp.getMateriaPrima().getId());
             ps.setFloat(3, pmp.getCantidad());
             ps.setFloat(4, pmp.getCostoUnitario());
             ps.setFloat(5, pmp.getCostoTotal());
             ps.setInt(6, pmp.getId());
 
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                modificado = false;
-            }
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
         } catch (SQLException e) {
-            System.out.println("Error al modificar PedidoMateriaPrima: " + pmp);
-            modificado = false;
-            e.printStackTrace();
+            System.err.println("Error al modificar PedidoMateriaPrima: " + e.getMessage());
+            return false;
         } finally {
             cerrarConexion();
         }
-
-        return modificado;
     }
 
     @Override
@@ -137,28 +115,26 @@ public class DaoPedidoMateriaPrimaMySql implements DaoPedidoMateriaPrima {
         }
 
         PedidoMateriaPrima pmp = null;
-        String query = "SELECT id_pedido_materia_prima, id_pedido, id_materia_prima, cantidad, costo_unitario, costo_total FROM pedido_materias_primas WHERE id_pedido_materia_prima = ?";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
+        String query = "SELECT id_pedidoMateriaPrima, id_pedido, id_materiaPrima, cantidad, costoUnitario, costoTotal FROM pedido_materias_primas WHERE id_pedidoMateriaPrima = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setInt(1, id);
-
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
-                pmp = new PedidoMateriaPrima();
-                pmp.setId(rs.getInt("id_pedido_materia_prima"));
-                pmp.setId_pedido(new Pedido(rs.getInt("id_pedido")));
-                pmp.setId_materiaPrima(new MateriaPrima(rs.getInt("id_materia_prima")));
-                pmp.setCantidad(rs.getFloat("cantidad"));
-                pmp.setCostoUnitario(rs.getFloat("costo_unitario"));
-                pmp.setCostoTotal(rs.getFloat("costo_total"));
+                Pedido pedido = new Pedido();
+                pedido.setId(rs.getInt("id_pedido"));
+
+                MateriaPrima materiaPrima = new MateriaPrima();
+                materiaPrima.setId(rs.getInt("id_materiaPrima"));
+
+                pmp = new PedidoMateriaPrima(pedido, materiaPrima, rs.getFloat("cantidad"), rs.getFloat("costoUnitario"), rs.getFloat("costoTotal"));
+                pmp.setId(rs.getInt("id_pedidoMateriaPrima"));
             }
         } catch (SQLException e) {
-            System.out.println("Error al buscar PedidoMateriaPrima con id " + id);
-            e.printStackTrace();
+            System.err.println("Error al buscar PedidoMateriaPrima con id " + id + ": " + e.getMessage());
         } finally {
             cerrarConexion();
         }
-
         return pmp;
     }
 
@@ -168,31 +144,30 @@ public class DaoPedidoMateriaPrimaMySql implements DaoPedidoMateriaPrima {
             return null;
         }
 
-        List<PedidoMateriaPrima> listaPedidoMateriaPrima = new ArrayList<>();
-        String query = "SELECT id_pedido_materia_prima, id_pedido, id_materia_prima, cantidad, costo_unitario, costo_total FROM pedido_materias_primas";
+        List<PedidoMateriaPrima> listaPMP = new ArrayList<>();
+        String query = "SELECT id_pedidoMateriaPrima, id_pedido, id_materiaPrima, cantidad, costoUnitario, costoTotal FROM pedido_materias_primas";
 
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                PedidoMateriaPrima pmp = new PedidoMateriaPrima();
-                pmp.setId(rs.getInt("id_pedido_materia_prima"));
-                pmp.setId_pedido(new Pedido(rs.getInt("id_pedido")));
-                pmp.setId_materiaPrima(new MateriaPrima(rs.getInt("id_materia_prima")));
-                pmp.setCantidad(rs.getFloat("cantidad"));
-                pmp.setCostoUnitario(rs.getFloat("costo_unitario"));
-                pmp.setCostoTotal(rs.getFloat("costo_total"));
-                listaPedidoMateriaPrima.add(pmp);
+                Pedido pedido = new Pedido();
+                pedido.setId(rs.getInt("id_pedido"));
+
+                MateriaPrima materiaPrima = new MateriaPrima();
+                materiaPrima.setId(rs.getInt("id_materiaPrima"));
+
+                PedidoMateriaPrima pmp = new PedidoMateriaPrima(pedido, materiaPrima, rs.getFloat("cantidad"), rs.getFloat("costoUnitario"), rs.getFloat("costoTotal"));
+                pmp.setId(rs.getInt("id_pedidoMateriaPrima"));
+
+                listaPMP.add(pmp);
             }
         } catch (SQLException e) {
-            System.out.println("Error al listar PedidoMateriaPrima");
-            e.printStackTrace();
+            System.err.println("Error al listar PedidoMateriaPrima: " + e.getMessage());
         } finally {
             cerrarConexion();
         }
-
-        return listaPedidoMateriaPrima;
+        return listaPMP;
     }
 
 }

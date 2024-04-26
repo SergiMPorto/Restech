@@ -4,61 +4,58 @@ import java.time.LocalDate;
 
 public class HistorialPrecio {
 	
-	private MateriaPrima id_materiaPrima;
-	private float precio;
-	private LocalDate fecha;
+	private int id; // Nuevo atributo para almacenar el ID de historial
+    private MateriaPrima materiaPrima;
+    private float precio;
+    private LocalDate fecha;
 	
-	
-	public HistorialPrecio() {
-		super();
+    public HistorialPrecio() {
+        super();
+    }
 
+    public HistorialPrecio(int id, MateriaPrima materiaPrima, float precio, LocalDate fecha) {
+        this.id = id;
+        this.materiaPrima = materiaPrima;
+        this.precio = precio;
+        this.fecha = fecha;
+    }
 
-	}
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public HistorialPrecio(MateriaPrima id_materiaPrima, float precio, LocalDate fecha) {
-		super();
-		this.id_materiaPrima = id_materiaPrima;
-		this.precio = precio;
-		this.fecha = fecha;
-	}
+    public MateriaPrima getMateriaPrima() {
+        return materiaPrima;
+    }
 
+    public void setMateriaPrima(MateriaPrima materiaPrima) {
+        this.materiaPrima = materiaPrima;
+    }
 
-	public MateriaPrima getId_materiaPrima() {
-		return id_materiaPrima;
-	}
+    public float getPrecio() {
+        return precio;
+    }
 
+    public void setPrecio(float precio) {
+        this.precio = precio;
+    }
 
-	public void setId_materiaPrima(MateriaPrima id_materiaPrima) {
-		this.id_materiaPrima = id_materiaPrima;
-	}
+    public LocalDate getFecha() {
+        return fecha;
+    }
 
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
+    }
 
-	public float getPrecio() {
-		return precio;
-	}
-
-
-	public void setPrecio(float precio) {
-		this.precio = precio;
-	}
-
-
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
-	}
-
-
-	@Override
-	public String toString() {
-		return "HistorialPrecio [id_materiaPrima=" + id_materiaPrima + ", precio=" + precio + ", fecha=" + fecha + "]";
-	}
-	
+    @Override
+    public String toString() {
+        return "HistorialPrecio [id=" + id + ", materiaPrima=" + materiaPrima + ", precio=" + precio + ", fecha=" + fecha + "]";
+    }
 	
 	
 
