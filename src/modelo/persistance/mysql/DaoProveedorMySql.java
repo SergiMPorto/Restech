@@ -50,7 +50,7 @@ public class DaoProveedorMySql implements DaoProveedor {
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setString(1, pv.getNombre());
             ps.setString(2, pv.getDescripcion());
-            ps.setString(3, pv.getNumeroContacto());
+            ps.setString(3, pv.getTelefono());
             ps.setString(4, pv.getDireccion());
 
             int filasAfectadas = ps.executeUpdate();
@@ -105,7 +105,7 @@ public class DaoProveedorMySql implements DaoProveedor {
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setString(1, pv.getNombre());
             ps.setString(2, pv.getDescripcion());
-            ps.setString(3, pv.getNumeroContacto());
+            ps.setString(3, pv.getTelefono());
             ps.setString(4, pv.getDireccion());
             ps.setInt(5, pv.getId());
 
@@ -141,7 +141,7 @@ public class DaoProveedorMySql implements DaoProveedor {
                 pv.setId(rs.getInt("id_proveedor"));
                 pv.setNombre(rs.getString("nombre"));
                 pv.setDescripcion(rs.getString("descripcion"));
-                pv.setNumeroContacto(rs.getString("numero_contacto"));
+                pv.setTelefono(rs.getString("numero_contacto"));
                 pv.setDireccion(rs.getString("direccion"));
             }
         } catch (SQLException e) {
@@ -170,7 +170,7 @@ public class DaoProveedorMySql implements DaoProveedor {
                 pv.setId(rs.getInt("id_proveedor"));
                 pv.setNombre(rs.getString("nombre"));
                 pv.setDescripcion(rs.getString("descripcion"));
-                pv.setNumeroContacto(rs.getString("numero_contacto"));
+                pv.setTelefono(rs.getString("numero_contacto"));
                 pv.setDireccion(rs.getString("direccion"));
                 listaProveedores.add(pv);
             }

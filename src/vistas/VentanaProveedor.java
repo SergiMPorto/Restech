@@ -32,7 +32,7 @@ package vistas;
 	    private JButton btnGuardar;
 	    private JButton btnBorrar;
 
-	    public VentanaProveedor() {
+	    public VentanaProveedor(String nombre2, String descripcion2, String telefono2, String direccion2) {
 	        initialize();
 	    }
 

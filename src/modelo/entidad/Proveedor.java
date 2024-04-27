@@ -5,7 +5,7 @@ public class Proveedor {
 	private int id;
     private String nombre;
     private String descripcion;
-    private String numeroContacto;
+    private String telefono;
     private String direccion;
 
     public Proveedor() {
@@ -17,10 +17,10 @@ public class Proveedor {
         
     }
 
-    public Proveedor(String nombre, String descripcion, String numeroContacto, String direccion) {
+    public Proveedor(String nombre, String descripcion, String telefono, String direccion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.numeroContacto = numeroContacto;
+        this.telefono = telefono;
         this.direccion = direccion;
     }
 
@@ -49,13 +49,7 @@ public class Proveedor {
         this.descripcion = descripcion;
     }
 
-    public String getNumeroContacto() {
-        return numeroContacto;
-    }
-
-    public void setNumeroContacto(String numeroContacto) {
-        this.numeroContacto = numeroContacto;
-    }
+ 
 
     public String getDireccion() {
         return direccion;
@@ -65,9 +59,18 @@ public class Proveedor {
         this.direccion = direccion;
     }
 
-    @Override
-    public String toString() {
-        return "Proveedor [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", numeroContacto="
-                + numeroContacto + ", direccion=" + direccion + "]";
-    }
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	@Override
+	public String toString() {
+		return "Proveedor [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", telefono=" + telefono
+				+ ", direccion=" + direccion + "]";
+	}
+
 }

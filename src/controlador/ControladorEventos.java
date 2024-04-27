@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import modelo.entidad.*;
 import modelo.persistance.mysql.DaoProveedorMySql;
+import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
 import vistas.Home;
 import vistas.VentanaIngredientes;
@@ -16,6 +17,7 @@ import vistas.VentanaPedido;
 import vistas.VentanaPlato;
 import vistas.VentanaProveedor;
 import vistas.VentanaUsuario;
+import controlador.SesionUsuario;
 
 
 
@@ -83,12 +85,19 @@ public class ControladorEventos implements ActionListener {
 	        } else if (e.getSource() == plato.getIngredientes()) {
 	            System.out.println("Boton ingredientes pulsados");
 	            ingredientes.setVisible(true);
-	        } else if (e.getSource() == home.getBtnUsuario()) {
-	            System.out.println("Botón Usuario pulsado");
-	            usuario.setVisible(true);
-	            pedido.setVisible(false);
-	            almacen.setVisible(false);
-	            plato.setVisible(false);
+	        }else if (e.getSource() == home.getBtnUsuario()) {
+	        	SesionUsuario usuarioActual = SesionUsuario.getUsuarioActual();
+	            if (usuarioActual.getPermisos() != 1) {
+	                JOptionPane.showMessageDialog(null, "No tienes permisos suficientes para acceder a esta área.",
+	                        "Acceso denegado", JOptionPane.ERROR_MESSAGE);
+	            } else {
+	                System.out.println("Botón Usuario pulsado");
+	                usuario.setVisible(true);
+	                pedido.setVisible(false);
+	                almacen.setVisible(false);
+	                plato.setVisible(false);
+	            }
+	        
 	        } else if (e.getSource() == home.getBtnAlmacen()) {
 	            System.out.println("Botón almacen pulsado");
 	            almacen.setVisible(true);
@@ -137,7 +146,40 @@ public class ControladorEventos implements ActionListener {
 	                }
 	            }
 	        } else if (e.getSource() == proveedor.getBtnBorrar()) {
-	            // Tu lógica para borrar proveedor
+	            
 	        }
-	    }
-	}
+	    
+	        else if (e.getSource() == usuario.getBtnGuardar()) {
+	            String nombre = usuario.getTextNombre().getText();
+	            String permisoTexto = usuario.getPermiso().getText();
+	            int permiso;
+	            try {
+	                permiso = Integer.parseInt(permisoTexto);
+	            } catch (NumberFormatException nfe) {
+	                JOptionPane.showMessageDialog(null, "Permiso debe ser numérico.");
+	                return;
+	            }
+
+	            if (nombre.isEmpty() || permisoTexto.isEmpty()) {
+	                JOptionPane.showMessageDialog(null, "El nombre y el permiso son campos obligatorios.",
+	                        "Campos Incompletos", JOptionPane.WARNING_MESSAGE);
+	            } else {
+	                Usuario nuevoUsuario = new Usuario();
+	                nuevoUsuario.setNombre(nombre);
+	                nuevoUsuario.setPermisos(permiso);
+
+	                DaoUsuarioMySql daoUsuario = new DaoUsuarioMySql();
+	                if (daoUsuario.insertar(nuevoUsuario)) {
+	                    JOptionPane.showMessageDialog(null, "Usuario añadido con éxito.", "Usuario Guardado",
+	                            JOptionPane.INFORMATION_MESSAGE);
+	                   
+	                    usuario.getTextNombre().setText("");
+	                    usuario.getPermiso().setText("");
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "No se pudo añadir el usuario a la base de datos.",
+	                            "Error al Guardar", JOptionPane.ERROR_MESSAGE);
+	                }
+	            }
+	        }}}
+	    
+	

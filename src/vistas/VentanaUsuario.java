@@ -18,11 +18,12 @@ public class VentanaUsuario {
 
 	private JFrame frmUsuario;
 	private JTextField textNombre;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
+	private JButton btnCancelar;
+	private JButton btnBorrar;
 	private JLabel lblNewLabel_3;
 	private JTextField Permiso;
 	private JLabel lblPermiso;
+	private JButton btnGuardar;
 
 
 
@@ -77,26 +78,26 @@ public class VentanaUsuario {
 		textNombre.setColumns(10);
 		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		
-		JButton btnGuardar = new JButton("GUARDAR");
+	    btnGuardar = new JButton("GUARDAR");
 		btnGuardar.setBackground(Color.GRAY);
 		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
 		btnGuardar.setForeground(new Color(0, 0, 0));
 		btnGuardar.setBounds(249, 630, 150, 27);
 		frmUsuario.getContentPane().add(btnGuardar);
 		
-		btnNewButton = new JButton("CANCELAR");
-		btnNewButton.setBackground(Color.GRAY);
-		btnNewButton.setForeground(new Color(0, 0, 0));
-		btnNewButton.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnNewButton.setBounds(409, 630, 150, 27);
-		frmUsuario.getContentPane().add(btnNewButton);
+		btnCancelar = new JButton("CANCELAR");
+		btnCancelar.setBackground(Color.GRAY);
+		btnCancelar.setForeground(new Color(0, 0, 0));
+		btnCancelar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+		btnCancelar.setBounds(409, 630, 150, 27);
+		frmUsuario.getContentPane().add(btnCancelar);
 		
-		btnNewButton_1 = new JButton("BORRAR");
-		btnNewButton_1.setBackground(Color.GRAY);
-		btnNewButton_1.setForeground(new Color(0, 0, 0));
-		btnNewButton_1.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnNewButton_1.setBounds(570, 630, 150, 27);
-		frmUsuario.getContentPane().add(btnNewButton_1);
+		btnBorrar = new JButton("BORRAR");
+		btnBorrar.setBackground(Color.GRAY);
+		btnBorrar.setForeground(new Color(0, 0, 0));
+		btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+		btnBorrar.setBounds(570, 630, 150, 27);
+		frmUsuario.getContentPane().add(btnBorrar);
 		
 		lblNewLabel_3 = new JLabel("USUARIO");
 		lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
@@ -116,6 +117,45 @@ public class VentanaUsuario {
 		
 	}
    // Getter and Setter
+	
+
+	public void setVisible(boolean b) {
+		frmUsuario.setVisible(b);
+		
+	}
+
+	public JButton getBtnCancelar() {
+		return btnCancelar;
+	}
+
+	public void setBtnCancelar(JButton btnCancelar) {
+		this.btnCancelar = btnCancelar;
+	}
+
+	public JButton getBtnBorrar() {
+		return btnBorrar;
+	}
+
+	public void setBtnBorrar(JButton btnBorrar) {
+		this.btnBorrar = btnBorrar;
+	}
+
+	public JButton getBtnGuardar() {
+		return btnGuardar;
+	}
+
+	public void setBtnGuardar(JButton btnGuardar) {
+		this.btnGuardar = btnGuardar;
+	}
+
+	public JFrame getFrmUsuario() {
+		return frmUsuario;
+	}
+
+	public void setFrmUsuario(JFrame frmUsuario) {
+		this.frmUsuario = frmUsuario;
+	}
+
 	public JTextField getTextNombre() {
 		return textNombre;
 	}
@@ -124,26 +164,28 @@ public class VentanaUsuario {
 		this.textNombre = textNombre;
 	}
 
-	public JButton getBtnNewButton() {
-		return btnNewButton;
+	public JLabel getLblNewLabel_3() {
+		return lblNewLabel_3;
 	}
 
-	public void setBtnNewButton(JButton btnNewButton) {
-		this.btnNewButton = btnNewButton;
+	public void setLblNewLabel_3(JLabel lblNewLabel_3) {
+		this.lblNewLabel_3 = lblNewLabel_3;
 	}
 
-	public JButton getBtnNewButton_1() {
-		return btnNewButton_1;
+	public JTextField getPermiso() {
+		return Permiso;
 	}
 
-	public void setBtnNewButton_1(JButton btnNewButton_1) {
-		this.btnNewButton_1 = btnNewButton_1;
+	public void setPermiso(JTextField permiso) {
+		Permiso = permiso;
 	}
 
+	public JLabel getLblPermiso() {
+		return lblPermiso;
+	}
 
-	public void setVisible(boolean b) {
-		frmUsuario.setVisible(b);
-		
+	public void setLblPermiso(JLabel lblPermiso) {
+		this.lblPermiso = lblPermiso;
 	}
 	
 	
