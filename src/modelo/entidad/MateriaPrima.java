@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class MateriaPrima {
 	
-	private int id; // Nueva clave primaria
+	private int id; 
     private String nombre;
     private float precio;
     private String proveedor;
@@ -27,7 +27,7 @@ public class MateriaPrima {
         this.merma = merma;
     }
     
-    // Métodos getter y setter para id
+    
     public int getId() {
         return id;
     }
@@ -36,7 +36,7 @@ public class MateriaPrima {
         this.id = id;
     }
     
-    // Otros métodos getter y setter
+    
     public String getNombre() {
         return nombre;
     }

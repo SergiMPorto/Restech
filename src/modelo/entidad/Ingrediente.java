@@ -2,7 +2,7 @@ package modelo.entidad;
 
 public class Ingrediente {
 	
-	 private int id_ingrediente; // Nuevo atributo
+	 private int id_ingrediente; 
 	    private Plato id_plato;
 	    private MateriaPrima id_materiaPrima;
 	    private float cantidad;

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Gasto {
 	
-	private Pedido pedido; // Renombrado de id_pedidoPedido a pedido
+	private Pedido pedido; 
     private float costo;
     private LocalDate fecha;
     private int idGasto;
@@ -19,7 +19,7 @@ public class Gasto {
         this.fecha = fecha;
     }
 
-    // Getters y Setters actualizados
+    
     public Pedido getPedido() {
         return pedido;
     }

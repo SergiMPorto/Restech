@@ -2,18 +2,18 @@ package modelo.entidad;
 
 public class PedidoMateriaPrima {
 	
-	private Pedido pedido; // Referencia al pedido
-    private MateriaPrima materiaPrima; // Referencia a la materia prima
-    private float cantidad; // Cantidad de materia prima
-    private float costoUnitario; // Costo unitario de la materia prima
-    private float costoTotal; // Costo total de la materia prima
-    private int id; // Identificador único de PedidoMateriaPrima
+	private Pedido pedido; 
+    private MateriaPrima materiaPrima;
+    private float cantidad; 
+    private float costoUnitario; 
+    private float costoTotal;
+    private int id; 
 
-    // Constructor por defecto
+    
     public PedidoMateriaPrima() {
     }
 
-    // Constructor con parámetros
+    
     public PedidoMateriaPrima(Pedido pedido, MateriaPrima materiaPrima, float cantidad, float costoUnitario, float costoTotal) {
         this.pedido = pedido;
         this.materiaPrima = materiaPrima;
@@ -22,7 +22,7 @@ public class PedidoMateriaPrima {
         this.costoTotal = costoTotal;
     }
 
-    // Getters y setters
+    
     public Pedido getPedido() {
         return pedido;
     }

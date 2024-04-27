@@ -4,18 +4,21 @@ import java.time.LocalDate;
 
 public class Pedido {
 	
-	private int id; // Nuevo campo para almacenar el identificador único del pedido
+	private int id; 
     private Usuario idUsuario;
     private Proveedor idProveedor;
     private LocalDate fechaPedido;
-    private double costoTotal; // Cambié el tipo de float a double para mayor precisión
-
-    // Constructor vacío
+    private double costoTotal; 
+    
     public Pedido() {
         super();
     }
 
-    // Constructor con parámetros
+    public Pedido(int id) {
+        this.id = id;
+        
+    }
+    
     public Pedido(Usuario idUsuario, Proveedor idProveedor, LocalDate fechaPedido, double costoTotal) {
         this.idUsuario = idUsuario;
         this.idProveedor = idProveedor;
@@ -23,7 +26,7 @@ public class Pedido {
         this.costoTotal = costoTotal;
     }
 
-    // Métodos de acceso (getters y setters)
+    
     public int getId() {
         return id;
     }

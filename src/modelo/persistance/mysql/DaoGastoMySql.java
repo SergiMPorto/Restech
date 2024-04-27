@@ -49,7 +49,7 @@ public class DaoGastoMySql implements DaoGasto {
         String query = "INSERT INTO gastos (id_pedido, costo, fecha) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, gasto.getPedido().getIdPedido());
+            ps.setInt(1, gasto.getPedido().getId());
             ps.setFloat(2, gasto.getCosto());
             ps.setDate(3, java.sql.Date.valueOf(gasto.getFecha()));
 
@@ -68,7 +68,7 @@ public class DaoGastoMySql implements DaoGasto {
         return insertar;
     }
 
-    // Método borrar
+    
     @Override
     public boolean borrar(int id) {
         if (!abrirConexion()) {
@@ -96,7 +96,7 @@ public class DaoGastoMySql implements DaoGasto {
         return borrado;
     }
 
-    // Método modificar
+    
     @Override
     public boolean modificar(Gasto gasto) {
         if (!abrirConexion()) {
@@ -107,7 +107,7 @@ public class DaoGastoMySql implements DaoGasto {
         String query = "UPDATE gastos SET id_pedido = ?, costo = ?, fecha = ? WHERE id_gasto = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, gasto.getPedido().getIdPedido());
+            ps.setInt(1, gasto.getPedido().getId());
             ps.setFloat(2, gasto.getCosto());
             ps.setDate(3, java.sql.Date.valueOf(gasto.getFecha()));
             ps.setInt(4, gasto.getIdGasto());
@@ -127,7 +127,7 @@ public class DaoGastoMySql implements DaoGasto {
         return modificado;
     }
 
-    // Método buscar
+    
     @Override
     public Gasto buscar(int id) {
         if (!abrirConexion()) {
@@ -158,7 +158,7 @@ public class DaoGastoMySql implements DaoGasto {
         return gasto;
     }
 
-    // Método listar
+    
     @Override
     public List<Gasto> listar() {
         if (!abrirConexion()) {

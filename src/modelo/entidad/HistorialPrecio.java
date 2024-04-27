@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class HistorialPrecio {
 	
-	private int id; // Nuevo atributo para almacenar el ID de historial
+	private int id; 
     private MateriaPrima materiaPrima;
     private float precio;
     private LocalDate fecha;
