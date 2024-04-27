@@ -1,131 +1,107 @@
 package vista;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import java.awt.Toolkit;
-import java.awt.Window.Type;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Ingredientes {
 
-	private JFrame frmIngredientes;
-	private JTextField textField;
-	private JLabel lblNewLabel_1;
-	private JTextField textField_1;
-	private JLabel lblNewLabel_2;
-	private JTextField textField_2;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
-	private JLabel lblNewLabel_3;
-	private JLabel lblNewLabel_4;
+    private JFrame frmIngredientes;
+    private JList<String> listaProductos;
+    private JTextField txtCantidad;
+    private ArrayList<String> productos;
+    private ArrayList<Integer> cantidades;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Ingredientes window = new Ingredientes();
-					window.frmIngredientes.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public Ingredientes(ArrayList<String> productos) {
+        this.productos = productos;
+        initialize();
+    }
+    
+    public void setProductos(ArrayList<String> productos) {
+        this.productos = productos;
+        
+        listaProductos.setListData(productos.toArray(new String[0]));
+    }
 
-	/**
-	 * Create the application.
-	 */
-	public Ingredientes() {
-		initialize();
-	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
+
 	private void initialize() {
-		frmIngredientes = new JFrame();
-		//frmIngredientes.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\Restech\\Imagenes\\RESTECHVENTANA.jpg"));
-		frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
+        frmIngredientes = new JFrame();
+        frmIngredientes.setTitle("Ingredientes Disponibles");
+        frmIngredientes.setBounds(100, 100, 750, 750);
+        frmIngredientes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmIngredientes.getContentPane().setLayout(new BorderLayout(0, 0));
+        frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
 		frmIngredientes.getContentPane().setForeground(new Color(56, 61, 67));
-		frmIngredientes.setForeground(new Color(102, 153, 204));
-		frmIngredientes.setFont(new Font("Lucida Sans", Font.BOLD | Font.ITALIC, 18));
-		frmIngredientes.setTitle("PLATO");
-		frmIngredientes.setBounds(100, 100, 750, 750);
-		frmIngredientes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmIngredientes.getContentPane().setLayout(null);
+
+        JScrollPane scrollPane = new JScrollPane();
+        frmIngredientes.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+        listaProductos = new JList<>(productos.toArray(new String[0]));
+        scrollPane.setViewportView(listaProductos);
+
+        JPanel panelBotones = new JPanel();
+        panelBotones.setBackground(new Color(56, 61, 67));
+		panelBotones.setForeground(new Color(56, 61, 67));
+        frmIngredientes.getContentPane().add(panelBotones, BorderLayout.SOUTH);
+        
+        JLabel lblCantidad = new JLabel("Cantidad:");
+        lblCantidad.setForeground(Color.WHITE);
+        lblCantidad.setFont(new Font("Lucida Sans", Font.BOLD, 16));
+
+        txtCantidad = new JTextField();
+        txtCantidad.setSize(150, 27);
+        txtCantidad.setColumns(5);
+
+        JButton btnGuardar = new JButton("Guardar");
+        btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        btnGuardar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               // guardarCantidad();
+            }
+        });
+
+        JButton btnCancelar = new JButton("Cancelar");
+        btnCancelar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        btnCancelar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Aquí puedes agregar la lógica para cancelar la operación
+            }
+        });
+
+        JButton btnBorrar = new JButton("Borrar");
+        btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        btnBorrar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+              
+            }
+        });
+        panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        panelBotones.add(lblCantidad);
+        panelBotones.add(txtCantidad);
+        panelBotones.add(btnGuardar);
+        panelBotones.add(btnBorrar);
+        panelBotones.add(btnCancelar);
+    }
+
+   
+
+    public void mostrarVentana() {
+        frmIngredientes.setVisible(true);
+   
+}
+
+	public void setVisible(boolean b) {
+         frmIngredientes.setVisible(b);
 		
-		JLabel lblNewLabel = new JLabel("PLATO");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setForeground(new Color(128, 128, 128));
-		lblNewLabel.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblNewLabel.setBounds(207, 137, 117, 27);
-		frmIngredientes.getContentPane().add(lblNewLabel);
+	}
+
 		
-		textField = new JTextField();
-		textField.setBounds(320, 137, 250, 27);
-		frmIngredientes.getContentPane().add(textField);
-		textField.setColumns(10);
 		
-		lblNewLabel_1 = new JLabel("MATERIAS PRIMAS");
-		lblNewLabel_1.setBackground(new Color(128, 128, 128));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(new Color(128, 128, 128));
-		lblNewLabel_1.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblNewLabel_1.setBounds(111, 253, 225, 27);
-		lblNewLabel.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		frmIngredientes.getContentPane().add(lblNewLabel_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(320, 253, 100, 27);
-		frmIngredientes.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-		
-		lblNewLabel_2 = new JLabel("CANTIDAD");
-		lblNewLabel_2.setForeground(new Color(128, 128, 128));
-		lblNewLabel_2.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblNewLabel_2.setBounds(205, 370, 150, 27);
-		frmIngredientes.getContentPane().add(lblNewLabel_2);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(320, 370, 100, 27);
-		frmIngredientes.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
-		
-		JButton btnGuardar = new JButton("GUARDAR");
-		btnGuardar.setBackground(new Color(0, 0, 0));
-		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnGuardar.setForeground(Color.LIGHT_GRAY);
-		btnGuardar.setBounds(256, 629, 150, 27);
-		frmIngredientes.getContentPane().add(btnGuardar);
-		
-		btnNewButton = new JButton("CANCELAR");
-		btnNewButton.setBackground(new Color(0, 0, 0));
-		btnNewButton.setForeground(Color.LIGHT_GRAY);
-		btnNewButton.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnNewButton.setBounds(420, 630, 150, 27);
-		frmIngredientes.getContentPane().add(btnNewButton);
-		
-		btnNewButton_1 = new JButton("BORRAR");
-		btnNewButton_1.setBackground(new Color(0, 0, 0));
-		btnNewButton_1.setForeground(Color.LIGHT_GRAY);
-		btnNewButton_1.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnNewButton_1.setBounds(584, 630, 150, 27);
-		frmIngredientes.getContentPane().add(btnNewButton_1);
-		
-		lblNewLabel_3 = new JLabel("INGREDIENTES");
-		lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
-		lblNewLabel_3.setBounds(320, 53, 462, 47);
-		frmIngredientes.getContentPane().add(lblNewLabel_3);
-		
-	}}
+	}
+    
