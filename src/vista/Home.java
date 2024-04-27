@@ -23,10 +23,11 @@ import java.awt.SystemColor;
 public class Home {
 
 	private JFrame frmMen;
-	 private JButton btnProducto;
+	 private JButton btnAlmacen;
 	    private JButton btnPlatos;
-	    private JButton btnProveedores;
+	    private JButton btnPedido;
 	    private JButton btnUsuario;
+	    private JButton btnProveedor;
 
 	/**
 	 * Launch the application.
@@ -63,50 +64,50 @@ public class Home {
 		frmMen.setBounds(100, 100, 750, 750);
 		frmMen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMen.getContentPane().setLayout(null);
-		
 		JLabel lblNewLabel = new JLabel("Menú");
-		lblNewLabel.setForeground(new Color(105, 105, 105));
+		lblNewLabel.setForeground(Color.BLACK);
 		lblNewLabel.setBackground(new Color(240, 240, 240));
-		lblNewLabel.setFont(new Font("Forte", Font.ITALIC, 41));
-		lblNewLabel.setBounds(295, 31, 187, 46);
+		lblNewLabel.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 41));
+		lblNewLabel.setBounds(307, 33, 187, 46);
 		frmMen.getContentPane().add(lblNewLabel);
 		
-		JButton btnProducto = new JButton("Producto");
-		btnProducto.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Almacen (1).jpeg")));
-		btnProducto.setToolTipText("Producto");
-		
-	
+		btnAlmacen = new JButton("Producto");
+		btnAlmacen.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Almacen (1).jpeg")));
+		btnAlmacen.setToolTipText("Producto");
 		ImageIcon icon = new ImageIcon("D:\\Restech\\Imagenes\\Almacen.jpeg");
-		Image image = icon.getImage().getScaledInstance(btnProducto.getWidth(), btnProducto.getHeight(), Image.SCALE_SMOOTH);
+		Image image = icon.getImage();
 		ImageIcon iconoEscalado = new ImageIcon(image);
-		btnProducto.setText("Producto");
-		btnProducto.setForeground(new Color(0, 0, 0));
-		btnProducto.setBackground(new Color(128, 128, 128));
-		btnProducto.setFont(new Font("Lucida Sans", Font.BOLD, 30));
-		btnProducto.setBounds(80, 68, 150, 150);
-		frmMen.getContentPane().add(btnProducto);
+		btnAlmacen.setText("Almacen");
+		btnAlmacen.setForeground(new Color(0, 0, 0));
+		btnAlmacen.setBackground(new Color(128, 128, 128));
+		btnAlmacen.setFont(new Font("Lucida Sans", Font.BOLD, 30));
+		btnAlmacen.setBounds(80, 68, 150, 150);
+		frmMen.getContentPane().add(btnAlmacen);
 		
-		JButton btnNewButton = new JButton("Platos");
-		btnNewButton.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Plato.jpeg")));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setFont(new Font("Lucida Sans", Font.BOLD, 30));
-		btnNewButton.setBounds(492, 68, 150, 150);
-		frmMen.getContentPane().add(btnNewButton);
+		btnPlatos = new JButton("Platos");
+		btnPlatos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Plato.jpeg")));
+		btnPlatos.setFont(new Font("Lucida Sans", Font.BOLD, 30));
+		btnPlatos.setBounds(492, 68, 150, 150);
+		frmMen.getContentPane().add(btnPlatos);
+
+		btnPedido = new JButton("Pedido");
+		btnPedido.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Provedores.jpeg")));
+		btnPedido.setFont(new Font("Lucida Sans", Font.BOLD, 30));
+		btnPedido.setBounds(80, 477, 150, 150);
+		frmMen.getContentPane().add(btnPedido);
+
+		btnUsuario = new JButton("Usuario");
+		btnUsuario.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Personal.jpeg")));
+		btnUsuario.setFont(new Font("Lucida Sans", Font.BOLD, 30));
+		btnUsuario.setBounds(492, 477, 150, 150);
+		frmMen.getContentPane().add(btnUsuario);
 		
-		JButton btnNewButton_1 = new JButton("Provedores ");
-		btnNewButton_1.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Provedores.jpeg")));
-		btnNewButton_1.setFont(new Font("Lucida Sans", Font.BOLD, 30));
-		btnNewButton_1.setBounds(80, 477, 150, 150);
-		frmMen.getContentPane().add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Usuario");
-		btnNewButton_2.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Personal.jpeg")));
-		btnNewButton_2.setFont(new Font("Lucida Sans", Font.BOLD, 30));
-		btnNewButton_2.setBounds(492, 477, 150, 150);
-		frmMen.getContentPane().add(btnNewButton_2);
+	    btnProveedor = new JButton("Proveedor");
+		btnProveedor.setFont(new Font("Lucida Sans", Font.BOLD, 30));
+		btnProveedor.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Proveedores.jpg")));
+		btnProveedor.setBounds(271, 247, 150, 150);
+		frmMen.getContentPane().add(btnProveedor);
+
 		
 		JLabel lblPlato = new JLabel("PLATO");
 		lblPlato.setForeground(SystemColor.textHighlightText);
@@ -114,7 +115,7 @@ public class Home {
 		lblPlato.setFont(new Font("Forte", Font.PLAIN, 30));
 		frmMen.getContentPane().add(lblPlato);
 		
-		JLabel lblProveedor = new JLabel("PROVEEDOR");
+		JLabel lblProveedor = new JLabel("PEDIDO");
 		lblProveedor.setForeground(SystemColor.textHighlightText);
 		lblProveedor.setBounds(66, 650, 198, 39);
 		lblProveedor.setFont(new Font("Forte", Font.PLAIN, 30));
@@ -131,26 +132,97 @@ public class Home {
 		lblUsuario.setBounds(478, 650, 164, 39);
 		lblUsuario.setFont(new Font("Forte", Font.PLAIN, 30));
 		frmMen.getContentPane().add(lblUsuario);
+		
+		JLabel lblProveedores = new JLabel("PROVEEDORES");
+		lblProveedores.setForeground(SystemColor.textHighlightText);
+		lblProveedores.setFont(new Font("Forte", Font.PLAIN, 30));
+		lblProveedores.setBounds(246, 407, 211, 39);
+		frmMen.getContentPane().add(lblProveedores);
+		
+		
 	}
 		
 	
 	 public void agregarListener(ControladorEventos controlador) {
-	        btnProducto.addActionListener(controlador);
+	        btnAlmacen.addActionListener(controlador);
 	        btnPlatos.addActionListener(controlador);
-	        btnProveedores.addActionListener(controlador);
+	        btnPedido.addActionListener(controlador);
 	        btnUsuario.addActionListener(controlador);
 	    }
 
 	public void setVisible(boolean b) {
-		// TODO Auto-generated method stub
+		frmMen.setVisible(b);
 		
 	}
 
-	public Object getBotonAltaProducto() {
-		// TODO Auto-generated method stub
-		return null;
+	public JFrame getFrmMen() {
+		return frmMen;
 	}
+
+	public void setFrmMen(JFrame frmMen) {
+		this.frmMen = frmMen;
 	}
+
+
+
+	
+	//Getter and Setter
+	
+	public JButton getBtnProveedor() {
+		return btnProveedor;
+	}
+	
+	
+
+
+	public void setBtnProveedor(JButton btnProveedor) {
+		this.btnProveedor = btnProveedor;
+	}
+
+	public JButton getBtnPlatos() {
+		return btnPlatos;
+	}
+
+	public JButton getBtnAlmacen() {
+		return btnAlmacen;
+	}
+
+	public void setBtnAlmacen(JButton btnAlmacen) {
+		this.btnAlmacen = btnAlmacen;
+	}
+
+	public void setBtnPlatos(JButton btnPlatos) {
+		this.btnPlatos = btnPlatos;
+	}
+
+	public JButton getBtnPedido() {
+		return btnPedido;
+	}
+
+	public void setBtnPedido(JButton btnPedido) {
+		this.btnPedido = btnPedido;
+	}
+
+	public JButton getBtnUsuario() {
+		return btnUsuario;
+	}
+
+	public void setBtnUsuario(JButton btnUsuario) {
+		this.btnUsuario = btnUsuario;
+
+	}
+	
+	
+
+	
+	public void iniciarListener(ControladorEventos controlador) {
+		btnPedido.addActionListener(controlador);
+		btnAlmacen.addActionListener(controlador);
+		btnPlatos.addActionListener(controlador);
+		btnUsuario.addActionListener(controlador);
+		btnProveedor.addActionListener(controlador);
+	}
+}
 
 	
 	
