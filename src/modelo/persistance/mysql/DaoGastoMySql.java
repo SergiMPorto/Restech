@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import modelo.entidad.Gasto;
+import modelo.entidad.Pedido;
 import modelo.persistance.interfaces.DaoGasto;
 
 public class DaoGastoMySql implements DaoGasto {
 
-    private Connection conexion;
+	private Connection conexion;
 
     public boolean abrirConexion() {
         String url = "jdbc:mysql://localhost:3306/bbdd";
@@ -48,7 +49,7 @@ public class DaoGastoMySql implements DaoGasto {
         String query = "INSERT INTO gastos (id_pedido, costo, fecha) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, gasto.getId_pedidoPedido());
+            ps.setInt(1, gasto.getPedido().getId());
             ps.setFloat(2, gasto.getCosto());
             ps.setDate(3, java.sql.Date.valueOf(gasto.getFecha()));
 
@@ -67,6 +68,7 @@ public class DaoGastoMySql implements DaoGasto {
         return insertar;
     }
 
+    
     @Override
     public boolean borrar(int id) {
         if (!abrirConexion()) {
@@ -94,6 +96,7 @@ public class DaoGastoMySql implements DaoGasto {
         return borrado;
     }
 
+    
     @Override
     public boolean modificar(Gasto gasto) {
         if (!abrirConexion()) {
@@ -104,7 +107,7 @@ public class DaoGastoMySql implements DaoGasto {
         String query = "UPDATE gastos SET id_pedido = ?, costo = ?, fecha = ? WHERE id_gasto = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, gasto.getId_pedidoPedido());
+            ps.setInt(1, gasto.getPedido().getId());
             ps.setFloat(2, gasto.getCosto());
             ps.setDate(3, java.sql.Date.valueOf(gasto.getFecha()));
             ps.setInt(4, gasto.getIdGasto());
@@ -124,6 +127,7 @@ public class DaoGastoMySql implements DaoGasto {
         return modificado;
     }
 
+    
     @Override
     public Gasto buscar(int id) {
         if (!abrirConexion()) {
@@ -140,7 +144,7 @@ public class DaoGastoMySql implements DaoGasto {
             if (rs.next()) {
                 gasto = new Gasto();
                 gasto.setIdGasto(rs.getInt("id_gasto"));
-                gasto.setId_pedidoPedido(rs.getInt("id_pedido"));
+                gasto.setPedido(new Pedido(rs.getInt("id_pedido"))); // Usar pedido directamente
                 gasto.setCosto(rs.getFloat("costo"));
                 gasto.setFecha(rs.getDate("fecha").toLocalDate());
             }
@@ -154,6 +158,7 @@ public class DaoGastoMySql implements DaoGasto {
         return gasto;
     }
 
+    
     @Override
     public List<Gasto> listar() {
         if (!abrirConexion()) {
@@ -170,7 +175,7 @@ public class DaoGastoMySql implements DaoGasto {
             while (rs.next()) {
                 Gasto gasto = new Gasto();
                 gasto.setIdGasto(rs.getInt("id_gasto"));
-                gasto.setId_pedidoPedido(rs.getInt("id_pedido"));
+                gasto.setPedido(new Pedido(rs.getInt("id_pedido"))); // Usar pedido directamente
                 gasto.setCosto(rs.getFloat("costo"));
                 gasto.setFecha(rs.getDate("fecha").toLocalDate());
                 listaGastos.add(gasto);

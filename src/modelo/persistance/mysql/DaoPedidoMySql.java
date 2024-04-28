@@ -48,25 +48,21 @@ public class DaoPedidoMySql implements DaoPedido {
 
         boolean insertar = true;
         String query = "INSERT INTO pedidos (id_usuario, id_proveedor, fecha_pedido, costo_total) VALUES (?, ?, ?, ?)";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, pd.getId_usuario().getId());
-            ps.setInt(2, pd.getId_proveedor().getId());
-            ps.setDate(3, java.sql.Date.valueOf(pd.getFechaPedidoDate()));
-            ps.setFloat(4, pd.getCostoTotal());
-
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                insertar = false;
-            }
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setInt(1, pd.getIdUsuario().getId());
+            ps.setInt(2, pd.getIdProveedor().getId());
+            ps.setDate(3, java.sql.Date.valueOf(pd.getFechaPedido()));
+            ps.setDouble(4, pd.getCostoTotal());
+            
+            int filasAfectadas = ps.executeUpdate();
+            insertar = filasAfectadas > 0;
         } catch (SQLException e) {
-            System.out.println("Error al insertar Pedido: " + pd);
-            insertar = false;
+            System.err.println("Error al insertar Pedido: " + pd);
             e.printStackTrace();
+            insertar = false;
         } finally {
             cerrarConexion();
         }
-
         return insertar;
     }
 
@@ -78,22 +74,18 @@ public class DaoPedidoMySql implements DaoPedido {
 
         boolean borrado = true;
         String query = "DELETE FROM pedidos WHERE id_pedido = ?";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setInt(1, id);
+            int filasAfectadas = ps.executeUpdate();
 
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                borrado = false;
-            }
+            borrado = filasAfectadas > 0;
         } catch (SQLException e) {
-            System.out.println("Error al borrar Pedido con id " + id);
+            System.err.println("Error al borrar Pedido con id " + id);
             e.printStackTrace();
             borrado = false;
         } finally {
             cerrarConexion();
         }
-
         return borrado;
     }
 
@@ -105,26 +97,22 @@ public class DaoPedidoMySql implements DaoPedido {
 
         boolean modificado = true;
         String query = "UPDATE pedidos SET id_usuario = ?, id_proveedor = ?, fecha_pedido = ?, costo_total = ? WHERE id_pedido = ?";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, pd.getId_usuario().getId());
-            ps.setInt(2, pd.getId_proveedor().getId());
-            ps.setDate(3, java.sql.Date.valueOf(pd.getFechaPedidoDate()));
-            ps.setFloat(4, pd.getCostoTotal());
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setInt(1, pd.getIdUsuario().getId());
+            ps.setInt(2, pd.getIdProveedor().getId());
+            ps.setDate(3, java.sql.Date.valueOf(pd.getFechaPedido()));
+            ps.setDouble(4, pd.getCostoTotal());
             ps.setInt(5, pd.getId());
-
-            int numeroFilasAfectadas = ps.executeUpdate();
-            if (numeroFilasAfectadas == 0) {
-                modificado = false;
-            }
+            
+            int filasAfectadas = ps.executeUpdate();
+            modificado = filasAfectadas > 0;
         } catch (SQLException e) {
-            System.out.println("Error al modificar Pedido: " + pd);
-            modificado = false;
+            System.err.println("Error al modificar Pedido: " + pd);
             e.printStackTrace();
+            modificado = false;
         } finally {
             cerrarConexion();
         }
-
         return modificado;
     }
 
@@ -136,26 +124,24 @@ public class DaoPedidoMySql implements DaoPedido {
 
         Pedido pedido = null;
         String query = "SELECT id_pedido, id_usuario, id_proveedor, fecha_pedido, costo_total FROM pedidos WHERE id_pedido = ?";
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setInt(1, id);
-
             ResultSet rs = ps.executeQuery();
+            
             if (rs.next()) {
                 pedido = new Pedido();
                 pedido.setId(rs.getInt("id_pedido"));
-                pedido.setId_usuario(new Usuario(rs.getInt("id_usuario")));
-                pedido.setId_proveedor(new Proveedor(rs.getInt("id_proveedor")));
-                pedido.setFechaPedidoDate(rs.getDate("fecha_pedido").toLocalDate());
-                pedido.setCostoTotal(rs.getFloat("costo_total"));
+                pedido.setIdUsuario(new Usuario(rs.getInt("id_usuario")));
+                pedido.setIdProveedor(new Proveedor(rs.getInt("id_proveedor")));
+                pedido.setFechaPedido(rs.getDate("fecha_pedido").toLocalDate());
+                pedido.setCostoTotal(rs.getDouble("costo_total"));
             }
         } catch (SQLException e) {
-            System.out.println("Error al buscar Pedido con id " + id);
+            System.err.println("Error al buscar Pedido con id " + id);
             e.printStackTrace();
         } finally {
             cerrarConexion();
         }
-
         return pedido;
     }
 
@@ -165,30 +151,29 @@ public class DaoPedidoMySql implements DaoPedido {
             return null;
         }
 
-        List<Pedido> listaPedido = new ArrayList<>();
+        List<Pedido> listaPedidos = new ArrayList<>();
         String query = "SELECT id_pedido, id_usuario, id_proveedor, fecha_pedido, costo_total FROM pedidos";
-
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
+        
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Pedido pedido = new Pedido();
                 pedido.setId(rs.getInt("id_pedido"));
-                pedido.setId_usuario(new Usuario(rs.getInt("id_usuario")));
-                pedido.setId_proveedor(new Proveedor(rs.getInt("id_proveedor")));
-                pedido.setFechaPedidoDate(rs.getDate("fecha_pedido").toLocalDate());
-                pedido.setCostoTotal(rs.getFloat("costo_total"));
-                listaPedido.add(pedido);
+                pedido.setIdUsuario(new Usuario(rs.getInt("id_usuario")));
+                pedido.setIdProveedor(new Proveedor(rs.getInt("id_proveedor")));
+                pedido.setFechaPedido(rs.getDate("fecha_pedido").toLocalDate());
+                pedido.setCostoTotal(rs.getDouble("costo_total"));
+                
+                listaPedidos.add(pedido);
             }
         } catch (SQLException e) {
-            System.out.println("Error al listar Pedido");
+            System.err.println("Error al listar Pedido");
             e.printStackTrace();
         } finally {
             cerrarConexion();
         }
-
-        return listaPedido;
+        return listaPedidos;
     }
 
 }

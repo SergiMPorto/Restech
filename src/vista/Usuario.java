@@ -14,15 +14,12 @@ import javax.swing.SwingConstants;
 public class Usuario {
 	
 	private JFrame frmUsuario;
-	private JTextField textField;
-	private JLabel lblNewLabel_1;
-	private JTextField textField_1;
-	private JLabel lblNewLabel_2;
-	private JTextField textField_2;
+	private JTextField textNombre;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	private JLabel lblNewLabel_3;
-	private JTextField txtPuesto;
+	private JTextField Permiso;
+	private JLabel lblPermiso;
 
 
 
@@ -60,66 +57,42 @@ public class Usuario {
 		frmUsuario.setForeground(new Color(102, 153, 204));
 		frmUsuario.setFont(new Font("Lucida Sans", Font.BOLD | Font.ITALIC, 18));
 		frmUsuario.setTitle("PLATO");
-		frmUsuario.setBounds(100, 100, 750, 750);
-		frmUsuario.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmUsuario.setBounds(750, 50, 750, 750);
+		frmUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmUsuario.getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("NOMBRE");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setForeground(new Color(128, 128, 128));
-		lblNewLabel.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblNewLabel.setBounds(207, 137, 117, 27);
-		frmUsuario.getContentPane().add(lblNewLabel);
+		JLabel Nombre = new JLabel("NOMBRE");
+		Nombre.setHorizontalAlignment(SwingConstants.CENTER);
+		Nombre.setForeground(new Color(128, 128, 128));
+		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		Nombre.setBounds(184, 134, 117, 27);
+		frmUsuario.getContentPane().add(Nombre);
 		
-		textField = new JTextField();
-		textField.setBounds(320, 137, 250, 27);
-		frmUsuario.getContentPane().add(textField);
-		textField.setColumns(10);
-		
-		lblNewLabel_1 = new JLabel("APELLIDOS");
-		lblNewLabel_1.setBackground(new Color(128, 128, 128));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(new Color(128, 128, 128));
-		lblNewLabel_1.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblNewLabel_1.setBounds(194, 253, 117, 27);
-		lblNewLabel.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		frmUsuario.getContentPane().add(lblNewLabel_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(320, 253, 400, 27);
-		frmUsuario.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-		
-		lblNewLabel_2 = new JLabel("DNI");
-		lblNewLabel_2.setForeground(new Color(128, 128, 128));
-		lblNewLabel_2.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblNewLabel_2.setBounds(274, 370, 50, 27);
-		frmUsuario.getContentPane().add(lblNewLabel_2);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(320, 370, 100, 27);
-		frmUsuario.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
+		textNombre = new JTextField();
+		textNombre.setBounds(314, 137, 400, 27);
+		frmUsuario.getContentPane().add(textNombre);
+		textNombre.setColumns(10);
+		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		
 		JButton btnGuardar = new JButton("GUARDAR");
-		btnGuardar.setBackground(new Color(0, 0, 0));
+		btnGuardar.setBackground(Color.GRAY);
 		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnGuardar.setForeground(Color.LIGHT_GRAY);
-		btnGuardar.setBounds(256, 629, 150, 27);
+		btnGuardar.setForeground(new Color(0, 0, 0));
+		btnGuardar.setBounds(249, 630, 150, 27);
 		frmUsuario.getContentPane().add(btnGuardar);
 		
 		btnNewButton = new JButton("CANCELAR");
-		btnNewButton.setBackground(new Color(0, 0, 0));
-		btnNewButton.setForeground(Color.LIGHT_GRAY);
+		btnNewButton.setBackground(Color.GRAY);
+		btnNewButton.setForeground(new Color(0, 0, 0));
 		btnNewButton.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnNewButton.setBounds(420, 630, 150, 27);
+		btnNewButton.setBounds(409, 630, 150, 27);
 		frmUsuario.getContentPane().add(btnNewButton);
 		
 		btnNewButton_1 = new JButton("BORRAR");
-		btnNewButton_1.setBackground(new Color(0, 0, 0));
-		btnNewButton_1.setForeground(Color.LIGHT_GRAY);
+		btnNewButton_1.setBackground(Color.GRAY);
+		btnNewButton_1.setForeground(new Color(0, 0, 0));
 		btnNewButton_1.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnNewButton_1.setBounds(584, 630, 150, 27);
+		btnNewButton_1.setBounds(570, 630, 150, 27);
 		frmUsuario.getContentPane().add(btnNewButton_1);
 		
 		lblNewLabel_3 = new JLabel("USUARIO");
@@ -127,16 +100,48 @@ public class Usuario {
 		lblNewLabel_3.setBounds(320, 53, 462, 47);
 		frmUsuario.getContentPane().add(lblNewLabel_3);
 		
-		JLabel lblPuesto = new JLabel("PUESTO");
-		lblPuesto.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblPuesto.setForeground(new Color(128, 128, 128));
-		lblPuesto.setBounds(234, 509, 90, 13);
-		frmUsuario.getContentPane().add(lblPuesto);
+		Permiso = new JTextField();
+		Permiso.setColumns(10);
+		Permiso.setBounds(314, 227, 55, 27);
+		frmUsuario.getContentPane().add(Permiso);
 		
-		txtPuesto = new JTextField();
-		txtPuesto.setBounds(320, 503, 125, 27);
-		frmUsuario.getContentPane().add(txtPuesto);
-		txtPuesto.setColumns(10);
+		lblPermiso = new JLabel("PERMISO");
+		lblPermiso.setForeground(Color.GRAY);
+		lblPermiso.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		lblPermiso.setBounds(211, 227, 90, 27);
+		frmUsuario.getContentPane().add(lblPermiso);
 		
 	}
+   // Getter and Setter
+	public JTextField getTextNombre() {
+		return textNombre;
+	}
+
+	public void setTextNombre(JTextField textNombre) {
+		this.textNombre = textNombre;
+	}
+
+	public JButton getBtnNewButton() {
+		return btnNewButton;
+	}
+
+	public void setBtnNewButton(JButton btnNewButton) {
+		this.btnNewButton = btnNewButton;
+	}
+
+	public JButton getBtnNewButton_1() {
+		return btnNewButton_1;
+	}
+
+	public void setBtnNewButton_1(JButton btnNewButton_1) {
+		this.btnNewButton_1 = btnNewButton_1;
+	}
+
+
+	public void setVisible(boolean b) {
+		frmUsuario.setVisible(b);
+		
+	}
+	
+	
 }

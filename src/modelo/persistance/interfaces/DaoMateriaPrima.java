@@ -6,10 +6,10 @@ import modelo.entidad.MateriaPrima;
 
 public interface DaoMateriaPrima {
 	
-	public boolean insertar(MateriaPrima mp);
-	public boolean borrar(int id);
-	public boolean modificar(MateriaPrima mp);
-	public MateriaPrima buscar(int id);
-	public List<MateriaPrima> listar();
+	boolean insertar(MateriaPrima mp);
+    boolean borrar(int id);
+    boolean modificar(MateriaPrima mp);
+    MateriaPrima buscar(int id);
+    List<MateriaPrima> listar();
 
 }

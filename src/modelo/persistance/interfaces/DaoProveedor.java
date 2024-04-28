@@ -1,15 +1,17 @@
 package modelo.persistance.interfaces;
 
 import java.util.List;
+import java.util.Optional;
 
 import modelo.entidad.Proveedor;
 
 public interface DaoProveedor {
 	
-	public boolean insertar(Proveedor pv);
-	public boolean borrar(int id);
-	public boolean modificar(Proveedor pv);
-	public Proveedor buscar(int id);
-	public List<Proveedor> listar();
+	boolean insertar(Proveedor proveedor);
+    boolean borrar(int id);
+    boolean modificar(Proveedor proveedor);
+    Optional<Proveedor> buscar(int id);
+    List<Proveedor> listar();
+
 
 }
