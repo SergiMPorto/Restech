@@ -32,8 +32,12 @@ package vistas;
 	    private JButton btnGuardar;
 	    private JButton btnBorrar;
 
-	    public VentanaProveedor(String nombre2, String descripcion2, String telefono2, String direccion2) {
-	        initialize();
+	    public VentanaProveedor(String nombre, String descripcion, String telefono, String direccion) {
+	        initialize(); // Llama al método initialize si es necesario
+	        this.nombre.setText(nombre);
+	        this.descripcion.setText(descripcion);
+	        this.telefono.setText(telefono);
+	        this.direccion.setText(direccion);
 	    }
 
 	    private void initialize() {
@@ -188,7 +192,7 @@ package vistas;
 	        EventQueue.invokeLater(new Runnable() {
 	            public void run() {
 	                try {
-	                    VentanaProveedor window = new VentanaProveedor();
+	                    VentanaProveedor window = new VentanaProveedor("Nombre", "Descripción", "Teléfono", "Dirección");
 	                    window.setVisible(true);
 	                } catch (Exception e) {
 	                    e.printStackTrace();

@@ -21,7 +21,7 @@ public class Main {
         VentanaUsuario usuario = new VentanaUsuario();
         Home home = new Home();
         VentanaIngredientes ingredientes = new VentanaIngredientes();
-        VentanaProveedor proveedor = new VentanaProveedor();
+        VentanaProveedor proveedor = new VentanaProveedor(null, null, null, null);
 
         ControladorEventos controlador = new ControladorEventos(login, home, almacen, pedido, plato, usuario, ingredientes, proveedor);
 

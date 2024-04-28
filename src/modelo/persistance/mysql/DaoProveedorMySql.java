@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import modelo.entidad.Proveedor;
 import modelo.persistance.interfaces.DaoProveedor;
+import vistas.VentanaProveedor;
 
 public class DaoProveedorMySql implements DaoProveedor {
 	
@@ -183,4 +184,10 @@ public class DaoProveedorMySql implements DaoProveedor {
 
         return listaProveedores;
     }
+
+	@Override
+	public boolean insertar(VentanaProveedor nuevoProveedor) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
