@@ -185,7 +185,7 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Proveedor añadido con éxito", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
                 // Insertar el proveedor en la base de datos
-                if (daoProveedor.insertar(proveedor)) {
+                if (!daoProveedor.insertar(proveedor)) {
                     JOptionPane.showMessageDialog(null, "Error al añadir el proveedor a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException ex) {
