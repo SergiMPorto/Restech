@@ -2,10 +2,19 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
+import javax.swing.AbstractButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-
+import modelo.entidad.MateriaPrima;
+import modelo.entidad.Proveedor;
+import modelo.entidad.Usuario;
+import modelo.persistance.interfaces.DaoProveedor;
+import modelo.persistance.mysql.DaoMateriaPrimaMySql;
+import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
 import vistas.Home;
@@ -20,22 +29,28 @@ public class ControladorEventos implements ActionListener {
     private Login login;
     private Home home;
     private Almacen almacen;
-    private VentanaPedido pedido;
-    private VentanaPlato plato;
-    private VentanaUsuario usuario;
+    private VentanaPedido vantanaPedido;
+    private VentanaPlato ventanaPlato;
+    private VentanaUsuario ventanaUsuario;
     private VentanaIngredientes ingredientes;
-    private VentanaProveedor proveedor;
+    private VentanaProveedor ventanaProveedor;
+    private DaoMateriaPrimaMySql daoMateriaPrima;
+    private DaoProveedorMySql daoProveedor;
+  //  private DaoUsuarioMySql daoUsuario;
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
-            VentanaIngredientes ingredientes, VentanaProveedor proveedor) {
+            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor) {
         this.login = login;
         this.home = home;
         this.almacen = almacen;
-        this.pedido = pedido;
-        this.plato = plato;
-        this.usuario = usuario;
+        this.vantanaPedido = pedido;
+        this.ventanaPlato = plato;
+        this.ventanaUsuario = usuario;
         this.ingredientes = ingredientes;
-        this.proveedor = proveedor;
+        this.ventanaProveedor = ventanaProveedor;
+        this.daoMateriaPrima = new DaoMateriaPrimaMySql();
+        this.daoProveedor = new DaoProveedorMySql();
+      // this.daoUsuario = new DaoUsuarioMySql();
 
         // Ocultar todas las vistas excepto la de inicio de sesión al iniciar
         usuario.setVisible(false);
@@ -44,13 +59,13 @@ public class ControladorEventos implements ActionListener {
         plato.setVisible(false);
         home.setVisible(false);
         login.setVisible(true);
-        proveedor.setVisible(false);
+        ventanaProveedor.setVisible(false);
         ingredientes.setVisible(false);
 
         // Establecer los ActionListener
         login.inciarListener(this);
         home.iniciarListener(this);
-        proveedor.iniciarListener(this);
+        ventanaProveedor.iniciarListener(this);
         almacen.iniciarListener(this);
     }
 
@@ -66,35 +81,35 @@ public class ControladorEventos implements ActionListener {
         // Eventos para la ventana Home
         else if (e.getSource() == home.getBtnPedido()) {
             System.out.println("Botón Pedido pulsado");
-            pedido.setVisible(true);
+            vantanaPedido.setVisible(true);
             almacen.setVisible(false);
-            plato.setVisible(false);
-            usuario.setVisible(false);
+            ventanaPlato.setVisible(false);
+            ventanaUsuario.setVisible(false);
         } else if (e.getSource() == home.getBtnPlatos()) {
             System.out.println("Botón plato pulsado");
-            plato.setVisible(true);
-            pedido.setVisible(false);
+            ventanaPlato.setVisible(true);
+            vantanaPedido.setVisible(false);
             almacen.setVisible(false);
-            usuario.setVisible(false);
+            ventanaUsuario.setVisible(false);
             
-        }else if(e.getSource()==plato.getIngredientes()) {
+        }else if(e.getSource()==ventanaPlato.getIngredientes()) {
         	System.out.println("Boton ingredientes pulsados");
         	ingredientes.setVisible(true);
         } else if (e.getSource() == home.getBtnUsuario()) {
             System.out.println("Botón Usuario pulsado");
-            usuario.setVisible(true);
-            pedido.setVisible(false);
+            ventanaUsuario.setVisible(true);
+            vantanaPedido.setVisible(false);
             almacen.setVisible(false);
-            plato.setVisible(false);
+            ventanaPlato.setVisible(false);
         } else if (e.getSource() == home.getBtnAlmacen()) {
             System.out.println("Botón almacen pulsado");
             almacen.setVisible(true);
-            pedido.setVisible(false);
-            plato.setVisible(false);
-            usuario.setVisible(false);
+            vantanaPedido.setVisible(false);
+            ventanaPlato.setVisible(false);
+            ventanaUsuario.setVisible(false);
         } else if (e.getSource() == home.getBtnProveedor()) {
             System.out.println("Botón proveedor pulsado");
-            proveedor.setVisible(true);
+            ventanaProveedor.setVisible(true);
         }
 
         // Eventos para la ventana Almacen
@@ -102,78 +117,148 @@ public class ControladorEventos implements ActionListener {
         	
             System.out.println("Boton guardar almacen pulsado");
             try {
-                String producto = almacen.getProducto().getText();
-                int precio = Integer.parseInt(almacen.getPrecio().getText());
+            	String nombre = almacen.getProducto().getText();
+                float precio = Float.parseFloat(almacen.getPrecio().getText());
                 String proveedor = almacen.getProveedor().getText();
                 String fechaCaducidad = almacen.getFechaCaducidad().getText();
-                int cantidad = Integer.parseInt(almacen.getCantidad().getText());
-                int merma = Integer.parseInt(almacen.getMerma().getText());
+                float cantidad = Float.parseFloat(almacen.getCantidad().getText());
+                float merma = Float.parseFloat(almacen.getMerma().getText());
 
-                if (producto.isEmpty() || fechaCaducidad.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    // Crear una nueva instancia de Almacen con los datos proporcionados
-                    Almacen materiaPrima = new Almacen(producto, precio, proveedor, fechaCaducidad, cantidad, merma);
-                    // Obtener el modelo de la tabla
-                    DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
-                    // Agregar la fila al modelo de la tabla
-                    modelo.addRow(new Object[]{producto, precio, proveedor, fechaCaducidad, cantidad, merma});
-                    
-                    almacen.getTable().revalidate();
-                    // Limpiar los campos
-                    almacen.getProducto().setText("");
-                    almacen.getPrecio().setText("");
-                    almacen.getProveedor().setText("");
-                    almacen.getFechaCaducidad().setText("");
-                    almacen.getCantidad().setText("");
-                    almacen.getMerma().setText("");
-                    JOptionPane.showMessageDialog(null, "Materia prima añadida con éxito", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+             // Crear una instancia de MateriaPrima con los datos obtenidos
+                MateriaPrima materiaPrima = new MateriaPrima(0, nombre, precio, proveedor, LocalDate.parse(fechaCaducidad), cantidad, merma);
+
+                // Actualizar la tabla
+                DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
+                modelo.addRow(new Object[]{materiaPrima.getId(), nombre, precio, proveedor, fechaCaducidad, cantidad, merma});
+                almacen.getTable().revalidate();
+                
+                // Añadir mensaje de éxito independientemente de si se inserta en la base de datos o no
+                JOptionPane.showMessageDialog(null, "Materia prima añadida a la tabla con éxito", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Insertar la materia prima en la base de datos utilizando el DAO
+                if (!daoMateriaPrima.insertar(materiaPrima)) {
+                    // Mostrar un mensaje de advertencia si no se puede insertar en la base de datos
+                    JOptionPane.showMessageDialog(null, "Error al añadir materia prima a la base de datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                 }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (DateTimeParseException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato yyyy-MM-dd", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
-
-
-        // Eventos para la ventana Proveedor
-        else if (e.getSource() == proveedor.getBtnGuardar()) {
-            System.out.println("Botón Guardar Pulsado");
-            String nombre = proveedor.getNombre().getText();
-            String descripcion = proveedor.getDescripcion().getText();
-            String telefono = proveedor.getTelefono().getText();
-            String direccion = proveedor.getDireccion().getText();
-
-            if (proveedor.getNombre().getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "El nombre del contacto está vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else if (proveedor.getTelefono().getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "El telefono del contacto está vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-               
-               VentanaProveedor nuevoProveedor = new VentanaProveedor(nombre, descripcion, telefono, direccion);
-
-               
-                DefaultTableModel modelo = (DefaultTableModel) proveedor.getTable().getModel();
-                
-                modelo.addRow(new String[]{nombre, descripcion, telefono, direccion});
-               
-                proveedor.getNombre().setText("");
-                proveedor.getDescripcion().setText("");
-                proveedor.getTelefono().setText("");
-                proveedor.getDireccion().setText("");
-
-                JOptionPane.showMessageDialog(null, "Proveedor añadido con éxito", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } else if (e.getSource() == proveedor.getBtnBorrar()) {
-            System.out.println("Botón borrar pulsado");
-          
-            int filaSeleccionada = proveedor.getTable().getSelectedRow();
+            
+            //Borrar producto en almacen
+        }else if(e.getSource()==almacen.getBtnBorrar()) {
+        	System.out.println("Botón de borrado pulsado");
+        
+            
+            int filaSeleccionada = almacen.getTable().getSelectedRow();
             if (filaSeleccionada != -1) { 
                
-                DefaultTableModel modelo = (DefaultTableModel) proveedor.getTable().getModel();
+                DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
                 modelo.removeRow(filaSeleccionada);
+                if(!daoMateriaPrima.borrar(filaSeleccionada)) {
+                	JOptionPane.showConfirmDialog(null, "Error a borrar a materia prima en la base de datos","Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+
+         //Eventos para la ventana Proveedor
+        else if (e.getSource() == ventanaProveedor.getBtnGuardar()) {
+            try {
+                System.out.println("Botón Guardar Pulsado");
+                String nombre = ventanaProveedor.getNombre().getText();
+                String descripcion = ventanaProveedor.getDescripcion().getText();
+                String telefono = ventanaProveedor.getTelefono().getText();
+                String direccion = ventanaProveedor.getDireccion().getText();
+
+                // Crear instancia de proveedor:
+                Proveedor proveedor = new Proveedor(nombre, descripcion, telefono, direccion);
+
+                // Actualizar la tabla 
+                DefaultTableModel modelo = (DefaultTableModel) ventanaProveedor.getTable().getModel();
+                modelo.addRow(new Object[]{proveedor.getId(), nombre, descripcion, telefono, direccion});
+                ventanaProveedor.getTable().revalidate();
+
+                // Mensajes de añadir proveedor con éxito.
+                JOptionPane.showMessageDialog(null, "Proveedor añadido con éxito", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                // Insertar el proveedor en la base de datos
+                if (daoProveedor.insertar(proveedor)) {
+                    JOptionPane.showMessageDialog(null, "Error al añadir el proveedor a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese el nombre y el telefono", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else if (e.getSource() == ventanaProveedor.getBtnBorrar()) {
+            System.out.println("Botón de borrado proveedor pulsado");
+            int filaSeleccionado = ventanaProveedor.getTable().getSelectedRow();
+            if (filaSeleccionado != -1) {
+                DefaultTableModel modelo = (DefaultTableModel) ventanaProveedor.getTable().getModel();
+                modelo.removeRow(filaSeleccionado);
+                if (!daoProveedor.borrar(filaSeleccionado)) {
+                    JOptionPane.showMessageDialog(null, "Error a borrar el proveedor de la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        
+        /**else if(e.getSource()==ventanaUsuario.getBtnGuardar()) {
+        	System.out.println("Boton de guardar usuario pulsado");
+        	
+        	try {
+        		String nombre = ventanaUsuario.getTextNombre().getText();
+        	//	int permiso = Integer.parseInt.(getPermiso().getText()); // pasar el int para que funcione como String 
+
+
+        		
+        		//Crear instancia de Usuario 
+        		
+        		Usuario usuario = new Usuario(0, nombre, permiso);
+        		
+        		
+        		//Actualizar tabla
+        		
+        		DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
+        		modelo.addRow(new Object[] { usuario.getId(), nombre, permiso});
+        		almacen.getTable().revalidate();
+        		
+        		JOptionPane.showConfirmDialog(null, "Usuario añadido con éxito", "Aviso"; JOptionPane.WARNING_MESSAGE);
+        		
+        		if(!daoUsuario.insertar(usuario)) {
+        			JOptionPane.showConfirmDialog(null, "Error al añadir el usuario", "Advertencia", JOptionPane.WARNING_MESSAGE);
+        		}
+        		
+        	} catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores número para permiso", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (DateTimeParseException ex) {
+                
+            }//
+        	
+        	
+        	}else if(e.getSource()==ventanaUsuario.getBtnBorrar()) {
+        		System.out.println("Boton borrado de Usuario pulsado");{
+
+        		
+        		
+        		int filaSeleccionada = ventanaUsuario.getTable().getSelectedRow();
+        		if(filaSeleccionada !=-1){
+        			DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
+        			modelo.removeRow(filaSeleccionada);
+        			if(!daoUsuario.borrar(filaSeleccionada)) {
+        				JOptionPane.showConfirmDialog(null, "Error al borrar  el usuario de la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+        			}
+        		} else {
+        	        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        	    }
+
+        
+        
+        		
+        }*/
     }
+
+	
 }

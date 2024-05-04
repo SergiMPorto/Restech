@@ -9,14 +9,17 @@ import java.awt.Toolkit;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JFrame;
 
 public class VentanaUsuario {
 
 	private JFrame frmUsuario;
+	private JTextField textID;
 	private JTextField textNombre;
 	private JButton btnCancelar;
 	private JButton btnBorrar;
@@ -24,6 +27,9 @@ public class VentanaUsuario {
 	private JTextField Permiso;
 	private JLabel lblPermiso;
 	private JButton btnGuardar;
+	private JTable table;
+	private JScrollPane scrollPane;
+	private JLabel lblId;
 
 
 
@@ -65,15 +71,21 @@ public class VentanaUsuario {
 		frmUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmUsuario.getContentPane().setLayout(null);
 		
+		
+		table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Id","Nombre", "Permiso"}));
+        scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(14, 281, 700, 281);
+        frmUsuario.getContentPane().add(scrollPane);
+		
 		JLabel Nombre = new JLabel("NOMBRE");
 		Nombre.setHorizontalAlignment(SwingConstants.CENTER);
 		Nombre.setForeground(new Color(128, 128, 128));
 		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		Nombre.setBounds(184, 134, 117, 27);
+		Nombre.setBounds(187, 176, 117, 27);
 		frmUsuario.getContentPane().add(Nombre);
 		
 		textNombre = new JTextField();
-		textNombre.setBounds(314, 137, 400, 27);
+		textNombre.setBounds(314, 176, 400, 27);
 		frmUsuario.getContentPane().add(textNombre);
 		textNombre.setColumns(10);
 		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
@@ -112,16 +124,61 @@ public class VentanaUsuario {
 		lblPermiso = new JLabel("PERMISO");
 		lblPermiso.setForeground(Color.GRAY);
 		lblPermiso.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblPermiso.setBounds(211, 227, 90, 27);
+		lblPermiso.setBounds(204, 224, 90, 27);
 		frmUsuario.getContentPane().add(lblPermiso);
 		
+		textID = new JTextField();
+		textID.setColumns(10);
+		textID.setBounds(314, 131, 55, 27);
+		frmUsuario.getContentPane().add(textID);
+		
+		lblId = new JLabel("ID");
+		lblId.setHorizontalAlignment(SwingConstants.CENTER);
+		lblId.setForeground(Color.GRAY);
+		lblId.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		lblId.setBounds(187, 128, 117, 27);
+		frmUsuario.getContentPane().add(lblId);
+		
 	}
-   // Getter and Setter
+
+	
+	
 	
 
 	public void setVisible(boolean b) {
 		frmUsuario.setVisible(b);
 		
+		
+		   
+	}
+	
+	// Getter and Setter
+	
+	
+	
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public JTextField getTextID() {
+		return textID;
+	}
+
+	public void setTextID(JTextField textID) {
+		this.textID = textID;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public JScrollPane getScrollPane() {
+		return scrollPane;
+	}
+
+	public void setScrollPane(JScrollPane scrollPane) {
+		this.scrollPane = scrollPane;
 	}
 
 	public JButton getBtnCancelar() {
@@ -187,6 +244,24 @@ public class VentanaUsuario {
 	public void setLblPermiso(JLabel lblPermiso) {
 		this.lblPermiso = lblPermiso;
 	}
+
+	@Override
+	public String toString() {
+		return "VentanaUsuario [textID=" + textID + ", textNombre=" + textNombre + ", Permiso=" + Permiso
+				+ ", lblPermiso=" + lblPermiso + "]";
+	}
+
+	public VentanaUsuario(JTextField textID, JTextField textNombre, JTextField permiso) {
+		super();
+		this.textID = textID;
+		this.textNombre = textNombre;
+		Permiso = permiso;
+	}
+	
+	
+	
+	
+	
 	
 	
 }

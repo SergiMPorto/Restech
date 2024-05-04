@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorEventos;
+import javax.swing.SwingConstants;
 
 public class Almacen {
 
@@ -25,12 +26,14 @@ public class Almacen {
     private JLabel lblNewLabel_3;
     private JTable table;
     private JScrollPane scrollPane;
+    private JTextField ID;
     private JTextField Producto;
     private JTextField Cantidad;
     private JTextField FechaCaducidad;
     private JTextField Precio;
     private JTextField Proveedor;
     private JTextField Merma;
+  
 
     /**
      * Launch the application.
@@ -78,7 +81,7 @@ public class Almacen {
         // Inicializar la tabla con un DefaultTableModel
         DefaultTableModel model = new DefaultTableModel(
             new Object[][] {}, 
-            new String[] { "Producto", "Precio", "Proveedor", "Fecha Caducidad", "Cantidad Utilizada", "Merma" }
+            new String[] { "ID", "Producto", "Precio", "Proveedor", "Fecha Caducidad", "Cantidad Utilizada", "Merma" }
         );
         table = new JTable(model);
         scrollPane = new JScrollPane(table);
@@ -86,33 +89,33 @@ public class Almacen {
         almacen.getContentPane().add(scrollPane);
 
         Producto = new JTextField();
-        Producto.setBounds(203, 383, 222, 27);
+        Producto.setBounds(203, 426, 222, 27);
         almacen.getContentPane().add(Producto);
         Producto.setColumns(10);
 
         Cantidad = new JTextField();
-        Cantidad.setBounds(203, 523, 63, 27);
+        Cantidad.setBounds(203, 574, 63, 27);
         almacen.getContentPane().add(Cantidad);
         Cantidad.setColumns(10);
 
         FechaCaducidad = new JTextField();
-        FechaCaducidad.setBounds(201, 489, 115, 27);
+        FechaCaducidad.setBounds(203, 537, 115, 27);
         almacen.getContentPane().add(FechaCaducidad);
         FechaCaducidad.setColumns(10);
 
         JLabel JlProducto = new JLabel("Producto");
         JlProducto.setFont(new Font("Forte", Font.ITALIC, 20));
-        JlProducto.setBounds(110, 386, 341, 20);
+        JlProducto.setBounds(110, 429, 341, 20);
         almacen.getContentPane().add(JlProducto);
 
         JLabel JlCantidad = new JLabel("Cantidad");
         JlCantidad.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlCantidad.setBounds(110, 526, 115, 20);
+        JlCantidad.setBounds(110, 581, 115, 20);
         almacen.getContentPane().add(JlCantidad);
 
         JLabel FechaCaducidad_1 = new JLabel("Fecha Caducidad");
         FechaCaducidad_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        FechaCaducidad_1.setBounds(50, 485, 150, 35);
+        FechaCaducidad_1.setBounds(43, 533, 150, 35);
         almacen.getContentPane().add(FechaCaducidad_1);
 
         btnBorrar = new JButton("Borrar");
@@ -121,37 +124,56 @@ public class Almacen {
         almacen.getContentPane().add(btnBorrar);
 
         Precio = new JTextField();
-        Precio.setBounds(203, 416, 96, 27);
+        Precio.setBounds(203, 463, 96, 27);
         almacen.getContentPane().add(Precio);
         Precio.setColumns(10);
 
         Proveedor = new JTextField();
-        Proveedor.setBounds(203, 452, 96, 27);
+        Proveedor.setBounds(203, 500, 96, 27);
         almacen.getContentPane().add(Proveedor);
         Proveedor.setColumns(10);
 
         Merma = new JTextField();
         Merma.setColumns(10);
-        Merma.setBounds(203, 567, 63, 27);
+        Merma.setBounds(203, 611, 63, 27);
         almacen.getContentPane().add(Merma);
 
         JLabel JlPrecio = new JLabel("Precio");
         JlPrecio.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlPrecio.setBounds(142, 420, 83, 20);
+        JlPrecio.setBounds(140, 470, 83, 20);
         almacen.getContentPane().add(JlPrecio);
 
         JLabel JlProveedor = new JLabel("Proveedor");
         JlProveedor.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlProveedor.setBounds(104, 455, 96, 20);
+        JlProveedor.setBounds(110, 503, 96, 20);
         almacen.getContentPane().add(JlProveedor);
 
         JLabel JlMerma = new JLabel("Merma");
         JlMerma.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlMerma.setBounds(125, 569, 83, 23);
+        JlMerma.setBounds(123, 613, 83, 23);
         almacen.getContentPane().add(JlMerma);
+        
+        ID = new JTextField();
+        ID.setColumns(10);
+        ID.setBounds(203, 392, 63, 27);
+        almacen.getContentPane().add(ID);
+        
+        JLabel lblId = new JLabel("ID");
+        lblId.setHorizontalAlignment(SwingConstants.CENTER);
+        lblId.setFont(new Font("Forte", Font.PLAIN, 20));
+        lblId.setBounds(123, 396, 83, 23);
+        almacen.getContentPane().add(lblId);
     }
 
-    public JFrame getAlmacen() {
+    public JTextField getID() {
+		return ID;
+	}
+
+	public void setID(JTextField iD) {
+		ID = iD;
+	}
+
+	public JFrame getAlmacen() {
         return almacen;
     }
 
@@ -255,27 +277,35 @@ public class Almacen {
         Merma = merma;
     }
 
-    @Override
-    public String toString() {
-        return "Almacen [Producto=" + Producto + ", Cantidad=" + Cantidad + ", FechaCaducidad=" + FechaCaducidad
-                + ", Precio=" + Precio + ", Proveedor=" + Proveedor + ", Merma=" + Merma + "]";
-    }
+  
 
     public void setVisible(boolean b) {
         almacen.setVisible(b);
     }
 
-    public Almacen(String producto, int precio, String proveedor, String fechaCaducidad, int cantidad, int merma) {
-        initialize();
-        Producto.setText(producto);
-        Precio.setText(String.valueOf(precio));
-        Proveedor.setText(proveedor);
-        FechaCaducidad.setText(fechaCaducidad);
-        Cantidad.setText(String.valueOf(cantidad));
-        Merma.setText(String.valueOf(merma));
-    }
 
-    public void iniciarListener(ControladorEventos controlador) {
+    
+ 
+
+	public Almacen(JTextField iD, JTextField producto, JTextField cantidad, JTextField fechaCaducidad,
+			JTextField precio, JTextField proveedor, JTextField merma) {
+		super();
+		ID = iD;
+		Producto = producto;
+		Cantidad = cantidad;
+		FechaCaducidad = fechaCaducidad;
+		Precio = precio;
+		Proveedor = proveedor;
+		Merma = merma;
+	}
+
+	@Override
+	public String toString() {
+		return "Almacen [ID=" + ID + ", Producto=" + Producto + ", Cantidad=" + Cantidad + ", FechaCaducidad="
+				+ FechaCaducidad + ", Precio=" + Precio + ", Proveedor=" + Proveedor + ", Merma=" + Merma + "]";
+	}
+
+	public void iniciarListener(ControladorEventos controlador) {
         btnGuardar.addActionListener(controlador);
         btnBorrar.addActionListener(controlador);
 
