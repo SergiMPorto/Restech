@@ -4,7 +4,7 @@ import java.util.List;
 
 import modelo.entidad.HistorialPrecio;
 
-public interface DaoHistoialPrecios {
+public interface DaoHistorialPrecios {
 	
 	boolean insertar(HistorialPrecio hp);
     boolean borrar(int id);

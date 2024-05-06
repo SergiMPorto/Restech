@@ -10,9 +10,10 @@ import java.util.List;
 
 import modelo.entidad.HistorialPrecio;
 import modelo.entidad.MateriaPrima;
-import modelo.persistance.interfaces.DaoHistoialPrecios;
+import modelo.persistance.interfaces.DaoHistorialPrecios;
 
-public class DaoHistorialPreciosMySql implements DaoHistoialPrecios {
+
+public class DaoHistorialPreciosMySql implements DaoHistorialPrecios {
 	
 	private Connection conexion;
 
