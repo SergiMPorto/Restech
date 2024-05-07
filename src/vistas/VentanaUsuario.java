@@ -14,6 +14,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+
+import controlador.ControladorEventos;
+
 import javax.swing.JFrame;
 
 public class VentanaUsuario {
@@ -21,7 +24,6 @@ public class VentanaUsuario {
 	private JFrame frmUsuario;
 	private JTextField textID;
 	private JTextField textNombre;
-	private JButton btnCancelar;
 	private JButton btnBorrar;
 	private JLabel lblNewLabel_3;
 	private JTextField Permiso;
@@ -30,6 +32,7 @@ public class VentanaUsuario {
 	private JTable table;
 	private JScrollPane scrollPane;
 	private JLabel lblId;
+	private JTextField Codigo;
 
 
 
@@ -72,9 +75,9 @@ public class VentanaUsuario {
 		frmUsuario.getContentPane().setLayout(null);
 		
 		
-		table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Id","Nombre", "Permiso"}));
+		table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Id","Nombre", "Permiso", "Codigo"}));
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(14, 281, 700, 281);
+        scrollPane.setBounds(14, 332, 700, 265);
         frmUsuario.getContentPane().add(scrollPane);
 		
 		JLabel Nombre = new JLabel("NOMBRE");
@@ -94,15 +97,8 @@ public class VentanaUsuario {
 		btnGuardar.setBackground(Color.GRAY);
 		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
 		btnGuardar.setForeground(new Color(0, 0, 0));
-		btnGuardar.setBounds(249, 630, 150, 27);
+		btnGuardar.setBounds(387, 630, 150, 27);
 		frmUsuario.getContentPane().add(btnGuardar);
-		
-		btnCancelar = new JButton("CANCELAR");
-		btnCancelar.setBackground(Color.GRAY);
-		btnCancelar.setForeground(new Color(0, 0, 0));
-		btnCancelar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnCancelar.setBounds(409, 630, 150, 27);
-		frmUsuario.getContentPane().add(btnCancelar);
 		
 		btnBorrar = new JButton("BORRAR");
 		btnBorrar.setBackground(Color.GRAY);
@@ -138,6 +134,17 @@ public class VentanaUsuario {
 		lblId.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		lblId.setBounds(187, 128, 117, 27);
 		frmUsuario.getContentPane().add(lblId);
+		
+		Codigo = new JTextField();
+		Codigo.setColumns(10);
+		Codigo.setBounds(314, 276, 150, 27);
+		frmUsuario.getContentPane().add(Codigo);
+		
+		JLabel lblCdigo = new JLabel("CÓDIGO");
+		lblCdigo.setForeground(Color.GRAY);
+		lblCdigo.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		lblCdigo.setBounds(204, 276, 90, 27);
+		frmUsuario.getContentPane().add(lblCdigo);
 		
 	}
 
@@ -181,13 +188,6 @@ public class VentanaUsuario {
 		this.scrollPane = scrollPane;
 	}
 
-	public JButton getBtnCancelar() {
-		return btnCancelar;
-	}
-
-	public void setBtnCancelar(JButton btnCancelar) {
-		this.btnCancelar = btnCancelar;
-	}
 
 	public JButton getBtnBorrar() {
 		return btnBorrar;
@@ -233,6 +233,14 @@ public class VentanaUsuario {
 		return Permiso;
 	}
 
+	public JTextField getCodigo() {
+		return Codigo;
+	}
+
+	public void setCodigo(JTextField codigo) {
+		Codigo = codigo;
+	}
+
 	public void setPermiso(JTextField permiso) {
 		Permiso = permiso;
 	}
@@ -251,17 +259,19 @@ public class VentanaUsuario {
 				+ ", lblPermiso=" + lblPermiso + "]";
 	}
 
-	public VentanaUsuario(JTextField textID, JTextField textNombre, JTextField permiso) {
+
+
+	public VentanaUsuario(JTextField textID, JTextField textNombre, JTextField permiso, JTextField codigo) {
 		super();
 		this.textID = textID;
 		this.textNombre = textNombre;
 		Permiso = permiso;
+		Codigo = codigo;
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	public void inciarListener(ControladorEventos controladorEventos) {
+		btnGuardar.addActionListener(controladorEventos);
+		btnBorrar.addActionListener(controladorEventos);
+		
+	}
 }

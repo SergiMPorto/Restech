@@ -45,11 +45,12 @@ public class DaoUsuarioMySql implements DaoUsuario {
         }
 
         boolean insertado = true;
-        String query = "INSERT INTO usuarios (nombre, permisos) VALUES (?, ?)";
+        String query = "INSERT INTO usuarios (nombre, permisos, codigo) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setString(1, u.getNombre());
             ps.setInt(2, u.getPermisos());
+            ps.setString(3,u.getCodigo());
 
             int numeroFilasAfectadas = ps.executeUpdate();
             if (numeroFilasAfectadas == 0) {
@@ -100,12 +101,14 @@ public class DaoUsuarioMySql implements DaoUsuario {
         }
 
         boolean modificado = true;
-        String query = "UPDATE usuarios SET nombre = ?, permisos = ? WHERE id_usuario = ?";
+        String query = "UPDATE usuarios SET nombre = ?, permisos = ?, codigo = ? WHERE id_usuario = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setString(1, u.getNombre());
             ps.setInt(2, u.getPermisos());
-            ps.setInt(3, u.getId());
+            ps.setString(3, u.getCodigo());
+            ps.setInt(4, u.getId());
+           
 
             int numeroFilasAfectadas = ps.executeUpdate();
             if (numeroFilasAfectadas == 0) {
@@ -129,7 +132,7 @@ public class DaoUsuarioMySql implements DaoUsuario {
         }
 
         Usuario u = null;
-        String query = "SELECT id_usuario, nombre, permisos FROM usuarios WHERE id_usuario = ?";
+        String query = "SELECT id_usuario, nombre, permisos, codigo FROM usuarios WHERE id_usuario = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setInt(1, id);
@@ -140,6 +143,7 @@ public class DaoUsuarioMySql implements DaoUsuario {
                 u.setId(rs.getInt("id_usuario"));
                 u.setNombre(rs.getString("nombre"));
                 u.setPermisos(rs.getInt("permisos"));
+                u.setCodigo(rs.getString("codigo"));
             }
         } catch (SQLException e) {
             System.out.println("Error al buscar Usuario con id " + id);
@@ -169,6 +173,7 @@ public class DaoUsuarioMySql implements DaoUsuario {
                 u.setId(rs.getInt("id_usuario"));
                 u.setNombre(rs.getString("nombre"));
                 u.setPermisos(rs.getInt("permisos"));
+                u.setCodigo(rs.getString("codigo"));
                 listaUsuarios.add(u);
             }
         } catch (SQLException e) {
@@ -180,5 +185,44 @@ public class DaoUsuarioMySql implements DaoUsuario {
 
         return listaUsuarios;
     }
+    
+    
+   
+
+	@Override
+	public int obtenerPermisoPorId(int id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Usuario buscarNombre(String nombre) {
+	    if (!abrirConexion()) {
+	        return null;
+	    }
+
+	    Usuario u = null;
+	    String query = "SELECT codigo, nombre, permisos FROM usuarios WHERE nombre = ?";
+	    try {
+	        PreparedStatement ps = conexion.prepareStatement(query);
+	        ps.setString(1, nombre); 
+
+	        ResultSet rs = ps.executeQuery();
+	        if (rs.next()) {
+	            u = new Usuario();
+	            u.setNombre(rs.getString("nombre"));
+	            u.setPermisos(rs.getInt("permisos"));
+	            u.setCodigo(rs.getString("codigo"));
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error al buscar Usuario con nombre " + nombre);
+	        e.printStackTrace();
+	    } finally {
+	        cerrarConexion();
+	    }
+
+	    return u;
+	}
+
 
 }

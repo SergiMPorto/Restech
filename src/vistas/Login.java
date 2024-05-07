@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
+import java.awt.SystemColor;
 
 public class Login {
 
@@ -66,13 +67,14 @@ public class Login {
 		lblNewLabel.setBounds(162, 236, 122, 31);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel lblContrasea = new JLabel("CONTRASEÑA");
+		JLabel lblContrasea = new JLabel("CODIGO");
 		lblContrasea.setForeground(Color.WHITE);
 		lblContrasea.setFont(new Font("Forte", Font.BOLD, 25));
-		lblContrasea.setBounds(112, 279, 171, 31);
+		lblContrasea.setBounds(172, 284, 100, 31);
 		frame.getContentPane().add(lblContrasea);
 		
 		lblNewLabel_1 = new JLabel("Bienvenido");
+		lblNewLabel_1.setForeground(SystemColor.inactiveCaption);
 		lblNewLabel_1.setFont(new Font("Forte", Font.BOLD, 75));
 		lblNewLabel_1.setBounds(175, 57, 391, 82);
 		frame.getContentPane().add(lblNewLabel_1);
@@ -80,7 +82,7 @@ public class Login {
 		btnValidar = new JButton("Validar");
 		btnValidar.setBackground(Color.GRAY);
 		btnValidar.setFont(new Font("Lucida Sans", Font.BOLD, 25));
-		btnValidar.setBounds(279, 526, 250, 40);
+		btnValidar.setBounds(204, 402, 376, 69);
 		frame.getContentPane().add(btnValidar);
 		
 		passwordField = new JPasswordField();

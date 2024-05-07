@@ -11,6 +11,8 @@ public interface DaoUsuario {
 	public boolean modificar(Usuario u);
 	public Usuario buscar(int id);
 	public List<Usuario> listar();
+	public int obtenerPermisoPorId(int id);
+	public Usuario buscarNombre(String nombre);
 	
 	
 

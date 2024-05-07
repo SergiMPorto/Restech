@@ -22,11 +22,13 @@ public class Main {
         Home home = new Home();
         VentanaIngredientes ingredientes = new VentanaIngredientes();
         VentanaProveedor proveedor = new VentanaProveedor( null, null, null, null);
+        
 
         ControladorEventos controlador = new ControladorEventos(login, home, almacen, pedido, plato, usuario, ingredientes, proveedor);
 
         login.inciarListener(controlador);
         home.agregarListener(controlador);
         plato.iniciarListerner(controlador);
+        usuario.inciarListener(controlador);
     }
 }
