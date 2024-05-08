@@ -4,122 +4,197 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
+import modelo.persistance.interfaces.*;
+import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import controlador.ControladorEventos;
+import modelo.entidad.MateriaPrima;
+
 
 public class VentanaIngredientes {
-	
-	  private JFrame frmIngredientes;
-	    private JList<String> listaProductos;
-	    private JTextField txtCantidad;
-	    private ArrayList<String> productos;
-	    private ArrayList<Integer> cantidades;
 
-	    /**
-	     * Launch the application.
-	     */
-	    public static void main(String[] args) {
-	        EventQueue.invokeLater(new Runnable() {
-	            public void run() {
-	                try {
-	                    VentanaIngredientes window = new VentanaIngredientes();
-	                    window.mostrarVentana();
-	                } catch (Exception e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        });
-	    }
+    private JFrame frmIngredientes;
+    private ArrayList<String> productos;
+    private ArrayList<Integer> cantidades;
+    private JTable tablaIngredientes;
+    private DefaultTableModel modeloIngredientes;
+    private JButton btnGuardar;
+    private JButton btnBorrar;
+    private DaoMateriaPrima daoMateriaPrima;
 
-	    /**
-	     * Create the application.
-	     */
-	    public VentanaIngredientes() {
-	        // Inicializar productos y cantidades
-	        productos = new ArrayList<String>();
-	        cantidades = new ArrayList<Integer>();
-	        initialize();
-	    }
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    VentanaIngredientes window = new VentanaIngredientes();
+                    window.mostrarVentana();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	    /**
-	     * Initialize the contents of the frame.
-	     */
-	    private void initialize() {
-	        frmIngredientes = new JFrame();
-	        frmIngredientes.setTitle("Ingredientes Disponibles");
-	        frmIngredientes.setBounds(100, 100, 750, 750);
-	        frmIngredientes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frmIngredientes.getContentPane().setLayout(new BorderLayout(0, 0));
-	        frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
-	        frmIngredientes.getContentPane().setForeground(new Color(56, 61, 67));
+    public VentanaIngredientes() {
+        productos = new ArrayList<String>();
+        cantidades = new ArrayList<Integer>();
+        daoMateriaPrima = new DaoMateriaPrimaMySql();
+        initialize();
+        cargarDatosEnTablaIngredientes();
+        
+    }
 
-	        JScrollPane scrollPane = new JScrollPane();
-	        frmIngredientes.getContentPane().add(scrollPane, BorderLayout.CENTER);
+    private void initialize() {
+        frmIngredientes = new JFrame();
+        frmIngredientes.setTitle("Ingredientes Disponibles");
+        frmIngredientes.setBounds(100, 100, 750, 750);
+        frmIngredientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frmIngredientes.getContentPane().setLayout(new BorderLayout());
+        frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
 
-	        listaProductos = new JList<>(productos.toArray(new String[0]));
-	        scrollPane.setViewportView(listaProductos);
+        modeloIngredientes = new DefaultTableModel();
+        modeloIngredientes.setColumnIdentifiers(new Object[]{"Producto", "Cantidad Utilizada"});
+        tablaIngredientes = new JTable(modeloIngredientes);
+        JScrollPane scrollPane = new JScrollPane(tablaIngredientes);
+        frmIngredientes.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-	        JPanel panelBotones = new JPanel();
-	        panelBotones.setBackground(new Color(56, 61, 67));
-	        panelBotones.setForeground(new Color(56, 61, 67));
-	        frmIngredientes.getContentPane().add(panelBotones, BorderLayout.SOUTH);
-	        
-	        JLabel lblCantidad = new JLabel("Cantidad:");
-	        lblCantidad.setForeground(Color.WHITE);
-	        lblCantidad.setFont(new Font("Lucida Sans", Font.BOLD, 16));
+        JPanel panelBotones = new JPanel();
+        panelBotones.setBackground(new Color(56, 61, 67));
+        frmIngredientes.getContentPane().add(panelBotones, BorderLayout.SOUTH);
 
-	        txtCantidad = new JTextField();
-	        txtCantidad.setSize(150, 27);
-	        txtCantidad.setColumns(5);
+        btnGuardar = new JButton("Guardar");
+        btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        panelBotones.add(btnGuardar);
+      
+        
 
-	        JButton btnGuardar = new JButton("Guardar");
-	        btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        btnGuardar.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
-	               // guardarCantidad();
-	            }
-	        });
+        btnBorrar = new JButton("Borrar");
+        btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        panelBotones.add(btnBorrar);
+       
+    }
 
-	        JButton btnCancelar = new JButton("Cancelar");
-	        btnCancelar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        btnCancelar.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
-	                // Aquí puedes agregar la lógica para cancelar la operación
-	            }
-	        });
+    public void setTableModel(DefaultTableModel model) {
+        modeloIngredientes = model;
+        tablaIngredientes.setModel(modeloIngredientes);
+    }
 
-	        JButton btnBorrar = new JButton("Borrar");
-	        btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        btnBorrar.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e) {
-	              
-	            }
-	        });
-	        panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-	        panelBotones.add(lblCantidad);
-	        panelBotones.add(txtCantidad);
-	        panelBotones.add(btnGuardar);
-	        panelBotones.add(btnBorrar);
-	        panelBotones.add(btnCancelar);
-	    }
+    public void populateTableModelFromAlmacen(DefaultTableModel modelAlmacen) {
+        int columnaNombre = modelAlmacen.findColumn("Producto");
+        int columnaCantidadUtilizada = modelAlmacen.findColumn("Cantidad Utilizada");
 
-	    // Método para mostrar la ventana
-	    public void mostrarVentana() {
-	        frmIngredientes.setVisible(true);
-	    }
+        modeloIngredientes.setRowCount(0);
 
-	    // Método para establecer la visibilidad del JFrame
-	    public void setVisible(boolean b) {
-	         frmIngredientes.setVisible(b);
-	    }
+        for (int i = 0; i < modelAlmacen.getRowCount(); i++) {
+            String producto = (String) modelAlmacen.getValueAt(i, columnaNombre);
+            Object cantidadUtilizada = modelAlmacen.getValueAt(i, columnaCantidadUtilizada);
+            modeloIngredientes.addRow(new Object[]{producto, cantidadUtilizada});
+        }
+    }
+
+    
+    
+    public JFrame getFrmIngredientes() {
+		return frmIngredientes;
 	}
+
+	public void setFrmIngredientes(JFrame frmIngredientes) {
+		this.frmIngredientes = frmIngredientes;
+	}
+
+	public ArrayList<String> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(ArrayList<String> productos) {
+		this.productos = productos;
+	}
+
+	public ArrayList<Integer> getCantidades() {
+		return cantidades;
+	}
+
+	public void setCantidades(ArrayList<Integer> cantidades) {
+		this.cantidades = cantidades;
+	}
+
+	public JTable getTablaIngredientes() {
+		return tablaIngredientes;
+	}
+
+	public void setTablaIngredientes(JTable tablaIngredientes) {
+		this.tablaIngredientes = tablaIngredientes;
+	}
+
+	public DefaultTableModel getModeloIngredientes() {
+		return modeloIngredientes;
+	}
+
+	public void setModeloIngredientes(DefaultTableModel modeloIngredientes) {
+		this.modeloIngredientes = modeloIngredientes;
+	}
+
+	public JButton getBtnGuardar() {
+		return btnGuardar;
+	}
+
+	public void setBtnGuardar(JButton btnGuardar) {
+		this.btnGuardar = btnGuardar;
+	}
+
+	public JButton getBtnBorrar() {
+		return btnBorrar;
+	}
+
+	public void setBtnBorrar(JButton btnBorrar) {
+		this.btnBorrar = btnBorrar;
+	}
+
+	public void mostrarVentana() {
+        frmIngredientes.setVisible(true);
+    }
+
+    public void setVisible(boolean b) {
+    	
+    	cargarDatosEnTablaIngredientes();
+        frmIngredientes.setVisible(b);
+    }
+    
+    public void iniciarListener(ControladorEventos controlador) {
+       
+        btnBorrar.addActionListener(controlador);
+        btnGuardar.addActionListener(controlador);
+    }
+    public void cargarDatosEnTablaIngredientes() {
+        //Obtén la lista de Materias Primas desde la base de datos
+        List<MateriaPrima> listadoMateriasPrimas = daoMateriaPrima.listar();
+
+        //Consigue el modelo de la tabla desde la ventana de ingredientes
+        DefaultTableModel modeloTablaIngredientes = (DefaultTableModel) getTablaIngredientes().getModel();
+
+        //Limpia la tabla actual
+        modeloTablaIngredientes.setRowCount(0);
+
+        //Llena la tabla con los datos obtenidos
+        for (MateriaPrima materiaPrima : listadoMateriasPrimas) {
+            modeloTablaIngredientes.addRow(new Object[]{
+                materiaPrima.getNombre(),
+                materiaPrima.getCantidadUtilizada()
+            });
+        }
+        //Actualiza la tabla con el nuevo modelo
+        getTablaIngredientes().setModel(modeloTablaIngredientes);
+    }
+    }
+

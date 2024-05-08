@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -123,6 +124,9 @@ public class ControladorEventos implements ActionListener {
             ingredientes.setVisible(true);
             
             
+            
+            
+            
         } else if (e.getSource() == home.getBtnUsuario()) {
             System.out.println("Botón Usuario pulsado");
             
@@ -176,6 +180,14 @@ public class ControladorEventos implements ActionListener {
                 if (daoMateriaPrima.insertar(materiaPrima)) {
                     // Mostrar un mensaje de advertencia si no se puede insertar en la base de datos
                     JOptionPane.showMessageDialog(null, "Añadido correctamente a la base de datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                    
+                 // Limpiar las casillas después de darle al botón de guardar. 
+                    almacen.getProducto().setText("");
+                    almacen.getPrecio().setText("");
+                    almacen.getProveedor().setText("");
+                    almacen.getFechaCaducidad().setText("");
+                    almacen.getCantidad().setText("");
+                    almacen.getMerma().setText("");
                 }
             } catch (NumberFormatException | DateTimeParseException ex) {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese valores válidos para precio, cantidad, merma y fecha (Formato: yyyy-MM-dd)", "Error", JOptionPane.ERROR_MESSAGE);
@@ -293,6 +305,24 @@ public class ControladorEventos implements ActionListener {
     	return null;
     	
     }	
+    }
+    
+    //cargar tabla en Ingredientes
+    
+    public void cargarDatosEnTablaIngredientes() {
+        List<MateriaPrima> listadoMateriasPrimas = daoMateriaPrima.listar();
+        DefaultTableModel modeloTablaIngredientes = (DefaultTableModel) ingredientes.getTablaIngredientes().getModel();
+        modeloTablaIngredientes.setRowCount(0); 
+
+        for (MateriaPrima materiaPrima : listadoMateriasPrimas) {
+            modeloTablaIngredientes.addRow(new Object[] {
+                materiaPrima.getNombre(),
+                materiaPrima.getCantidadUtilizada()
+               
+            });
+        }
+
+        ingredientes.getTablaIngredientes().setModel(modeloTablaIngredientes);
     }
 }
     	

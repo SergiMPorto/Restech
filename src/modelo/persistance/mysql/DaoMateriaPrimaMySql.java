@@ -171,7 +171,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         List<MateriaPrima> listaMateriaPrima = new ArrayList<>();
-        String query = "SELECT id_materia_prima, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima";
+        String query = "SELECT id, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
@@ -179,7 +179,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 
             while (rs.next()) {
                 MateriaPrima materiaPrima = new MateriaPrima();
-                materiaPrima.setId(rs.getInt("id_materia_prima"));
+                materiaPrima.setId(rs.getInt("id"));
                 materiaPrima.setNombre(rs.getString("nombre"));
                 materiaPrima.setPrecio(rs.getFloat("precio"));
                 materiaPrima.setProveedor(rs.getString("proveedor"));
