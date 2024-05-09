@@ -27,6 +27,17 @@ public class MateriaPrima {
         this.merma = merma;
     }
     
+    public MateriaPrima( String nombre, float precio, String proveedor, LocalDate fechaCaducidad, float cantidadUtilizada, float merma) {
+        super();
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.proveedor = proveedor;
+        this.fechaCaducidad = fechaCaducidad;
+        this.cantidadUtilizada = cantidadUtilizada;
+        this.merma = merma;
+    }
+    
     
     public int getId() {
         return id;

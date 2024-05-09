@@ -45,16 +45,15 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         boolean insertar = true;
-        String query = "INSERT INTO materia_prima (id, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO materias_primas ( nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, mp.getId());
-            ps.setString(2, mp.getNombre());
-            ps.setFloat(3, mp.getPrecio());
-            ps.setString(4, mp.getProveedor());
-            ps.setDate(5, java.sql.Date.valueOf(mp.getFechaCaducidad()));
-            ps.setFloat(6, mp.getCantidadUtilizada());
-            ps.setFloat(7, mp.getMerma());
+            ps.setString(1, mp.getNombre());
+            ps.setFloat(2, mp.getPrecio());
+            ps.setString(3, mp.getProveedor());
+            ps.setDate(4, java.sql.Date.valueOf(mp.getFechaCaducidad()));
+            ps.setFloat(5, mp.getCantidadUtilizada());
+            ps.setFloat(6, mp.getMerma());
 
             int numeroFilasAfectadas = ps.executeUpdate();
             if (numeroFilasAfectadas == 0) {
@@ -78,7 +77,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         boolean borrado = true;
-        String query = "DELETE FROM materia_prima WHERE id_materia_prima = ?";
+        String query = "DELETE FROM materias_primas WHERE id_materia_prima = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setInt(1, id);
@@ -105,7 +104,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         boolean modificado = true;
-        String query = "UPDATE materia_prima SET nombre = ?, precio = ?, proveedor = ?, fecha_caducidad = ?, cantidad_utilizada = ?, merma = ? WHERE id_materia_prima = ?";
+        String query = "UPDATE materias_primas SET nombre = ?, precio = ?, proveedor = ?, fecha_caducidad = ?, cantidad_utilizada = ?, merma = ? WHERE id_materia_prima = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setString(1, mp.getNombre());
@@ -138,7 +137,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         MateriaPrima materiaPrima = null;
-        String query = "SELECT id_materia_prima, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima WHERE id_materia_prima = ?";
+        String query = "SELECT id_materias_primas, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima WHERE id_materia_prima = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setInt(1, id);
@@ -171,7 +170,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         List<MateriaPrima> listaMateriaPrima = new ArrayList<>();
-        String query = "SELECT id_materia_prima, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima";
+        String query = "SELECT id_materia_primas, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);

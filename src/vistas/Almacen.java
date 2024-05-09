@@ -310,4 +310,7 @@ public class Almacen {
         btnBorrar.addActionListener(controlador);
 
     }
+	
+	
+	
 }
