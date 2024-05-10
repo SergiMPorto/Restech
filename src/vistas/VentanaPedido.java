@@ -60,7 +60,7 @@ public class VentanaPedido {
         frmPedido.getContentPane().setLayout(null);
         
 
-        table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Proveedor","Producto", "Cantidad", "Precio"}));
+        table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"}));
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 325, 700, 322);
         frmPedido.getContentPane().add(scrollPane);
