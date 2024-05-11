@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,10 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorEventos;
+import modelo.entidad.Proveedor;
+import modelo.entidad.Usuario;
+import modelo.persistance.mysql.DaoProveedorMySql;
+import modelo.persistance.mysql.DaoUsuarioMySql;
 
 import javax.swing.JFrame;
 
@@ -274,4 +279,19 @@ public class VentanaUsuario {
 		btnBorrar.addActionListener(controladorEventos);
 		
 	}
+	
+    public void llenarTabla(List<Usuario> listaUsuario) {
+        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+        modelo.setRowCount(0); // Limpiar la tabla
+
+        for (Usuario pv : listaUsuario) {
+            modelo.addRow(new Object[]{pv.getId(), pv.getNombre(), pv.getPermisos() ,pv.getCodigo() });
+        }
+    }
+    
+    public void cargarUsuario() {
+        DaoUsuarioMySql daoUsuario = new DaoUsuarioMySql();
+        List<Usuario> listaUsuario = daoUsuario.listar();
+        llenarTabla(listaUsuario);
+    }
 }

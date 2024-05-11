@@ -162,7 +162,7 @@ public class DaoUsuarioMySql implements DaoUsuario {
         }
 
         List<Usuario> listaUsuarios = new ArrayList<>();
-        String query = "SELECT id_usuario, nombre, permisos FROM usuarios";
+        String query = "SELECT id_usuario, nombre, permisos, codigo FROM usuarios";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);

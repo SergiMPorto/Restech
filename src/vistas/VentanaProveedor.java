@@ -4,6 +4,7 @@ package vistas;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorEventos;
+import modelo.entidad.Proveedor;
+import modelo.persistance.mysql.DaoProveedorMySql;
 
 public class VentanaProveedor {
 
@@ -267,4 +270,20 @@ public class VentanaProveedor {
             }
         });
     }
+    
+    public void llenarTabla(List<Proveedor> listaProveedores) {
+        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+        modelo.setRowCount(0); // Limpiar la tabla
+
+        for (Proveedor pv : listaProveedores) {
+            modelo.addRow(new Object[]{pv.getId(), pv.getNombre(), pv.getDescripcion(), pv.getTelefono(), pv.getDireccion()});
+        }
+    }
+    
+    public void cargarProveedores() {
+        DaoProveedorMySql daoProveedor = new DaoProveedorMySql();
+        List<Proveedor> listaProveedores = daoProveedor.listar();
+        llenarTabla(listaProveedores);
+    }
+
 }

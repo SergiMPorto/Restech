@@ -30,5 +30,6 @@ public class Main {
         home.agregarListener(controlador);
         plato.iniciarListerner(controlador);
         usuario.inciarListener(controlador);
+        ingredientes.iniciarListener(controlador);
     }
 }

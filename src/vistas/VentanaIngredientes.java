@@ -20,6 +20,8 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorEventos;
 import modelo.entidad.MateriaPrima;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 
 public class VentanaIngredientes {
@@ -29,9 +31,10 @@ public class VentanaIngredientes {
     private ArrayList<Integer> cantidades;
     private JTable tablaIngredientes;
     private DefaultTableModel modeloIngredientes;
-    private JButton btnGuardar;
-    private JButton btnBorrar;
     private DaoMateriaPrima daoMateriaPrima;
+    private JTextField cantidad;
+    private JButton guardar;
+    private JButton borrar;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -60,28 +63,37 @@ public class VentanaIngredientes {
         frmIngredientes.setTitle("Ingredientes Disponibles");
         frmIngredientes.setBounds(100, 100, 750, 750);
         frmIngredientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frmIngredientes.getContentPane().setLayout(new BorderLayout());
         frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
 
         modeloIngredientes = new DefaultTableModel();
         modeloIngredientes.setColumnIdentifiers(new Object[]{"Producto", "Cantidad Utilizada"});
+        frmIngredientes.getContentPane().setLayout(null);
         tablaIngredientes = new JTable(modeloIngredientes);
         JScrollPane scrollPane = new JScrollPane(tablaIngredientes);
-        frmIngredientes.getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-        JPanel panelBotones = new JPanel();
-        panelBotones.setBackground(new Color(56, 61, 67));
-        frmIngredientes.getContentPane().add(panelBotones, BorderLayout.SOUTH);
-
-        btnGuardar = new JButton("Guardar");
-        btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        panelBotones.add(btnGuardar);
-      
+        scrollPane.setBounds(0, 0, 736, 666);
+        frmIngredientes.getContentPane().add(scrollPane);
         
-
-        btnBorrar = new JButton("Borrar");
-        btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        panelBotones.add(btnBorrar);
+        cantidad = new JTextField();
+        cantidad.setBounds(391, 676, 100, 30);
+        frmIngredientes.getContentPane().add(cantidad);
+        cantidad.setColumns(10);
+        
+        JLabel lblNewLabel = new JLabel("Cantidad");
+        lblNewLabel.setForeground(new Color(255, 255, 255));
+        lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
+        lblNewLabel.setBounds(301, 676, 80, 27);
+        frmIngredientes.getContentPane().add(lblNewLabel);
+        
+        guardar = new JButton("Guardar");
+        guardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        guardar.setBounds(501, 676, 100, 30);
+        frmIngredientes.getContentPane().add(guardar);
+        
+        borrar = new JButton("Borrar");
+        borrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        
+        borrar.setBounds(611, 676, 100, 30);
+        frmIngredientes.getContentPane().add(borrar);
        
     }
 
@@ -145,21 +157,6 @@ public class VentanaIngredientes {
 		this.modeloIngredientes = modeloIngredientes;
 	}
 
-	public JButton getBtnGuardar() {
-		return btnGuardar;
-	}
-
-	public void setBtnGuardar(JButton btnGuardar) {
-		this.btnGuardar = btnGuardar;
-	}
-
-	public JButton getBtnBorrar() {
-		return btnBorrar;
-	}
-
-	public void setBtnBorrar(JButton btnBorrar) {
-		this.btnBorrar = btnBorrar;
-	}
 
 	public void mostrarVentana() {
         frmIngredientes.setVisible(true);
@@ -171,10 +168,36 @@ public class VentanaIngredientes {
         frmIngredientes.setVisible(b);
     }
     
-    public void iniciarListener(ControladorEventos controlador) {
+    
+    
+    public JTextField getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(JTextField cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public JButton getGuardar() {
+		return guardar;
+	}
+
+	public void setGuardar(JButton guardar) {
+		this.guardar = guardar;
+	}
+
+	public JButton getBorrar() {
+		return borrar;
+	}
+
+	public void setBorrar(JButton borrar) {
+		this.borrar = borrar;
+	}
+
+	public void iniciarListener(ControladorEventos controlador) {
        
-        btnBorrar.addActionListener(controlador);
-        btnGuardar.addActionListener(controlador);
+        borrar.addActionListener(controlador);
+        guardar.addActionListener(controlador);
     }
     public void cargarDatosEnTablaIngredientes() {
         //Obtén la lista de Materias Primas desde la base de datos

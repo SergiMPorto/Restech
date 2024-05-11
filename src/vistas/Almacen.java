@@ -2,6 +2,7 @@ package vistas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.List;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
@@ -13,6 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorEventos;
+import modelo.entidad.MateriaPrima;
+import modelo.persistance.mysql.DaoMateriaPrimaMySql;
+
 import javax.swing.SwingConstants;
 
 public class Almacen {
@@ -310,4 +314,21 @@ public class Almacen {
         btnBorrar.addActionListener(controlador);
 
     }
+	
+	public void llenarTabla(List<MateriaPrima> listaMateriasPrimas) {
+        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+        modelo.setRowCount(0); // Limpiar la tabla
+
+        for (MateriaPrima pv : listaMateriasPrimas) {
+            modelo.addRow(new Object[]{pv.getId(), pv.getNombre(), pv.getPrecio(), pv.getProveedor(), pv.getFechaCaducidad(), pv.getCantidadUtilizada(),pv.getMerma()});
+        }
+    }
+    
+    public void cargarMateriasPrimas() {
+        DaoMateriaPrimaMySql daoMateriaPrima = new DaoMateriaPrimaMySql();
+        List<MateriaPrima> listaMateriasPrimas = daoMateriaPrima.listar();
+        llenarTabla(listaMateriasPrimas);
+    }
+
+	
 }

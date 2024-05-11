@@ -12,6 +12,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import controlador.ControladorEventos;
@@ -144,7 +145,8 @@ public class VentanaPlato {
 	        lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
 	        frmPlato.getContentPane().add(lblNewLabel_3);
 
-	        table = new JTable(new Object[][]{}, new String[]{"Producto", "Cantidad"});
+	        DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"Producto", "Cantidad"});
+	        table = new JTable(tableModel);
 
 	        scrollPane = new JScrollPane(table);
 	        springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 319, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -152,6 +154,7 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 620, SpringLayout.NORTH, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.EAST, scrollPane, 726, SpringLayout.WEST, frmPlato.getContentPane());
 	        frmPlato.getContentPane().add(scrollPane);
+
 	        
 	        ingredientes = new JButton("Ingredientes");
 	        springLayout.putConstraint(SpringLayout.NORTH, ingredientes, 34, SpringLayout.NORTH, lblNewLabel_2);
@@ -276,9 +279,15 @@ public class VentanaPlato {
 		
 		public void iniciarListerner(ControladorEventos controlador) {
 			ingredientes.addActionListener(controlador);
+			guardar.addActionListener(controlador);
 			
 			
 		}
+		
+		 public void agregarProducto(String producto, int cantidad) {
+		        DefaultTableModel model = (DefaultTableModel) table.getModel();
+		        model.addRow(new Object[]{producto, cantidad});
+		    }
 	    
 	    
 	}
