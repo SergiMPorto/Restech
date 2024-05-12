@@ -199,22 +199,31 @@ public class ControladorEventos implements ActionListener {
             }
         } else if (e.getSource() == ventanaProveedor.getBtnBorrar()) {
             System.out.println("Botón de borrado proveedor pulsado");
-            int filaSeleccionado = ventanaProveedor.getTable().getSelectedRow();
-            if (filaSeleccionado != -1) {
-                DefaultTableModel modelo = (DefaultTableModel) ventanaProveedor.getTable().getModel();
-                modelo.removeRow(filaSeleccionado);
-                if (!daoProveedor.borrar(filaSeleccionado)) {
-                    JOptionPane.showMessageDialog(null, "Error a borrar el proveedor de la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+
+            if (mostrarConfirmacionBorrado()) {
+                int filaSeleccionada = ventanaProveedor.getTable().getSelectedRow();
+                if (filaSeleccionada != -1) {
+                    DefaultTableModel modelo = (DefaultTableModel) ventanaProveedor.getTable().getModel();
+                    
+                    //OBTENER ID PROVEEDOR
+                    int idProveedor = (int) modelo.getValueAt(filaSeleccionada, 0);
+
+                    modelo.removeRow(filaSeleccionada);
+
+                    // BORRAR PROVEEDOR DE LA BBDD POR ID
+                    if (!daoProveedor.borrar(idProveedor)) {
+                        JOptionPane.showMessageDialog(null, "Error al borrar el proveedor de la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         
        
     }
     
- // VENTANA CONFIRMACION BORRAR MATERIA PRIMA--> ALMACEN
+ // VENTANA CONFIRMACION BORRAR 
     private boolean mostrarConfirmacionBorrado() {
         int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea borrar el producto?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
         return opcion == JOptionPane.YES_OPTION;
