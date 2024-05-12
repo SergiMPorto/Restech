@@ -146,22 +146,28 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato yyyy-MM-dd", "Error", JOptionPane.ERROR_MESSAGE);
             }
             
-            //Borrar producto en almacen
+            //Borrar producto en almacen 
         }else if(e.getSource()==almacen.getBtnBorrar()) {
         	System.out.println("Botón de borrado pulsado");
-        
-            
-            int filaSeleccionada = almacen.getTable().getSelectedRow();
-            if (filaSeleccionada != -1) { 
-               
-                DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
-                modelo.removeRow(filaSeleccionada);
-                if(!daoMateriaPrima.borrar(filaSeleccionada)) {
-                	JOptionPane.showConfirmDialog(null, "Error a borrar a materia prima en la base de datos","Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            }
+        	
+        	 if (mostrarConfirmacionBorrado()) {
+                 int filaSeleccionada = almacen.getTable().getSelectedRow();
+                 if (filaSeleccionada != -1) {
+                     DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
+
+                     // OBTENER ID
+                     int idProducto = (int) modelo.getValueAt(filaSeleccionada, 0);
+                     
+                     modelo.removeRow(filaSeleccionada);
+
+                     // BORRAR PRODUCTO POR ID
+                     if (!daoMateriaPrima.borrar(idProducto)) {
+                         JOptionPane.showConfirmDialog(null, "Error al borrar la materia prima en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                     }
+                 } else {
+                     JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 }
+             }
         }
 
          //Eventos para la ventana Proveedor
@@ -205,59 +211,13 @@ public class ControladorEventos implements ActionListener {
             }
         }
         
-        /**else if(e.getSource()==ventanaUsuario.getBtnGuardar()) {
-        	System.out.println("Boton de guardar usuario pulsado");
-        	
-        	try {
-        		String nombre = ventanaUsuario.getTextNombre().getText();
-        	//	int permiso = Integer.parseInt.(getPermiso().getText()); // pasar el int para que funcione como String 
-
-
-        		
-        		//Crear instancia de Usuario 
-        		
-        		Usuario usuario = new Usuario(0, nombre, permiso);
-        		
-        		
-        		//Actualizar tabla
-        		
-        		DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
-        		modelo.addRow(new Object[] { usuario.getId(), nombre, permiso});
-        		almacen.getTable().revalidate();
-        		
-        		JOptionPane.showConfirmDialog(null, "Usuario añadido con éxito", "Aviso"; JOptionPane.WARNING_MESSAGE);
-        		
-        		if(!daoUsuario.insertar(usuario)) {
-        			JOptionPane.showConfirmDialog(null, "Error al añadir el usuario", "Advertencia", JOptionPane.WARNING_MESSAGE);
-        		}
-        		
-        	} catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores número para permiso", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (DateTimeParseException ex) {
-                
-            }//
-        	
-        	
-        	}else if(e.getSource()==ventanaUsuario.getBtnBorrar()) {
-        		System.out.println("Boton borrado de Usuario pulsado");{
-
-        		
-        		
-        		int filaSeleccionada = ventanaUsuario.getTable().getSelectedRow();
-        		if(filaSeleccionada !=-1){
-        			DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
-        			modelo.removeRow(filaSeleccionada);
-        			if(!daoUsuario.borrar(filaSeleccionada)) {
-        				JOptionPane.showConfirmDialog(null, "Error al borrar  el usuario de la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-        			}
-        		} else {
-        	        JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-        	    }
-
-        
-        
-        		
-        }*/
+       
+    }
+    
+ // VENTANA CONFIRMACION BORRAR MATERIA PRIMA--> ALMACEN
+    private boolean mostrarConfirmacionBorrado() {
+        int opcion = JOptionPane.showConfirmDialog(null, "¿Está seguro de que desea borrar el producto?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+        return opcion == JOptionPane.YES_OPTION;
     }
 
 	

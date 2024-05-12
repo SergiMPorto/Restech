@@ -413,10 +413,4 @@ public class Almacen {
             }
         }
     }
-    
-    
-
-	
-	
-	
 }
