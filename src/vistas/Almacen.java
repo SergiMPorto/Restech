@@ -13,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.jxls.common.Context;
+
 import controlador.ControladorEventos;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Proveedor;
@@ -20,6 +22,11 @@ import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
 
 import javax.swing.SwingConstants;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+//Agregar este import a tu clase Almacen
+import java.io.InputStream;
 
 public class Almacen {
 
@@ -39,6 +46,7 @@ public class Almacen {
     private JTextField Precio;
     private JTextField Proveedor;
     private JTextField Merma;
+    private JButton btnExportar; // Declaración del botón de exportación
   
 
     /**
@@ -169,6 +177,12 @@ public class Almacen {
         lblId.setFont(new Font("Forte", Font.PLAIN, 20));
         lblId.setBounds(123, 396, 83, 23);
         almacen.getContentPane().add(lblId);
+        
+       /* btnExportar = new JButton("Exportar a Excel");
+        btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        btnExportar.setBounds(100, 653, 200, 27);
+        almacen.getContentPane().add(btnExportar);
+        btnExportar.addActionListener(this);*/
     }
 
     public JTextField getID() {
@@ -288,6 +302,15 @@ public class Almacen {
     public void setVisible(boolean b) {
         almacen.setVisible(b);
     }
+    
+    public JButton getBtnExportar() {
+		return btnExportar;
+	}
+
+	public void setBtnExportar(JButton btnExportar) {
+		this.btnExportar = btnExportar;
+	}
+	
 
 
     
@@ -326,11 +349,14 @@ public class Almacen {
         }
     }
     
-    private void cargarProveedores() {
+    private void cargarMaterasPrimas() {
         DaoMateriaPrimaMySql daoMateriaPrima = new DaoMateriaPrimaMySql();
         List<MateriaPrima> listaMateriasPrimas = daoMateriaPrima.listar();
         llenarTabla(listaMateriasPrimas);
     }
+    
+    
+
 	
 	
 	
