@@ -4,18 +4,28 @@ package vistas;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import modelo.entidad.Proveedor;
 import modelo.persistance.mysql.DaoProveedorMySql;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import controlador.ControladorEventos;
 
@@ -36,6 +46,7 @@ public class VentanaProveedor {
     private JButton btnGuardar;
     private JButton btnBorrar;
     private JTextField textID;
+    private JButton btnExportar; 
 
     public VentanaProveedor( String nombre, String descripcion, String telefono, String direccion) {
         initialize(); 
@@ -120,6 +131,17 @@ public class VentanaProveedor {
         btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
         btnBorrar.setBounds(403, 664, 150, 27);
         proveedor.getContentPane().add(btnBorrar);
+        
+        btnExportar = new JButton("Exportar a Excel");
+        btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        btnExportar.setBounds(243, 664, 150, 27);
+        proveedor.getContentPane().add(btnExportar);
+
+        btnExportar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                exportarExcel();
+            }
+        });
     }
 
    
@@ -227,6 +249,14 @@ public class VentanaProveedor {
     public void setBtnBorrar(JButton btnBorrar) {
         this.btnBorrar = btnBorrar;
     }
+    
+    public JButton getBtnExportar() {
+        return btnExportar;
+    }
+
+    public void setBtnExportar(JButton btnExportar) {
+        this.btnExportar = btnExportar;
+    }
 
     public void setVisible(boolean b) {
         proveedor.setVisible(b);
@@ -288,6 +318,41 @@ public class VentanaProveedor {
         DaoProveedorMySql daoProveedor = new DaoProveedorMySql();
         List<Proveedor> listaProveedores = daoProveedor.listar();
         llenarTabla(listaProveedores);
+    }
+    
+    private void exportarExcel() {
+        // Crear un objeto JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        // Mostrar el diálogo de guardar archivo
+        int seleccion = fileChooser.showSaveDialog(proveedor);
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            // Obtener el archivo seleccionado por el usuario
+            java.io.File file = fileChooser.getSelectedFile();
+            // Guardar los datos de la tabla en un archivo Excel
+            try {
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet sheet = workbook.createSheet("Proveedores");
+
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                int rowCount = model.getRowCount();
+                for (int i = 0; i < rowCount; i++) {
+                    XSSFRow row = sheet.createRow(i);
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        XSSFCell cell = row.createCell(j);
+                        cell.setCellValue(model.getValueAt(i, j).toString());
+                    }
+                }
+
+                FileOutputStream outputStream = new FileOutputStream(file.getAbsolutePath() + ".xlsx");
+                workbook.write(outputStream);
+                workbook.close();
+                outputStream.close();
+
+                System.out.println("Exportación a Excel exitosa.");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
