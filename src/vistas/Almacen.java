@@ -2,18 +2,25 @@ package vistas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import controlador.ControladorEventos;
 import modelo.entidad.MateriaPrima;
@@ -67,7 +74,7 @@ public class Almacen {
 
     public Almacen() {
         initialize();
-    }
+        cargarMaterasPrimas();    }
 
     private void initialize() {
         almacen = new JFrame();
@@ -178,11 +185,16 @@ public class Almacen {
         lblId.setBounds(123, 396, 83, 23);
         almacen.getContentPane().add(lblId);
         
-       /* btnExportar = new JButton("Exportar a Excel");
+        btnExportar = new JButton("Exportar a Excel");
         btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
         btnExportar.setBounds(100, 653, 200, 27);
         almacen.getContentPane().add(btnExportar);
-        btnExportar.addActionListener(this);*/
+
+        btnExportar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                exportarExcel();
+            }
+        });
     }
 
     public JTextField getID() {
@@ -353,6 +365,53 @@ public class Almacen {
         DaoMateriaPrimaMySql daoMateriaPrima = new DaoMateriaPrimaMySql();
         List<MateriaPrima> listaMateriasPrimas = daoMateriaPrima.listar();
         llenarTabla(listaMateriasPrimas);
+    }
+    
+    private void exportarExcel() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Guardar archivo Excel");
+        int userSelection = fileChooser.showSaveDialog(null);
+        
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            try {
+                // Crear un libro de Excel
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet sheet = workbook.createSheet("Almacen");
+
+                // Obtener el modelo de la tabla
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+                // Obtener el número de filas y columnas
+                int rowCount = model.getRowCount();
+                int columnCount = model.getColumnCount();
+
+                // Crear las filas y celdas en el archivo Excel
+                for (int i = 0; i < rowCount; i++) {
+                    XSSFRow row = sheet.createRow(i);
+                    for (int j = 0; j < columnCount; j++) {
+                        XSSFCell cell = row.createCell(j);
+                        cell.setCellValue(model.getValueAt(i, j).toString());
+                    }
+                }
+
+                // Obtener la ruta y nombre de archivo seleccionados por el usuario
+                String savePath = fileChooser.getSelectedFile().getAbsolutePath();
+                if (!savePath.endsWith(".xlsx")) {
+                    savePath += ".xlsx"; // Asegurar que la extensión del archivo sea .xlsx
+                }
+
+                // Guardar el archivo Excel
+                FileOutputStream outputStream = new FileOutputStream(savePath);
+                workbook.write(outputStream);
+                workbook.close();
+                outputStream.close();
+
+                JOptionPane.showMessageDialog(null, "Datos exportados a Excel con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error al exportar los datos a Excel: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
     }
     
     
