@@ -12,6 +12,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class VentanaPedido {
 
@@ -23,6 +25,7 @@ public class VentanaPedido {
     private JTextField Precio;
     private JTable table;
     private JScrollPane scrollPane;
+    private JLabel lblNewLabel_2;
 
     /**
      * Launch the application.
@@ -52,12 +55,14 @@ public class VentanaPedido {
      */
     private void initialize() {
         frmPedido = new JFrame();
+        frmPedido.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPedido.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
         frmPedido.setTitle("Pedido");
         frmPedido.getContentPane().setBackground(new Color(56, 61, 67));
         frmPedido.getContentPane().setForeground(new Color(56, 61, 67));
         frmPedido.setBounds(730, 50, 750, 750);
         frmPedido.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPedido.getContentPane().setLayout(null);
+        frmPedido.setResizable(false);
         
 
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"}));
@@ -115,6 +120,11 @@ public class VentanaPedido {
         lblNewLabel_1_1_1.setFont(new Font("Forte", Font.PLAIN, 20));
         lblNewLabel_1_1_1.setBounds(125, 208, 95, 27);
         frmPedido.getContentPane().add(lblNewLabel_1_1_1);
+        
+        lblNewLabel_2 = new JLabel("New label");
+        lblNewLabel_2.setIcon(new ImageIcon(VentanaPedido.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+        lblNewLabel_2.setBounds(41, 42, 56, 46);
+        frmPedido.getContentPane().add(lblNewLabel_2);
     }
     
     //Getter and Setter

@@ -18,6 +18,7 @@ import modelo.entidad.MateriaPrima;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class Almacen {
 
@@ -37,6 +38,7 @@ public class Almacen {
     private JTextField Precio;
     private JTextField Proveedor;
     private JTextField Merma;
+    private JLabel lblNewLabel;
   
 
     /**
@@ -65,6 +67,7 @@ public class Almacen {
         almacen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         almacen.getContentPane().setLayout(null);
         almacen.getContentPane().setBackground(new Color(56, 61, 67));
+        almacen.setResizable(false);
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -78,8 +81,8 @@ public class Almacen {
 
         lblNewLabel_3 = new JLabel("Almacén");
         lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD, 45));
-        lblNewLabel_3.setBounds(261, 21, 246, 49);
-        lblNewLabel_3.setForeground(new Color(105, 105, 105));
+        lblNewLabel_3.setBounds(286, 21, 185, 47);
+        lblNewLabel_3.setForeground(new Color(255, 255, 255));
         almacen.getContentPane().add(lblNewLabel_3);
 
         // Inicializar la tabla con un DefaultTableModel
@@ -108,16 +111,19 @@ public class Almacen {
         FechaCaducidad.setColumns(10);
 
         JLabel JlProducto = new JLabel("Producto");
+        JlProducto.setForeground(new Color(255, 255, 255));
         JlProducto.setFont(new Font("Forte", Font.ITALIC, 20));
         JlProducto.setBounds(110, 429, 341, 20);
         almacen.getContentPane().add(JlProducto);
 
         JLabel JlCantidad = new JLabel("Cantidad");
+        JlCantidad.setForeground(new Color(255, 255, 255));
         JlCantidad.setFont(new Font("Forte", Font.PLAIN, 20));
         JlCantidad.setBounds(110, 581, 115, 20);
         almacen.getContentPane().add(JlCantidad);
 
         JLabel FechaCaducidad_1 = new JLabel("Fecha Caducidad");
+        FechaCaducidad_1.setForeground(new Color(255, 255, 255));
         FechaCaducidad_1.setFont(new Font("Forte", Font.PLAIN, 20));
         FechaCaducidad_1.setBounds(43, 533, 150, 35);
         almacen.getContentPane().add(FechaCaducidad_1);
@@ -143,16 +149,19 @@ public class Almacen {
         almacen.getContentPane().add(Merma);
 
         JLabel JlPrecio = new JLabel("Precio");
+        JlPrecio.setForeground(new Color(255, 255, 255));
         JlPrecio.setFont(new Font("Forte", Font.PLAIN, 20));
         JlPrecio.setBounds(140, 470, 83, 20);
         almacen.getContentPane().add(JlPrecio);
 
         JLabel JlProveedor = new JLabel("Proveedor");
+        JlProveedor.setForeground(new Color(255, 255, 255));
         JlProveedor.setFont(new Font("Forte", Font.PLAIN, 20));
         JlProveedor.setBounds(110, 503, 96, 20);
         almacen.getContentPane().add(JlProveedor);
 
         JLabel JlMerma = new JLabel("Merma");
+        JlMerma.setForeground(new Color(255, 255, 255));
         JlMerma.setFont(new Font("Forte", Font.PLAIN, 20));
         JlMerma.setBounds(123, 613, 83, 23);
         almacen.getContentPane().add(JlMerma);
@@ -163,10 +172,16 @@ public class Almacen {
         almacen.getContentPane().add(ID);
         
         JLabel lblId = new JLabel("ID");
+        lblId.setForeground(new Color(255, 255, 255));
         lblId.setHorizontalAlignment(SwingConstants.CENTER);
         lblId.setFont(new Font("Forte", Font.PLAIN, 20));
         lblId.setBounds(123, 396, 83, 23);
         almacen.getContentPane().add(lblId);
+        
+        lblNewLabel = new JLabel("New label");
+        lblNewLabel.setIcon(new ImageIcon(Almacen.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+        lblNewLabel.setBounds(20, 21, 49, 39);
+        almacen.getContentPane().add(lblNewLabel);
     }
 
     public JTextField getID() {

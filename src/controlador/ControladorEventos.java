@@ -2,6 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -11,9 +12,11 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.entidad.MateriaPrima;
+import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
+import modelo.persistance.mysql.DaoPlatoMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
@@ -37,6 +40,7 @@ public class ControladorEventos implements ActionListener {
     private DaoMateriaPrimaMySql daoMateriaPrima;
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
+    private DaoPlatoMySql daoPlato;
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
             VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor) {
@@ -51,6 +55,8 @@ public class ControladorEventos implements ActionListener {
         this.daoMateriaPrima = new DaoMateriaPrimaMySql();
         this.daoProveedor = new DaoProveedorMySql();
         this.daoUsuario = new DaoUsuarioMySql();
+        this.daoPlato = new DaoPlatoMySql();
+        
 
         // Ocultar todas las vistas excepto la de inicio de sesión al iniciar
         usuario.setVisible(false);
@@ -98,6 +104,8 @@ public class ControladorEventos implements ActionListener {
             ventanaPlato.setVisible(false);
             ventanaUsuario.setVisible(false);
         }
+        
+        //Eventos ventana Plato
         else if (e.getSource() == home.getBtnPlatos()) {
             System.out.println("Botón plato pulsado");
             ventanaPlato.setVisible(true);
@@ -125,6 +133,56 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "No tiene permisos para acceder a esta ventana", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        
+        //Guardar plato
+        else if (e.getSource() == ventanaPlato.getGuardar()) {
+            String nombre = ventanaPlato.getNombre().getText().trim();
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String precioTexto = ventanaPlato.getPrecio().getText().trim();
+            String tiempoTexto = ventanaPlato.getTiempoPreparacion().getText().trim();
+            float precio = 0;
+            int tiempoPreparacion = 0;
+
+            // Validación del precio como float
+            try {
+                precio = Float.parseFloat(precioTexto);
+                if (precio <= 0) {
+                	System.out.println("Valor ingresado para el precio: '" + precioTexto + "'");
+
+                    JOptionPane.showMessageDialog(null, "El precio debe ser un número positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido para el precio (ej. 19.99).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Validación del tiempo de preparación como int
+            try {
+                tiempoPreparacion = Integer.parseInt(tiempoTexto);
+                if (tiempoPreparacion <= 0) {
+                    JOptionPane.showMessageDialog(null, "El tiempo de preparación debe ser un número entero positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Por favor, ingresa un número entero válido para el tiempo de preparación.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Plato plato = new Plato(0, nombre, precio, tiempoPreparacion);
+            if (daoPlato.insertar(plato)) {
+                JOptionPane.showMessageDialog(null, "Plato añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al añadir el plato", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        
+        
         else if (e.getSource() == home.getBtnAlmacen()) {
             System.out.println("Botón almacen pulsado");
             almacen.cargarMateriasPrimas();

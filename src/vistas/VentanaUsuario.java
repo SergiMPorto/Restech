@@ -78,6 +78,7 @@ public class VentanaUsuario {
 		frmUsuario.setBounds(750, 50, 750, 750);
 		frmUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmUsuario.getContentPane().setLayout(null);
+		frmUsuario.setResizable(false);
 		
 		
 		table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Id","Nombre", "Permiso", "Codigo"}));
@@ -87,8 +88,8 @@ public class VentanaUsuario {
 		
 		JLabel Nombre = new JLabel("NOMBRE");
 		Nombre.setHorizontalAlignment(SwingConstants.CENTER);
-		Nombre.setForeground(new Color(128, 128, 128));
-		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		Nombre.setForeground(new Color(255, 255, 255));
+		Nombre.setFont(new Font("Forte", Font.BOLD, 20));
 		Nombre.setBounds(187, 176, 117, 27);
 		frmUsuario.getContentPane().add(Nombre);
 		
@@ -102,7 +103,7 @@ public class VentanaUsuario {
 		btnGuardar.setBackground(Color.GRAY);
 		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
 		btnGuardar.setForeground(new Color(0, 0, 0));
-		btnGuardar.setBounds(387, 630, 150, 27);
+		btnGuardar.setBounds(410, 630, 150, 27);
 		frmUsuario.getContentPane().add(btnGuardar);
 		
 		btnBorrar = new JButton("BORRAR");
@@ -123,8 +124,8 @@ public class VentanaUsuario {
 		frmUsuario.getContentPane().add(Permiso);
 		
 		lblPermiso = new JLabel("PERMISO");
-		lblPermiso.setForeground(Color.GRAY);
-		lblPermiso.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+	    lblPermiso.setForeground(new Color(255, 255, 255));
+		lblPermiso.setFont(new Font("Forte", Font.BOLD, 20));
 		lblPermiso.setBounds(204, 224, 90, 27);
 		frmUsuario.getContentPane().add(lblPermiso);
 		
@@ -135,9 +136,9 @@ public class VentanaUsuario {
 		
 		lblId = new JLabel("ID");
 		lblId.setHorizontalAlignment(SwingConstants.CENTER);
-		lblId.setForeground(Color.GRAY);
-		lblId.setFont(new Font("Lucida Sans", Font.BOLD, 18));
-		lblId.setBounds(187, 128, 117, 27);
+		lblId.setForeground(new Color(255, 255, 255));
+		lblId.setFont(new Font("Forte", Font.BOLD, 20));
+		lblId.setBounds(259, 131, 55, 30);
 		frmUsuario.getContentPane().add(lblId);
 		
 		Codigo = new JTextField();
@@ -146,8 +147,8 @@ public class VentanaUsuario {
 		frmUsuario.getContentPane().add(Codigo);
 		
 		JLabel lblCdigo = new JLabel("CÓDIGO");
-		lblCdigo.setForeground(Color.GRAY);
-		lblCdigo.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		lblCdigo.setForeground(new Color(255, 255, 255));
+		lblCdigo.setFont(new Font("Forte", Font.BOLD, 20));
 		lblCdigo.setBounds(204, 276, 90, 27);
 		frmUsuario.getContentPane().add(lblCdigo);
 		

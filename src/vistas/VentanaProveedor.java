@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import controlador.ControladorEventos;
 import modelo.entidad.Proveedor;
 import modelo.persistance.mysql.DaoProveedorMySql;
+import java.awt.Toolkit;
 
 public class VentanaProveedor {
 
@@ -35,6 +36,7 @@ public class VentanaProveedor {
     private JButton btnGuardar;
     private JButton btnBorrar;
     private JTextField textID;
+    private JLabel lblNewLabel_4;
 
     public VentanaProveedor( String nombre, String descripcion, String telefono, String direccion) {
         initialize(); 
@@ -52,21 +54,30 @@ public class VentanaProveedor {
         proveedor.getContentPane().add(textID);
         
         JLabel lblId = new JLabel("Id");
+        lblId.setForeground(new Color(255, 255, 255));
         lblId.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblId.setBounds(82, 432, 91, 27);
+        lblId.setBounds(94, 432, 45, 27);
         proveedor.getContentPane().add(lblId);
+        
+        lblNewLabel_4 = new JLabel("Proveedor");
+        lblNewLabel_4.setForeground(Color.WHITE);
+        lblNewLabel_4.setFont(new Font("Cambria", Font.BOLD, 45));
+        lblNewLabel_4.setBounds(238, 13, 263, 47);
+        proveedor.getContentPane().add(lblNewLabel_4);
     }
 
     private void initialize() {
         proveedor = new JFrame();
+        proveedor.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaProveedor.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
         proveedor.setBounds(100, 100, 750, 750);
         proveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         proveedor.getContentPane().setLayout(null);
-
+        proveedor.getContentPane().setBackground(new Color(56, 61, 67));
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Número de Contacto", "Dirección"}));
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(20, 70, 700, 281);
         proveedor.getContentPane().add(scrollPane);
+        proveedor.setResizable(false);
 
         nombre = new JTextField();
         nombre.setBounds(185, 469, 427, 27);
@@ -89,33 +100,37 @@ public class VentanaProveedor {
         proveedor.getContentPane().add(direccion);
 
         lblNewLabel = new JLabel("Nombre");
+        lblNewLabel.setForeground(new Color(255, 255, 255));
         lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
         lblNewLabel.setBounds(82, 469, 91, 27);
         proveedor.getContentPane().add(lblNewLabel);
 
         lblNewLabel_1 = new JLabel("Descripción");
+        lblNewLabel_1.setForeground(new Color(255, 255, 255));
         lblNewLabel_1.setFont(new Font("Forte", Font.PLAIN, 20));
         lblNewLabel_1.setBounds(82, 506, 119, 27);
         proveedor.getContentPane().add(lblNewLabel_1);
 
         lblNewLabel_2 = new JLabel("Teléfono");
+        lblNewLabel_2.setForeground(new Color(255, 255, 255));
         lblNewLabel_2.setFont(new Font("Forte", Font.PLAIN, 20));
         lblNewLabel_2.setBounds(82, 543, 119, 27);
         proveedor.getContentPane().add(lblNewLabel_2);
 
         lblNewLabel_3 = new JLabel("Dirección");
+        lblNewLabel_3.setForeground(new Color(255, 255, 255));
         lblNewLabel_3.setFont(new Font("Forte", Font.PLAIN, 20));
         lblNewLabel_3.setBounds(82, 583, 119, 20);
         proveedor.getContentPane().add(lblNewLabel_3);
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGuardar.setBounds(563, 664, 150, 27);
+        btnGuardar.setBounds(411, 666, 150, 27);
         proveedor.getContentPane().add(btnGuardar);
 
         btnBorrar = new JButton("Borrar");
         btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnBorrar.setBounds(403, 664, 150, 27);
+        btnBorrar.setBounds(570, 666, 150, 27);
         proveedor.getContentPane().add(btnBorrar);
     }
 

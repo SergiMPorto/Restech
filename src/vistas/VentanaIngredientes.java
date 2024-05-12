@@ -22,6 +22,7 @@ import controlador.ControladorEventos;
 import modelo.entidad.MateriaPrima;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import java.awt.Toolkit;
 
 
 public class VentanaIngredientes {
@@ -60,6 +61,9 @@ public class VentanaIngredientes {
 
     private void initialize() {
         frmIngredientes = new JFrame();
+        frmIngredientes.setForeground(new Color(0, 128, 128));
+        frmIngredientes.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaIngredientes.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+        frmIngredientes.setBackground(new Color(255, 255, 255));
         frmIngredientes.setTitle("Ingredientes Disponibles");
         frmIngredientes.setBounds(100, 100, 750, 750);
         frmIngredientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -74,25 +78,29 @@ public class VentanaIngredientes {
         frmIngredientes.getContentPane().add(scrollPane);
         
         cantidad = new JTextField();
-        cantidad.setBounds(391, 676, 100, 30);
+        cantidad.setBounds(301, 676, 100, 27);
         frmIngredientes.getContentPane().add(cantidad);
         cantidad.setColumns(10);
         
         JLabel lblNewLabel = new JLabel("Cantidad");
         lblNewLabel.setForeground(new Color(255, 255, 255));
         lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel.setBounds(301, 676, 80, 27);
+        lblNewLabel.setBounds(211, 676, 80, 27);
         frmIngredientes.getContentPane().add(lblNewLabel);
         
         guardar = new JButton("Guardar");
+        guardar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
         guardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        guardar.setBounds(501, 676, 100, 30);
+        guardar.setBounds(416, 676, 150, 27);
         frmIngredientes.getContentPane().add(guardar);
         
         borrar = new JButton("Borrar");
         borrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
         
-        borrar.setBounds(611, 676, 100, 30);
+        borrar.setBounds(576, 676, 150, 27);
         frmIngredientes.getContentPane().add(borrar);
        
     }
