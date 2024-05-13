@@ -12,16 +12,19 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import controlador.ControladorEventos;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class VentanaPlato {
 
 	 private JFrame frmPlato;
 	    private JTextField nombre;
 	    private JLabel precio;
-	    private JTextField apellidos;
+	    private JTextField Precio;
 	    private JLabel lblNewLabel_2;
 	    private JTextField tiempoPreparacion;
 	    private JButton guardar;
@@ -59,11 +62,15 @@ public class VentanaPlato {
 	     */
 	    private void initialize() {
 	        frmPlato = new JFrame();
+	        frmPlato.getContentPane().setFont(new Font("Tahoma", Font.BOLD, 10));
+	        frmPlato.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPlato.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
 	        frmPlato.setTitle("PLATO");
 	        frmPlato.setBounds(750, 50, 750, 750);
 	        frmPlato.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	        frmPlato.getContentPane().setBackground(new Color(56, 61, 67));
 	        SpringLayout springLayout = new SpringLayout();
 	        frmPlato.getContentPane().setLayout(springLayout);
+	        frmPlato.setResizable(false);
 
 	        JLabel nombre_1 = new JLabel("NOMBRE");
 	        springLayout.putConstraint(SpringLayout.NORTH, nombre_1, 137, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -93,13 +100,13 @@ public class VentanaPlato {
 	        precio.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 	        frmPlato.getContentPane().add(precio);
 
-	        apellidos = new JTextField();
-	        springLayout.putConstraint(SpringLayout.NORTH, apellidos, 187, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.WEST, apellidos, 320, SpringLayout.WEST, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.SOUTH, apellidos, 214, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.EAST, apellidos, 420, SpringLayout.WEST, frmPlato.getContentPane());
-	        frmPlato.getContentPane().add(apellidos);
-	        apellidos.setColumns(10);
+	        Precio = new JTextField();
+	        springLayout.putConstraint(SpringLayout.NORTH, Precio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, Precio, 320, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, Precio, 214, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.EAST, Precio, 420, SpringLayout.WEST, frmPlato.getContentPane());
+	        frmPlato.getContentPane().add(Precio);
+	        Precio.setColumns(10);
 
 	        lblNewLabel_2 = new JLabel("TIEMPO DE PREPARACIÓN");
 	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 244, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -144,7 +151,8 @@ public class VentanaPlato {
 	        lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
 	        frmPlato.getContentPane().add(lblNewLabel_3);
 
-	        table = new JTable(new Object[][]{}, new String[]{"Producto", "Cantidad"});
+	        DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"Producto", "Cantidad"});
+	        table = new JTable(tableModel);
 
 	        scrollPane = new JScrollPane(table);
 	        springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 319, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -152,15 +160,24 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 620, SpringLayout.NORTH, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.EAST, scrollPane, 726, SpringLayout.WEST, frmPlato.getContentPane());
 	        frmPlato.getContentPane().add(scrollPane);
+
 	        
 	        ingredientes = new JButton("Ingredientes");
-	        springLayout.putConstraint(SpringLayout.NORTH, ingredientes, 34, SpringLayout.NORTH, lblNewLabel_2);
-	        springLayout.putConstraint(SpringLayout.WEST, ingredientes, 14, SpringLayout.WEST, borrar);
-	        springLayout.putConstraint(SpringLayout.SOUTH, ingredientes, -6, SpringLayout.NORTH, scrollPane);
-	        springLayout.putConstraint(SpringLayout.EAST, ingredientes, 0, SpringLayout.EAST, scrollPane);
+	        springLayout.putConstraint(SpringLayout.NORTH, ingredientes, 178, SpringLayout.SOUTH, lblNewLabel_3);
+	        springLayout.putConstraint(SpringLayout.WEST, ingredientes, 574, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, ingredientes, -10, SpringLayout.NORTH, scrollPane);
+	        springLayout.putConstraint(SpringLayout.EAST, ingredientes, -10, SpringLayout.EAST, frmPlato.getContentPane());
 	        ingredientes.setFont(new Font("Lucida Sans", Font.BOLD, 15));
 	      
 	        frmPlato.getContentPane().add(ingredientes);
+	        
+	        JLabel lblNewLabel = new JLabel("New label");
+	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 69, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 54, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, 116, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 108, SpringLayout.WEST, frmPlato.getContentPane());
+	        lblNewLabel.setIcon(new ImageIcon(VentanaPlato.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+	        frmPlato.getContentPane().add(lblNewLabel);
 
 	        ajustarTamañoColumnaCantidad();
 
@@ -200,12 +217,10 @@ public class VentanaPlato {
 			this.precio = precio;
 		}
 
-		public JTextField getApellidos() {
-			return apellidos;
-		}
+	
 
-		public void setApellidos(JTextField apellidos) {
-			this.apellidos = apellidos;
+		public void setPrecio(JTextField precio) {
+			Precio = precio;
 		}
 
 		public JLabel getLblNewLabel_2() {
@@ -276,9 +291,13 @@ public class VentanaPlato {
 		
 		public void iniciarListerner(ControladorEventos controlador) {
 			ingredientes.addActionListener(controlador);
+			guardar.addActionListener(controlador);
 			
 			
 		}
-	    
-	    
+		
+		 public void agregarProducto(String producto, int cantidad) {
+		        DefaultTableModel model = (DefaultTableModel) table.getModel();
+		        model.addRow(new Object[]{producto, cantidad});
+		    }
 	}

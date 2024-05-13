@@ -5,6 +5,7 @@ public class Usuario {
 	private int id; 
     private String nombre;
     private int permisos;
+    private String codigo;
 
     public Usuario() {
         
@@ -15,19 +16,17 @@ public class Usuario {
         
     }
 
-    public Usuario(int id, String nombre, int permisos) {
-        this.id = id;
-        this.nombre = nombre;
-        this.permisos = permisos;
-    }
-
-    public Usuario(String nombre, int permisos) {
-        this.nombre = nombre;
-        this.permisos = permisos;
-    }
-
    
-    public int getId() {
+   
+    public Usuario(int id, String nombre, int permisos, String codigo) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.permisos = permisos;
+		this.codigo = codigo;
+	}
+
+	public int getId() {
         return id;
     }
 
@@ -50,11 +49,22 @@ public class Usuario {
     public void setPermisos(int permisos) {
         this.permisos = permisos;
     }
+    
 
-    @Override
-    public String toString() {
-        return "Usuario [id=" + id + ", nombre=" + nombre + ", permisos=" + permisos + "]";
-    }
+    public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", permisos=" + permisos + ", codigo=" + codigo + "]";
+	}
+
+	
 	
 
 }
