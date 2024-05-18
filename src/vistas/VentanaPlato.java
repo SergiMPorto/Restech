@@ -33,6 +33,7 @@ public class VentanaPlato {
 	    private JLabel lblNewLabel_3;
 	    private JTable table;
 	    private JScrollPane scrollPane;
+	    private JButton listarPlatos;
 
 	    /**
 	     * Launch the application.
@@ -178,12 +179,28 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 108, SpringLayout.WEST, frmPlato.getContentPane());
 	        lblNewLabel.setIcon(new ImageIcon(VentanaPlato.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
 	        frmPlato.getContentPane().add(lblNewLabel);
+	        
+	        listarPlatos = new JButton("LISTA PLATOS");
+	        springLayout.putConstraint(SpringLayout.NORTH, listarPlatos, 0, SpringLayout.NORTH, guardar);
+	        springLayout.putConstraint(SpringLayout.EAST, listarPlatos, -12, SpringLayout.WEST, guardar);
+	        listarPlatos.setForeground(Color.BLACK);
+	        listarPlatos.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+	        listarPlatos.setBackground(Color.GRAY);
+	        frmPlato.getContentPane().add(listarPlatos);
 
 	        ajustarTamañoColumnaCantidad();
 
 	    }
 
-	    private void ajustarTamañoColumnaCantidad() {
+	    public JButton getListarPlatos() {
+			return listarPlatos;
+		}
+
+		public void setListarPlatos(JButton listarPlatos) {
+			this.listarPlatos = listarPlatos;
+		}
+
+		private void ajustarTamañoColumnaCantidad() {
 	        TableColumnModel columnModel = table.getColumnModel();
 	        columnModel.getColumn(0).setPreferredWidth(50); // Ajustar ancho de la columna Producto
 	        columnModel.getColumn(1).setPreferredWidth(150);
@@ -292,6 +309,7 @@ public class VentanaPlato {
 		public void iniciarListerner(ControladorEventos controlador) {
 			ingredientes.addActionListener(controlador);
 			guardar.addActionListener(controlador);
+			listarPlatos.addActionListener(controlador);
 			
 			
 		}

@@ -1,6 +1,7 @@
 package vistas;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -59,6 +61,7 @@ public class Almacen {
     private JTextField Precio;
     private JTextField Proveedor;
     private JTextField Merma;
+    private DefaultTableModel model;
 
     private JButton btnExportar; // Declaración del botón de exportación
 
@@ -111,11 +114,35 @@ public class Almacen {
         almacen.getContentPane().add(lblNewLabel_3);
 
         // Inicializar la tabla con un DefaultTableModel
-        DefaultTableModel model = new DefaultTableModel(
+        model = new DefaultTableModel(
             new Object[][] {}, 
-            new String[] { "ID", "Producto", "Precio", "Proveedor", "Fecha Caducidad", "Cantidad Utilizada", "Merma" }
+            new String[] { "ID", "Producto", "Precio", "Proveedor", "Fecha Caducidad", "Cantidad Disponible", "Merma" }
         );
         table = new JTable(model);
+        
+        //Establecer tamaño columnas
+        table.setPreferredScrollableViewportSize(new Dimension(750,400));
+        
+        TableColumn column = null;
+        for(int i= 0; i <table.getColumnCount(); i++) {
+        	column = table.getColumnModel().getColumn(i);
+        	   if (i == 0) {
+                   column.setPreferredWidth(25);
+               } else if (i == 1) {
+                   column.setPreferredWidth(200); 
+               } else if (i == 2) {
+                   column.setPreferredWidth(25); 
+                  
+               } else if (i == 4) {
+                   column.setPreferredWidth(120); 
+               } else if (i == 5) {
+                   column.setPreferredWidth(100); 
+               } else if (i == 6) {
+                   column.setPreferredWidth(25); 
+               }
+           }
+        
+        
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(20, 70, 700, 281);
         almacen.getContentPane().add(scrollPane);
@@ -377,24 +404,32 @@ public class Almacen {
 
     }
 	
+	//Llenar en tabla. 
+	
 	public void llenarTabla(List<MateriaPrima> listaMateriasPrimas) {
-        DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-        modelo.setRowCount(0); // Limpiar la tabla
+        model.setRowCount(0); // Limpiar la tabla
 
         for (MateriaPrima pv : listaMateriasPrimas) {
-            modelo.addRow(new Object[]{pv.getId(), pv.getNombre(), pv.getPrecio(), pv.getProveedor(), pv.getFechaCaducidad(), pv.getCantidadUtilizada(),pv.getMerma()});
+            model.addRow(new Object[]{
+                pv.getId(), 
+                pv.getNombre(), 
+                pv.getPrecio(), 
+                pv.getProveedor(), 
+                pv.getFechaCaducidad(), 
+                pv.getCantidadUtilizada(),
+                pv.getMerma()
+            });
         }
     }
-    
-
- 
 
     public void cargarMateriasPrimas() {
-
         DaoMateriaPrimaMySql daoMateriaPrima = new DaoMateriaPrimaMySql();
         List<MateriaPrima> listaMateriasPrimas = daoMateriaPrima.listar();
         llenarTabla(listaMateriasPrimas);
     }
+    
+    
+    //Exportar en Excel
 
     
     private void exportarExcel() {

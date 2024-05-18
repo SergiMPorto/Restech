@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import vistas.Almacen;
 import vistas.Home;
+import vistas.ListaPlatos;
 import vistas.VentanaIngredientes;
 import vistas.Login;
 import vistas.VentanaPedido;
@@ -22,9 +23,10 @@ public class Main {
         Home home = new Home();
         VentanaIngredientes ingredientes = new VentanaIngredientes();
         VentanaProveedor proveedor = new VentanaProveedor( null, null, null, null);
+        ListaPlatos listaPlatos = new ListaPlatos();
         
 
-        ControladorEventos controlador = new ControladorEventos(login, home, almacen, pedido, plato, usuario, ingredientes, proveedor);
+        ControladorEventos controlador = new ControladorEventos(login, home, almacen, pedido, plato, usuario, ingredientes, proveedor, listaPlatos);
 
         login.inciarListener(controlador);
         home.agregarListener(controlador);

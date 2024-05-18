@@ -1,6 +1,7 @@
 package vistas;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -12,6 +13,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
@@ -66,6 +69,30 @@ public class VentanaPedido {
         
 
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"}));
+        //Cambiar tamaño de tablas
+        table.setPreferredScrollableViewportSize(new Dimension(750, 400));
+        
+        TableColumn column = null;
+        for( int i = 0; i < table.getColumnCount(); i++) {
+        	column = table.getColumnModel().getColumn(i);
+        	if (i == 0) {
+                column.setPreferredWidth(25); 
+            } else if (i == 1) {
+                column.setPreferredWidth(25); 
+            } else if (i == 2) {
+                column.setPreferredWidth(180); 
+            } else if (i == 3) {
+                column.setPreferredWidth(150);
+            } else if (i == 4) {
+                column.setPreferredWidth(35); 
+            } else if (i == 5) {
+                column.setPreferredWidth(30); 
+            } else if (i == 6) {
+                column.setPreferredWidth(100);
+            }
+        }
+        
+        
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 325, 700, 322);
         frmPedido.getContentPane().add(scrollPane);
