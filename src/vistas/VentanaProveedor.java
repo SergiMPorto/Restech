@@ -2,6 +2,7 @@ package vistas;
 
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 
@@ -25,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -95,7 +97,30 @@ public class VentanaProveedor {
         proveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         proveedor.getContentPane().setLayout(null);
         proveedor.getContentPane().setBackground(new Color(56, 61, 67));
-        table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Número de Contacto", "Dirección"}));
+        table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Teléfono", "Dirección"}));
+        
+        
+        //Cambiar tamaño columnas
+        table.setPreferredScrollableViewportSize(new Dimension(750,400));
+        
+        TableColumn column = null;
+        
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            column = table.getColumnModel().getColumn(i);
+            if (i == 0) {
+                column.setPreferredWidth(5);
+            } else if (i == 1) {
+                column.setPreferredWidth(200); 
+            } else if (i == 2) {
+                column.setPreferredWidth(75); 
+            } else if (i == 3) {
+                column.setPreferredWidth(70); 
+            } else if (i == 4) {
+                column.setPreferredWidth(200);
+            } 
+        }
+        
+        
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(20, 70, 700, 281);
         proveedor.getContentPane().add(scrollPane);

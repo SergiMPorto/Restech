@@ -2,6 +2,7 @@ package vistas;
 
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -15,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import controlador.ControladorEventos;
 import modelo.entidad.Proveedor;
@@ -69,7 +71,7 @@ public class VentanaUsuario {
 	 */
 	private void initialize() {
 		frmUsuario= new JFrame();
-		frmUsuario.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\Restech\\Imagenes\\RESTECHVENTANA.jpg"));
+		frmUsuario.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaUsuario.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
 		frmUsuario.getContentPane().setBackground(new Color(56, 61, 67));
 		frmUsuario.getContentPane().setForeground(new Color(56, 61, 67));
 		frmUsuario.setForeground(new Color(102, 153, 204));
@@ -82,6 +84,24 @@ public class VentanaUsuario {
 		
 		
 		table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Id","Nombre", "Permiso", "Codigo"}));
+		
+		//Cambiar tamaño columnas
+		table.setPreferredScrollableViewportSize(new Dimension(750,400));
+		
+		TableColumn column = null;
+		 for (int i = 0; i < table.getColumnCount(); i++) {
+	            column = table.getColumnModel().getColumn(i);
+	            if (i == 0) {
+	                column.setPreferredWidth(50); 
+	            } else if (i == 1) {
+	                column.setPreferredWidth(300); 
+	            } else if (i == 2) {
+	                column.setPreferredWidth(50); 
+	            } else if (i == 3) {
+	                column.setPreferredWidth(150); 
+	            }
+		 }
+		
         scrollPane = new JScrollPane(table);
         scrollPane.setBounds(14, 332, 700, 265);
         frmUsuario.getContentPane().add(scrollPane);
@@ -89,7 +109,7 @@ public class VentanaUsuario {
 		JLabel Nombre = new JLabel("NOMBRE");
 		Nombre.setHorizontalAlignment(SwingConstants.CENTER);
 		Nombre.setForeground(new Color(255, 255, 255));
-		Nombre.setFont(new Font("Forte", Font.BOLD, 20));
+		Nombre.setFont(new Font("Forte", Font.BOLD, 21));
 		Nombre.setBounds(187, 176, 117, 27);
 		frmUsuario.getContentPane().add(Nombre);
 		
@@ -114,8 +134,9 @@ public class VentanaUsuario {
 		frmUsuario.getContentPane().add(btnBorrar);
 		
 		lblNewLabel_3 = new JLabel("USUARIO");
+		lblNewLabel_3.setForeground(new Color(255, 255, 255));
 		lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
-		lblNewLabel_3.setBounds(320, 53, 462, 47);
+		lblNewLabel_3.setBounds(320, 53, 200, 47);
 		frmUsuario.getContentPane().add(lblNewLabel_3);
 		
 		Permiso = new JTextField();

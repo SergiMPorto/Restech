@@ -134,7 +134,7 @@ public class DaoIngredienteMySql implements DaoIngrediente{
         }
 
         Ingrediente ingrediente = null;
-        String query = "SELECT id_ingrediente, id_plato, id_materia_prima, cantidad FROM ingredientes WHERE id_ingrediente = ?";
+        String query = "SELECT id_ingrediente, id_plato, id, cantidad FROM ingredientes WHERE id_ingrediente = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setInt(1, id);

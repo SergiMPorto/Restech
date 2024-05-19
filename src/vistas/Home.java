@@ -58,7 +58,7 @@ public class Home {
 	private void initialize() {
 		frmMen = new JFrame();
 		frmMen.setTitle("Menú");
-		frmMen.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\Restech\\Imagenes\\RESTECHVENTANA.jpg"));
+		frmMen.setIconImage(Toolkit.getDefaultToolkit().getImage(Home.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
 		frmMen.getContentPane().setBackground(new Color(56, 61, 67));
 		frmMen.getContentPane().setForeground(new Color(56, 61, 67));
 		frmMen.setBounds(100, 100, 750, 750);

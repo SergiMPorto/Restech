@@ -21,6 +21,7 @@ import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
 import vistas.Home;
+import vistas.ListaPlatos;
 import vistas.Login;
 import vistas.VentanaIngredientes;
 import vistas.VentanaPedido;
@@ -37,19 +38,21 @@ public class ControladorEventos implements ActionListener {
     private VentanaUsuario ventanaUsuario;
     private VentanaIngredientes ingredientes;
     private VentanaProveedor ventanaProveedor;
+    private ListaPlatos listaPlatos;
     private DaoMateriaPrimaMySql daoMateriaPrima;
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
     private DaoPlatoMySql daoPlato;
+    
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
-            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor) {
+            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos) {
         this.login = login;
         this.home = home;
         this.almacen = almacen;
         this.ventanaPedido = pedido;
         this.ventanaPlato = plato;
-        
+        this.listaPlatos= listaPlatos;
         this.ventanaUsuario = usuario;
         this.ingredientes = ingredientes;
         this.ventanaProveedor = ventanaProveedor;
@@ -75,6 +78,7 @@ public class ControladorEventos implements ActionListener {
         ventanaProveedor.iniciarListener(this);
         almacen.iniciarListener(this);
         ventanaUsuario.inciarListener(this);
+        
     }
 
 
@@ -181,6 +185,13 @@ public class ControladorEventos implements ActionListener {
             }
         }
         
+        else if(e.getSource()==ventanaPlato.getListarPlatos()){
+        	System.out.println("Ventana listar ingredientes pulsado");
+        	listaPlatos.setVisible(true);
+        	
+        }
+    
+        
         else if (e.getSource() == home.getBtnAlmacen()) {
             System.out.println("Botón almacen pulsado");
             almacen.cargarMateriasPrimas();
@@ -205,6 +216,13 @@ public class ControladorEventos implements ActionListener {
                 MateriaPrima materiaPrima = new MateriaPrima(0, nombre, precio, proveedor, fechaCaducidad, cantidad, merma);
                 DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
                 modelo.addRow(new Object[]{materiaPrima.getId(), nombre, precio, proveedor, fechaCaducidad, cantidad, merma});
+                //Borrar datos
+                almacen.getProducto().setText("");
+                almacen.getPrecio().setText("");
+                almacen.getProveedor().setText("");
+                almacen.getFechaCaducidad().setText("");
+                almacen.getCantidad().setText("");
+                almacen.getMerma().setText("");
                 if (daoMateriaPrima.insertar(materiaPrima)) {
                     JOptionPane.showMessageDialog(null, "Materia prima añadida correctamente a la base de datos", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 }
