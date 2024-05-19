@@ -2,7 +2,8 @@ package modelo.entidad;
 
 public class Ingrediente {
 	
-	 private int id_ingrediente; 
+	 	private int id_ingrediente;
+	 	private String nombre;
 	    private Plato id_plato;
 	    private MateriaPrima id_materiaPrima;
 	    private float cantidad;
@@ -23,7 +24,15 @@ public class Ingrediente {
 	        return id_ingrediente;
 	    }
 	    
-	    public void setId_ingrediente(int id_ingrediente) {
+	    public String getNombre() {
+			return nombre;
+		}
+
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
+
+		public void setId_ingrediente(int id_ingrediente) {
 	        this.id_ingrediente = id_ingrediente;
 	    }
 	    
@@ -50,12 +59,14 @@ public class Ingrediente {
 	    public void setCantidad(float cantidad) {
 	        this.cantidad = cantidad;
 	    }
+
+		@Override
+		public String toString() {
+			return "Ingrediente [id_ingrediente=" + id_ingrediente + ", nombre=" + nombre + ", id_plato=" + id_plato
+					+ ", id_materiaPrima=" + id_materiaPrima + ", cantidad=" + cantidad + "]";
+		}
 	    
-	    @Override
-	    public String toString() {
-	        return "Ingrediente [id_ingrediente=" + id_ingrediente + ", id_plato=" + id_plato + ", id_materiaPrima=" + id_materiaPrima + ", cantidad=" + cantidad + "]";
-	    }
-	
+	   
 	
 
 }

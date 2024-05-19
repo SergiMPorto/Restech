@@ -13,6 +13,10 @@ public class Plato {
     public Plato() {
         
     }
+    
+    public Plato(int id, String nombre, float precio, int tiempoPreparacion) {
+    	
+    }
 
     public Plato(int id, String nombre, float precio, int tiempoPreparacion, List<Ingrediente> ingredientes) {
         this.id = id;

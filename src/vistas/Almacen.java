@@ -394,7 +394,7 @@ public class Almacen {
 
 	@Override
 	public String toString() {
-		return "Almacen [ID=" + ID + ", Producto=" + Producto + ", Cantidad=" + Cantidad + ", FechaCaducidad="
+		return "Almacen [id_materia_prima=" + ID + ", Producto=" + Producto + ", Cantidad=" + Cantidad + ", FechaCaducidad="
 				+ FechaCaducidad + ", Precio=" + Precio + ", Proveedor=" + Proveedor + ", Merma=" + Merma + "]";
 	}
 

@@ -24,9 +24,17 @@ public class VentanaPlato {
 	 private JFrame frmPlato;
 	    private JTextField nombre;
 	    private JLabel precio;
-	    private JTextField Precio;
+	    private JTextField textPrecio;
 	    private JLabel lblNewLabel_2;
-	    private JTextField tiempoPreparacion;
+	    public JTextField getTextPrecio() {
+			return textPrecio;
+		}
+
+		public void setTextPrecio(JTextField textPrecio) {
+			this.textPrecio = textPrecio;
+		}
+
+		private JTextField tiempoPreparacion;
 	    private JButton guardar;
 	    private JButton borrar;
 	    private JButton ingredientes;
@@ -101,13 +109,13 @@ public class VentanaPlato {
 	        precio.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 	        frmPlato.getContentPane().add(precio);
 
-	        Precio = new JTextField();
-	        springLayout.putConstraint(SpringLayout.NORTH, Precio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.WEST, Precio, 320, SpringLayout.WEST, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.SOUTH, Precio, 214, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.EAST, Precio, 420, SpringLayout.WEST, frmPlato.getContentPane());
-	        frmPlato.getContentPane().add(Precio);
-	        Precio.setColumns(10);
+	        textPrecio = new JTextField();
+	        springLayout.putConstraint(SpringLayout.NORTH, textPrecio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, textPrecio, 320, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, textPrecio, 214, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.EAST, textPrecio, 420, SpringLayout.WEST, frmPlato.getContentPane());
+	        frmPlato.getContentPane().add(textPrecio);
+	        textPrecio.setColumns(10);
 
 	        lblNewLabel_2 = new JLabel("TIEMPO DE PREPARACIÓN");
 	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 244, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -237,7 +245,7 @@ public class VentanaPlato {
 	
 
 		public void setPrecio(JTextField precio) {
-			Precio = precio;
+			textPrecio = precio;
 		}
 
 		public JLabel getLblNewLabel_2() {
@@ -263,7 +271,7 @@ public class VentanaPlato {
 		}
 
 		public void setIngredientes(JButton ingredientes) {
-			ingredientes = ingredientes;
+			this.ingredientes = ingredientes;
 		}
 
 		public JButton getGuardar() {
@@ -271,7 +279,7 @@ public class VentanaPlato {
 		}
 
 		public void setGuardar(JButton guardar) {
-			guardar = guardar;
+			this.guardar = guardar;
 		}
 
 		public JButton getBorrar() {
@@ -279,7 +287,7 @@ public class VentanaPlato {
 		}
 
 		public void setBorrar(JButton borrar) {
-			borrar = borrar;
+			this.borrar = borrar;
 		}
 
 		public JLabel getLblNewLabel_3() {
@@ -310,8 +318,6 @@ public class VentanaPlato {
 			ingredientes.addActionListener(controlador);
 			guardar.addActionListener(controlador);
 			listarPlatos.addActionListener(controlador);
-			
-			
 		}
 		
 		 public void agregarProducto(String producto, int cantidad) {

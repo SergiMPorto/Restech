@@ -45,7 +45,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         boolean insertar = true;
-        String query = "INSERT INTO materia_prima (nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO materias_primas (nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setString(1, mp.getNombre());
@@ -77,7 +77,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         boolean borrado = true;
-        String query = "DELETE FROM materia_prima WHERE id = ?";
+        String query = "DELETE FROM materias_primas WHERE id_materia_prima = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setInt(1, id);
@@ -104,7 +104,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         boolean modificado = true;
-        String query = "UPDATE materia_prima SET nombre = ?, precio = ?, proveedor = ?, fecha_caducidad = ?, cantidad_utilizada = ?, merma = ? WHERE id = ?";
+        String query = "UPDATE materias_primas SET nombre = ?, precio = ?, proveedor = ?, fecha_caducidad = ?, cantidad_utilizada = ?, merma = ? WHERE id_materia_prima = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setString(1, mp.getNombre());
@@ -137,7 +137,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         MateriaPrima materiaPrima = null;
-        String query = "SELECT id, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima WHERE id = ?";
+        String query = "SELECT id, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materias_primas WHERE id_materia_prima = ?";
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
             ps.setInt(1, id);
@@ -145,7 +145,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 materiaPrima = new MateriaPrima();
-                materiaPrima.setId(rs.getInt("id"));
+                materiaPrima.setId(rs.getInt("id_materia_prima"));
                 materiaPrima.setNombre(rs.getString("nombre"));
                 materiaPrima.setPrecio(rs.getFloat("precio"));
                 materiaPrima.setProveedor(rs.getString("proveedor"));
@@ -170,7 +170,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
         }
 
         List<MateriaPrima> listaMateriaPrima = new ArrayList<>();
-        String query = "SELECT id, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materia_prima";
+        String query = "SELECT id_materia_prima, nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma FROM materias_primas";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
@@ -178,7 +178,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 
             while (rs.next()) {
                 MateriaPrima materiaPrima = new MateriaPrima();
-                materiaPrima.setId(rs.getInt("id"));
+                materiaPrima.setId(rs.getInt("id_materia_prima"));
                 materiaPrima.setNombre(rs.getString("nombre"));
                 materiaPrima.setPrecio(rs.getFloat("precio"));
                 materiaPrima.setProveedor(rs.getString("proveedor"));

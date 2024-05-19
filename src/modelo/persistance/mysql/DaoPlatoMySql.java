@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import modelo.entidad.Ingrediente;
 import modelo.entidad.Plato;
 import modelo.persistance.interfaces.DaoPlato;
 
@@ -45,18 +46,43 @@ public class DaoPlatoMySql implements DaoPlato{
         }
 
         String query = "INSERT INTO platos (nombre, precio, tiempo_preparacion) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+        try (PreparedStatement ps = conexion.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, pl.getNombre());
             ps.setFloat(2, pl.getPrecio());
             ps.setInt(3, pl.getTiempoPreparacion());
 
             int filasAfectadas = ps.executeUpdate();
-            return filasAfectadas > 0;
+            if (filasAfectadas > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    pl.setId(rs.getInt(1));
+                }
+                insertarIngredientes(pl);
+                return true;
+            }
         } catch (SQLException e) {
             System.err.println("Error al insertar Plato: " + pl + " - " + e.getMessage());
             return false;
         } finally {
             cerrarConexion();
+        }
+        return false;
+    }
+
+    public boolean insertarIngredientes(Plato pl) {
+        String query = "INSERT INTO Platos_Ingredientes (ID_Plato, ID_Ingrediente, Cantidad) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            for (Ingrediente ing : pl.getIngredientes()) {
+                ps.setInt(1, pl.getId());
+                ps.setInt(2, ing.getId_ingrediente());
+                ps.setFloat(3, ing.getCantidad());
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error al insertar ingredientes del Plato: " + pl + " - " + e.getMessage());
+            return false;
         }
     }
 
@@ -68,6 +94,7 @@ public class DaoPlatoMySql implements DaoPlato{
 
         String query = "DELETE FROM platos WHERE id_plato = ?";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            borrarIngredientes(id);
             ps.setInt(1, id);
 
             int filasAfectadas = ps.executeUpdate();
@@ -77,6 +104,18 @@ public class DaoPlatoMySql implements DaoPlato{
             return false;
         } finally {
             cerrarConexion();
+        }
+    }
+
+    private boolean borrarIngredientes(int idPlato) {
+        String query = "DELETE FROM Platos_Ingredientes WHERE ID_Plato = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setInt(1, idPlato);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error al borrar ingredientes del Plato con id " + idPlato + ": " + e.getMessage());
+            return false;
         }
     }
 
@@ -94,13 +133,18 @@ public class DaoPlatoMySql implements DaoPlato{
             ps.setInt(4, pl.getId());
 
             int filasAfectadas = ps.executeUpdate();
-            return filasAfectadas > 0;
+            if (filasAfectadas > 0) {
+                borrarIngredientes(pl.getId());
+                insertarIngredientes(pl);
+                return true;
+            }
         } catch (SQLException e) {
             System.err.println("Error al modificar Plato: " + pl + " - " + e.getMessage());
             return false;
         } finally {
             cerrarConexion();
         }
+        return false;
     }
 
     @Override
@@ -121,6 +165,7 @@ public class DaoPlatoMySql implements DaoPlato{
                 pl.setNombre(rs.getString("nombre"));
                 pl.setPrecio(rs.getFloat("precio"));
                 pl.setTiempoPreparacion(rs.getInt("tiempo_preparacion"));
+                pl.setIngredientes(buscarIngredientes(id));
             }
         } catch (SQLException e) {
             System.err.println("Error al buscar Plato con id " + id + ": " + e.getMessage());
@@ -129,6 +174,29 @@ public class DaoPlatoMySql implements DaoPlato{
         }
 
         return pl;
+    }
+
+    public List<Ingrediente> buscarIngredientes(int idPlato) {
+        List<Ingrediente> ingredientes = new ArrayList<>();
+        String query = "SELECT i.ID_Ingrediente, i.ID_Materia_Prima, pi.Cantidad " +
+                       "FROM Platos_Ingredientes pi " +
+                       "JOIN Ingredientes i ON pi.ID_Ingrediente = i.ID_Ingrediente " +
+                       "WHERE pi.ID_Plato = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setInt(1, idPlato);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Ingrediente ing = new Ingrediente();
+                ing.setId_ingrediente(idPlato);
+                // Assuming you have a method to get MateriaPrima by ID
+                // ing.setMateriaPrima(getMateriaPrimaById(rs.getInt("ID_Materia_Prima")));
+                ing.setCantidad(rs.getFloat("Cantidad"));
+                ingredientes.add(ing);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al buscar ingredientes del Plato con id " + idPlato + ": " + e.getMessage());
+        }
+        return ingredientes;
     }
 
     @Override
@@ -149,6 +217,7 @@ public class DaoPlatoMySql implements DaoPlato{
                 pl.setNombre(rs.getString("nombre"));
                 pl.setPrecio(rs.getFloat("precio"));
                 pl.setTiempoPreparacion(rs.getInt("tiempo_preparacion"));
+                pl.setIngredientes(buscarIngredientes(pl.getId()));
                 listaPlatos.add(pl);
             }
         } catch (SQLException e) {

@@ -5,12 +5,14 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import modelo.entidad.Ingrediente;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
@@ -141,13 +143,13 @@ public class ControladorEventos implements ActionListener {
         
         //Guardar plato
         else if (e.getSource() == ventanaPlato.getGuardar()) {
-            String nombre = ventanaPlato.getNombre().getText().trim();
+        	String nombre = ventanaPlato.getNombre().getText().trim();
             if (nombre.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            String precioTexto = ventanaPlato.getPrecio().getText().trim();
+            String precioTexto = ventanaPlato.getTextPrecio().getText().trim();
             String tiempoTexto = ventanaPlato.getTiempoPreparacion().getText().trim();
             float precio = 0;
             int tiempoPreparacion = 0;
@@ -161,6 +163,7 @@ public class ControladorEventos implements ActionListener {
                     return;
                 }
             } catch (NumberFormatException ex) {
+                System.out.println("Valor ingresado para el precio: '" + precioTexto + "'");
                 JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido para el precio (ej. 19.99).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -178,8 +181,23 @@ public class ControladorEventos implements ActionListener {
             }
 
             Plato plato = new Plato(0, nombre, precio, tiempoPreparacion);
+
+            // Extraer ingredientes de la tabla
+            List<Ingrediente> ingredientes = new ArrayList<>();
+            DefaultTableModel model = (DefaultTableModel) ventanaPlato.getTable().getModel();
+            for (int i = 0; i < model.getRowCount(); i++) {
+                String producto = (String) model.getValueAt(i, 0);
+                float cantidad = Float.parseFloat(model.getValueAt(i, 1).toString());
+                Ingrediente ingrediente = new Ingrediente();
+                ingrediente.setNombre(producto);
+                ingrediente.setCantidad(cantidad);
+                ingredientes.add(ingrediente);
+            }
+            plato.setIngredientes(ingredientes);
+
             if (daoPlato.insertar(plato)) {
                 JOptionPane.showMessageDialog(null, "Plato añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                limpiarFormulario();
             } else {
                 JOptionPane.showMessageDialog(null, "Error al añadir el plato", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -357,6 +375,28 @@ public class ControladorEventos implements ActionListener {
 
         } 
     
+    //METODOS VENTANA PLATO-->
+    private void limpiarFormulario() {
+        ventanaPlato.getNombre().setText("");
+        ventanaPlato.getPrecio().setText("");
+        ventanaPlato.getTiempoPreparacion().setText("");
+        ((DefaultTableModel) ventanaPlato.getTable().getModel()).setRowCount(0);
+    }
+
+    private void listaPlatos() {
+        List<Plato> platos = daoPlato.listar();
+        if (platos != null) {
+            // Asumiendo que tienes una ventana o algún lugar donde mostrar los platos.
+            // Aquí puedes mostrar los platos en una nueva ventana o un cuadro de diálogo.
+            // Para simplicidad, se imprimen en la consola.
+            for (Plato plato : platos) {
+                System.out.println(plato);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al listar los platos", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    //PLATO <--
 
    
 }
