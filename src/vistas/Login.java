@@ -55,7 +55,7 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+		//frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
 		frame.setBounds(100, 100, 750, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setBackground(new Color(56, 61, 67));
@@ -101,7 +101,7 @@ public class Login {
 		frame.getContentPane().add(passwordField);
 		
 		lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/RESTECH_ImageICono.jpeg")));
+		//lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/RESTECH_ImageICono.jpeg")));
 		lblNewLabel_2.setBounds(253, 450, 255, 239);
 		frame.getContentPane().add(lblNewLabel_2);
 	}
@@ -139,8 +139,9 @@ public class Login {
 	public void setBtnValidar(JButton btnValidar) {
 		this.btnValidar = btnValidar;
 	}
-		public void inciarListener(ControladorEventos controlador) {
-			btnValidar.addActionListener(controlador);
-		
+	
+	public void inciarListener(ControladorEventos controlador) {
+			btnValidar.addActionListener(controlador);	
 	}
-	}
+	
+}

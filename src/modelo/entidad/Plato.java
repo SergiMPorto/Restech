@@ -1,27 +1,32 @@
 package modelo.entidad;
 
+import java.util.List;
+
 public class Plato {
 	
 	private int id;
     private String nombre;
     private float precio;
     private int tiempoPreparacion;
+    private List<Ingrediente> ingredientes;
 
     public Plato() {
         
     }
 
-    public Plato(int id, String nombre, float precio, int tiempoPreparacion) {
+    public Plato(int id, String nombre, float precio, int tiempoPreparacion, List<Ingrediente> ingredientes) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.tiempoPreparacion = tiempoPreparacion;
+        this.ingredientes = ingredientes;
     }
 
-    public Plato(String nombre, float precio, int tiempoPreparacion) {
+    public Plato(String nombre, float precio, int tiempoPreparacion, List<Ingrediente> ingredientes) {
         this.nombre = nombre;
         this.precio = precio;
         this.tiempoPreparacion = tiempoPreparacion;
+        this.ingredientes = ingredientes;
     }
 
     public int getId() {
@@ -55,10 +60,18 @@ public class Plato {
     public void setTiempoPreparacion(int tiempoPreparacion) {
         this.tiempoPreparacion = tiempoPreparacion;
     }
+    
+    public List<Ingrediente> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
+    }
 
     @Override
     public String toString() {
-        return "Plato [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", tiempoPreparacion=" + tiempoPreparacion + "]";
+        return "Plato [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", tiempoPreparacion=" + tiempoPreparacion + ", ingredientes=" + ingredientes + "]";
     }
 	
 	
