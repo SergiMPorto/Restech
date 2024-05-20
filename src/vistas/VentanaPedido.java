@@ -69,26 +69,19 @@ public class VentanaPedido {
         
 
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"}));
-        //Cambiar tamaño de tablas
-        table.setPreferredScrollableViewportSize(new Dimension(750, 400));
+ table.setPreferredScrollableViewportSize(new Dimension(750,400));
         
         TableColumn column = null;
-        for( int i = 0; i < table.getColumnCount(); i++) {
-        	column = table.getColumnModel().getColumn(i);
-        	if (i == 0) {
-                column.setPreferredWidth(25); 
-            } else if (i == 1) {
-                column.setPreferredWidth(25); 
-            } else if (i == 2) {
-                column.setPreferredWidth(180); 
-            } else if (i == 3) {
-                column.setPreferredWidth(150);
-            } else if (i == 4) {
-                column.setPreferredWidth(35); 
-            } else if (i == 5) {
-                column.setPreferredWidth(30); 
-            } else if (i == 6) {
-                column.setPreferredWidth(100);
+        
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            column = table.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0 -> column.setPreferredWidth(5);
+                case 1 -> column.setPreferredWidth(5);
+                case 2 -> column.setPreferredWidth(75);
+                case 3 -> column.setPreferredWidth(100);
+                case 4, 5 -> column.setPreferredWidth(10);
+                case 6 -> column.setPreferredWidth(75);
             }
         }
         
@@ -111,8 +104,8 @@ public class VentanaPedido {
         
         JLabel lblNewLabel = new JLabel("Proveedor");
         lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel.setBounds(125, 97, 95, 27);
+        lblNewLabel.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel.setBounds(125, 94, 119, 30);
         frmPedido.getContentPane().add(lblNewLabel);
         
         Producto = new JTextField();
@@ -132,20 +125,20 @@ public class VentanaPedido {
         
         JLabel lblNewLabel_1 = new JLabel("Producto");
         lblNewLabel_1.setForeground(new Color(255, 255, 255));
-        lblNewLabel_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1.setBounds(125, 134, 95, 27);
+        lblNewLabel_1.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel_1.setBounds(135, 134, 83, 27);
         frmPedido.getContentPane().add(lblNewLabel_1);
         
         JLabel lblNewLabel_1_1 = new JLabel("Cantidad");
         lblNewLabel_1_1.setForeground(Color.WHITE);
-        lblNewLabel_1_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1_1.setBounds(125, 171, 95, 27);
+        lblNewLabel_1_1.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel_1_1.setBounds(133, 171, 83, 27);
         frmPedido.getContentPane().add(lblNewLabel_1_1);
         
         JLabel lblNewLabel_1_1_1 = new JLabel("Precio");
         lblNewLabel_1_1_1.setForeground(Color.WHITE);
-        lblNewLabel_1_1_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1_1_1.setBounds(125, 208, 95, 27);
+        lblNewLabel_1_1_1.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel_1_1_1.setBounds(160, 208, 56, 27);
         frmPedido.getContentPane().add(lblNewLabel_1_1_1);
         
         lblNewLabel_2 = new JLabel("New label");

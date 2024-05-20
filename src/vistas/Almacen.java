@@ -109,7 +109,7 @@ public class Almacen {
 
         lblNewLabel_3 = new JLabel("Almacén");
         lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD, 45));
-        lblNewLabel_3.setBounds(286, 21, 185, 47);
+        lblNewLabel_3.setBounds(266, 13, 185, 47);
         lblNewLabel_3.setForeground(new Color(255, 255, 255));
         almacen.getContentPane().add(lblNewLabel_3);
 
@@ -164,19 +164,19 @@ public class Almacen {
 
         JLabel JlProducto = new JLabel("Producto");
         JlProducto.setForeground(new Color(255, 255, 255));
-        JlProducto.setFont(new Font("Forte", Font.ITALIC, 20));
-        JlProducto.setBounds(110, 429, 341, 20);
+        JlProducto.setFont(new Font("Cambria", Font.PLAIN, 20));
+        JlProducto.setBounds(115, 421, 78, 30);
         almacen.getContentPane().add(JlProducto);
 
         JLabel JlCantidad = new JLabel("Cantidad");
         JlCantidad.setForeground(new Color(255, 255, 255));
-        JlCantidad.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlCantidad.setBounds(110, 581, 115, 20);
+        JlCantidad.setFont(new Font("Cambria", Font.PLAIN, 20));
+        JlCantidad.setBounds(110, 581, 83, 20);
         almacen.getContentPane().add(JlCantidad);
 
         JLabel FechaCaducidad_1 = new JLabel("Fecha Caducidad");
         FechaCaducidad_1.setForeground(new Color(255, 255, 255));
-        FechaCaducidad_1.setFont(new Font("Forte", Font.PLAIN, 20));
+        FechaCaducidad_1.setFont(new Font("Cambria", Font.PLAIN, 20));
         FechaCaducidad_1.setBounds(43, 533, 150, 35);
         almacen.getContentPane().add(FechaCaducidad_1);
 
@@ -202,19 +202,19 @@ public class Almacen {
 
         JLabel JlPrecio = new JLabel("Precio");
         JlPrecio.setForeground(new Color(255, 255, 255));
-        JlPrecio.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlPrecio.setBounds(140, 470, 83, 20);
+        JlPrecio.setFont(new Font("Cambria", Font.PLAIN, 20));
+        JlPrecio.setBounds(135, 463, 63, 20);
         almacen.getContentPane().add(JlPrecio);
 
         JLabel JlProveedor = new JLabel("Proveedor");
         JlProveedor.setForeground(new Color(255, 255, 255));
-        JlProveedor.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlProveedor.setBounds(110, 503, 96, 20);
+        JlProveedor.setFont(new Font("Cambria", Font.PLAIN, 20));
+        JlProveedor.setBounds(99, 503, 93, 20);
         almacen.getContentPane().add(JlProveedor);
 
         JLabel JlMerma = new JLabel("Merma");
         JlMerma.setForeground(new Color(255, 255, 255));
-        JlMerma.setFont(new Font("Forte", Font.PLAIN, 20));
+        JlMerma.setFont(new Font("Cambria", Font.PLAIN, 20));
         JlMerma.setBounds(123, 613, 83, 23);
         almacen.getContentPane().add(JlMerma);
         
@@ -226,8 +226,8 @@ public class Almacen {
         JLabel lblId = new JLabel("ID");
         lblId.setForeground(new Color(255, 255, 255));
         lblId.setHorizontalAlignment(SwingConstants.CENTER);
-        lblId.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblId.setBounds(123, 396, 83, 23);
+        lblId.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblId.setBounds(154, 392, 39, 20);
         almacen.getContentPane().add(lblId);
         
 

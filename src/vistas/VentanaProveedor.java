@@ -79,8 +79,8 @@ public class VentanaProveedor {
         
         JLabel lblId = new JLabel("Id");
         lblId.setForeground(new Color(255, 255, 255));
-        lblId.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblId.setBounds(94, 432, 45, 27);
+        lblId.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblId.setBounds(156, 432, 45, 27);
         proveedor.getContentPane().add(lblId);
         
         lblNewLabel_4 = new JLabel("Proveedor");
@@ -148,26 +148,26 @@ public class VentanaProveedor {
 
         lblNewLabel = new JLabel("Nombre");
         lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel.setBounds(82, 469, 91, 27);
+        lblNewLabel.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel.setBounds(105, 469, 70, 27);
         proveedor.getContentPane().add(lblNewLabel);
 
         lblNewLabel_1 = new JLabel("Descripción");
         lblNewLabel_1.setForeground(new Color(255, 255, 255));
-        lblNewLabel_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1.setBounds(82, 506, 119, 27);
+        lblNewLabel_1.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel_1.setBounds(73, 503, 102, 27);
         proveedor.getContentPane().add(lblNewLabel_1);
 
         lblNewLabel_2 = new JLabel("Teléfono");
         lblNewLabel_2.setForeground(new Color(255, 255, 255));
-        lblNewLabel_2.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_2.setBounds(82, 543, 119, 27);
+        lblNewLabel_2.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel_2.setBounds(100, 541, 75, 24);
         proveedor.getContentPane().add(lblNewLabel_2);
 
         lblNewLabel_3 = new JLabel("Dirección");
         lblNewLabel_3.setForeground(new Color(255, 255, 255));
-        lblNewLabel_3.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_3.setBounds(82, 583, 119, 20);
+        lblNewLabel_3.setFont(new Font("Cambria", Font.PLAIN, 20));
+        lblNewLabel_3.setBounds(93, 585, 82, 22);
         proveedor.getContentPane().add(lblNewLabel_3);
 
         btnGuardar = new JButton("Guardar");
@@ -182,7 +182,7 @@ public class VentanaProveedor {
         
         btnExportar = new JButton("Exportar a Excel");
         btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnExportar.setBounds(243, 664, 150, 27);
+        btnExportar.setBounds(185, 664, 208, 27);
         proveedor.getContentPane().add(btnExportar);
 
         btnExportar.addActionListener(new ActionListener() {
