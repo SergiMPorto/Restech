@@ -16,7 +16,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import controlador.ControladorEventos;
+import modelo.entidad.MateriaPrima;
+
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.ImageIcon;
 
 public class VentanaPlato {
@@ -42,6 +47,7 @@ public class VentanaPlato {
 	    private JTable table;
 	    private JScrollPane scrollPane;
 	    private JButton listarPlatos;
+	    private List<MateriaPrima> ingredientesSeleccionados;
 
 	    /**
 	     * Launch the application.
@@ -64,6 +70,7 @@ public class VentanaPlato {
 	     */
 	    public VentanaPlato() {
 	        initialize();
+	        ingredientesSeleccionados = new ArrayList<>();
 	    }
 
 	    /**
@@ -160,7 +167,15 @@ public class VentanaPlato {
 	        lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
 	        frmPlato.getContentPane().add(lblNewLabel_3);
 
-	        DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"Producto", "Cantidad"});
+	     // Creamos el modelo de la tabla sin las columnas de merma y fecha de caducidad
+	        DefaultTableModel tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"Producto", "Cantidad"}) {
+	            // Sobreescribimos el método isCellEditable para hacer que las columnas no sean editables
+	            @Override
+	            public boolean isCellEditable(int row, int column) {
+	                // Permitimos la edición de la columna de cantidad
+	                return column == 1;
+	            }
+	        };
 	        table = new JTable(tableModel);
 
 	        scrollPane = new JScrollPane(table);
@@ -314,14 +329,16 @@ public class VentanaPlato {
 			this.scrollPane = scrollPane;
 		}
 		
-		public void iniciarListerner(ControladorEventos controlador) {
+		public void iniciarListener(ControladorEventos controlador) {
 			ingredientes.addActionListener(controlador);
 			guardar.addActionListener(controlador);
 			listarPlatos.addActionListener(controlador);
 		}
 		
-		 public void agregarProducto(String producto, int cantidad) {
+		public void agregarProducto(String producto, int cantidad) {
 		        DefaultTableModel model = (DefaultTableModel) table.getModel();
 		        model.addRow(new Object[]{producto, cantidad});
-		    }
+		}
+		
+		
 	}

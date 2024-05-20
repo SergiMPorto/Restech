@@ -38,6 +38,12 @@ public class MateriaPrima {
         this.merma = merma;
     }
     
+    public MateriaPrima(String nombre, float cantidadUtilizada) {
+    	super();
+    	this.nombre = nombre;
+    	this.cantidadUtilizada = cantidadUtilizada;
+    }
+    
     
     public int getId() {
         return id;

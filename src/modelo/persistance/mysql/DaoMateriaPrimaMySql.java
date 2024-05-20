@@ -197,4 +197,28 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 
         return listaMateriaPrima;
     }
+
+	@Override
+	public int obtenerIdMateriaPrima(String nombreMateriaPrima) {
+		 int idMateriaPrima = -1; // Valor por defecto en caso de no encontrar la materia prima
+		    
+		    if (!abrirConexion()) {
+		        return idMateriaPrima;
+		    }
+
+		    String query = "SELECT id_materia_prima FROM materias_primas WHERE nombre = ?";
+		    try (PreparedStatement ps = conexion.prepareStatement(query)) {
+		        ps.setString(1, nombreMateriaPrima);
+		        ResultSet rs = ps.executeQuery();
+		        if (rs.next()) {
+		            idMateriaPrima = rs.getInt("id_materia_prima");
+		        }
+		    } catch (SQLException e) {
+		        System.err.println("Error al obtener ID de la materia prima: " + e.getMessage());
+		    } finally {
+		        cerrarConexion();
+		    }
+
+		    return idMateriaPrima;
+	}
 }

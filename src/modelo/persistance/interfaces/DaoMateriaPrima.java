@@ -11,5 +11,6 @@ public interface DaoMateriaPrima {
     boolean modificar(MateriaPrima mp);
     MateriaPrima buscar(int id);
     List<MateriaPrima> listar();
+    public int obtenerIdMateriaPrima(String nombreMateriaPrima);
 
 }

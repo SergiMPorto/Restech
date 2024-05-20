@@ -30,7 +30,7 @@ public class Main {
 
         login.inciarListener(controlador);
         home.agregarListener(controlador);
-        plato.iniciarListerner(controlador);
+        plato.iniciarListener(controlador);
         usuario.inciarListener(controlador);
         ingredientes.iniciarListener(controlador);
     }

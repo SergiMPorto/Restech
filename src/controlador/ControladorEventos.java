@@ -112,22 +112,19 @@ public class ControladorEventos implements ActionListener {
             ventanaUsuario.setVisible(false);
         }
         
-        //Eventos ventana Plato
+     // Eventos ventana Plato
         else if (e.getSource() == home.getBtnPlatos()) {
             System.out.println("Botón plato pulsado");
             ventanaPlato.setVisible(true);
             ventanaPedido.setVisible(false);
             almacen.setVisible(false);
             ventanaUsuario.setVisible(false);
-        }
-        else if (e.getSource() == ventanaPlato.getIngredientes()) {
+        } else if (e.getSource() == ventanaPlato.getIngredientes()) {
             ingredientes.cargarDatosEnTablaIngredientes();
             ingredientes.setVisible(true);
-        }
-        else if (e.getSource() == ingredientes.getGuardar()) {
+        } else if (e.getSource() == ingredientes.getGuardar()) {
             agregarIngredienteAPlato();
-        }
-        else if (e.getSource() == home.getBtnUsuario()) {
+        } else if (e.getSource() == home.getBtnUsuario()) {
             System.out.println("Botón Usuario pulsado");
             Usuario usuarioActual = usuarioLogueado();
             if (usuarioActual != null && usuarioActual.getPermisos() == 1) {
@@ -139,74 +136,12 @@ public class ControladorEventos implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "No tiene permisos para acceder a esta ventana", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }
-        
-        //Guardar plato
-        else if (e.getSource() == ventanaPlato.getGuardar()) {
-        	String nombre = ventanaPlato.getNombre().getText().trim();
-            if (nombre.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            String precioTexto = ventanaPlato.getTextPrecio().getText().trim();
-            String tiempoTexto = ventanaPlato.getTiempoPreparacion().getText().trim();
-            float precio = 0;
-            int tiempoPreparacion = 0;
-
-            // Validación del precio como float
-            try {
-                precio = Float.parseFloat(precioTexto);
-                if (precio <= 0) {
-                    System.out.println("Valor ingresado para el precio: '" + precioTexto + "'");
-                    JOptionPane.showMessageDialog(null, "El precio debe ser un número positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            } catch (NumberFormatException ex) {
-                System.out.println("Valor ingresado para el precio: '" + precioTexto + "'");
-                JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido para el precio (ej. 19.99).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Validación del tiempo de preparación como int
-            try {
-                tiempoPreparacion = Integer.parseInt(tiempoTexto);
-                if (tiempoPreparacion <= 0) {
-                    JOptionPane.showMessageDialog(null, "El tiempo de preparación debe ser un número entero positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingresa un número entero válido para el tiempo de preparación.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            Plato plato = new Plato(0, nombre, precio, tiempoPreparacion);
-
-            // Extraer ingredientes de la tabla
-            List<Ingrediente> ingredientes = new ArrayList<>();
-            DefaultTableModel model = (DefaultTableModel) ventanaPlato.getTable().getModel();
-            for (int i = 0; i < model.getRowCount(); i++) {
-                String producto = (String) model.getValueAt(i, 0);
-                float cantidad = Float.parseFloat(model.getValueAt(i, 1).toString());
-                Ingrediente ingrediente = new Ingrediente();
-                ingrediente.setNombre(producto);
-                ingrediente.setCantidad(cantidad);
-                ingredientes.add(ingrediente);
-            }
-            plato.setIngredientes(ingredientes);
-
-            if (daoPlato.insertar(plato)) {
-                JOptionPane.showMessageDialog(null, "Plato añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                limpiarFormulario();
-            } else {
-                JOptionPane.showMessageDialog(null, "Error al añadir el plato", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        
-        else if(e.getSource()==ventanaPlato.getListarPlatos()){
-        	System.out.println("Ventana listar ingredientes pulsado");
-        	listaPlatos.setVisible(true);
-        	
+        } else if (e.getSource() == ventanaPlato.getGuardar()) {
+            // Validar y guardar el plato
+            guardarPlato();
+        } else if (e.getSource() == ventanaPlato.getListarPlatos()) {
+            System.out.println("Ventana listar ingredientes pulsado");
+            listaPlatos.setVisible(true);
         }
     
         
@@ -334,22 +269,7 @@ public class ControladorEventos implements ActionListener {
         }
     }
     
-    //Agregar ingredientes al plato 
-    private void agregarIngredienteAPlato() {
-        int selectedRow = ingredientes.getTablaIngredientes().getSelectedRow();
-        if (selectedRow != -1) { // Verifica que haya una fila seleccionada
-            String producto = (String) ingredientes.getTablaIngredientes().getValueAt(selectedRow, 0);
-            try {
-                int cantidad = Integer.parseInt(ingredientes.getCantidad().getText()); // Asume que el campo cantidad ya contiene un número válido.
-                ventanaPlato.agregarProducto(producto, cantidad); // Llama al método en VentanaPlato para añadir el producto
-                JOptionPane.showMessageDialog(null, "Ingrediente agregado al plato");
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Ingrese una cantidad válida", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Seleccione un ingrediente para agregar", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+    
 
     // Método para usuario logueado.
     private Usuario usuarioLogueado() {
@@ -376,6 +296,98 @@ public class ControladorEventos implements ActionListener {
         } 
     
     //METODOS VENTANA PLATO-->
+    
+    private void guardarPlato() {
+        String nombre = ventanaPlato.getNombre().getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        float precio = 0;
+        int tiempoPreparacion = 0;
+
+        // Validación del precio como float
+        try {
+            precio = Float.parseFloat(ventanaPlato.getTextPrecio().getText().trim());
+            if (precio <= 0) {
+                JOptionPane.showMessageDialog(null, "El precio debe ser un número positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido para el precio (ej. 19.99).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validación del tiempo de preparación como int
+        try {
+            tiempoPreparacion = Integer.parseInt(ventanaPlato.getTiempoPreparacion().getText().trim());
+            if (tiempoPreparacion <= 0) {
+                JOptionPane.showMessageDialog(null, "El tiempo de preparación debe ser un número entero positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa un número entero válido para el tiempo de preparación.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Plato plato = new Plato(0, nombre, precio, tiempoPreparacion);
+
+        // Extraer materia prima de la tabla
+        List<MateriaPrima> materiaPrimaList = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) ventanaPlato.getTable().getModel();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object materiaPrimaNombreObj = model.getValueAt(i, 0);
+            Object cantidadUtilizadaObj = model.getValueAt(i, 1);
+
+            // Verificar si algún valor es null antes de usarlo
+            if (materiaPrimaNombreObj != null && cantidadUtilizadaObj != null) {
+                String materiaPrimaNombre = materiaPrimaNombreObj.toString();
+                float cantidadUtilizada = Float.parseFloat(cantidadUtilizadaObj.toString());
+                // Suponiendo que la merma y la fecha de caducidad se obtienen de la base de datos directamente
+                // Luego puedes crear el objeto MateriaPrima sin proporcionar estos valores
+                MateriaPrima materiaPrima = new MateriaPrima(materiaPrimaNombre, cantidadUtilizada);
+                materiaPrimaList.add(materiaPrima);
+            } else {
+                // Manejar el caso donde alguno de los valores en la tabla es null
+                JOptionPane.showMessageDialog(null, "Error: Alguno de los valores en la tabla es null.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Otra acción adecuada según tu lógica
+            }
+        }
+        plato.setMateriaPrima(materiaPrimaList);
+
+        if (daoPlato.insertar(plato)) {
+            JOptionPane.showMessageDialog(null, "Plato añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiarFormulario();
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al añadir el plato", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+
+
+
+    
+  //Agregar ingredientes al plato 
+    private void agregarIngredienteAPlato() {
+        int selectedRow = ingredientes.getTablaIngredientes().getSelectedRow();
+        if (selectedRow != -1) { // Verifica que haya una fila seleccionada
+            String producto = (String) ingredientes.getTablaIngredientes().getValueAt(selectedRow, 0);
+            try {
+                int cantidad = Integer.parseInt(ingredientes.getCantidad().getText()); // Asume que el campo cantidad ya contiene un número válido.
+                ventanaPlato.agregarProducto(producto, cantidad); // Llama al método en VentanaPlato para añadir el producto
+                JOptionPane.showMessageDialog(null, "Ingrediente agregado al plato");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Ingrese una cantidad válida", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Seleccione un ingrediente para agregar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
     private void limpiarFormulario() {
         ventanaPlato.getNombre().setText("");
         ventanaPlato.getPrecio().setText("");
@@ -383,6 +395,7 @@ public class ControladorEventos implements ActionListener {
         ((DefaultTableModel) ventanaPlato.getTable().getModel()).setRowCount(0);
     }
 
+ // Método modificado para listar platos
     private void listaPlatos() {
         List<Plato> platos = daoPlato.listar();
         if (platos != null) {
