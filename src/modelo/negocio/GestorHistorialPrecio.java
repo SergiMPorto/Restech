@@ -7,7 +7,7 @@ import modelo.persistance.interfaces.DaoHistorialPrecios;
 import modelo.persistance.mysql.DaoHistorialPreciosMySql;
 public class GestorHistorialPrecio {
 	
-private DaoHistorialPrecios daoHistorialPrecio = new DaoHistorialPreciosMySql();
+private DaoHistorialPreciosMySql daoHistorialPrecio = new DaoHistorialPreciosMySql();
 	
 	
 	public boolean insertar(HistorialPrecio hp) {

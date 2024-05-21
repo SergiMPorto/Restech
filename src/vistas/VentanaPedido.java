@@ -58,10 +58,11 @@ public class VentanaPedido {
      */
     private void initialize() {
         frmPedido = new JFrame();
+        frmPedido.setBackground(Color.WHITE);
         frmPedido.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPedido.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
         frmPedido.setTitle("Pedido");
-        frmPedido.getContentPane().setBackground(new Color(56, 61, 67));
-        frmPedido.getContentPane().setForeground(new Color(56, 61, 67));
+        frmPedido.getContentPane().setBackground(new Color(41,166,153));
+        frmPedido.getContentPane().setForeground(new Color(41,166,153));
         frmPedido.setBounds(730, 50, 750, 750);
         frmPedido.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPedido.getContentPane().setLayout(null);
@@ -92,7 +93,8 @@ public class VentanaPedido {
 
 
         btnGuardar = new JButton("Guardar");
-        btnGuardar.setBackground(Color.GRAY);
+        btnGuardar.setForeground(Color.BLACK);
+        btnGuardar.setBackground(Color.WHITE);
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
         btnGuardar.setBounds(460, 657, 100, 30);
         frmPedido.getContentPane().add(btnGuardar);
@@ -103,7 +105,7 @@ public class VentanaPedido {
         frmPedido.getContentPane().add(btnBorrar);
         
         JLabel lblNewLabel = new JLabel("Proveedor");
-        lblNewLabel.setForeground(new Color(255, 255, 255));
+        lblNewLabel.setForeground(Color.BLACK);
         lblNewLabel.setFont(new Font("Cambria", Font.PLAIN, 20));
         lblNewLabel.setBounds(125, 94, 119, 30);
         frmPedido.getContentPane().add(lblNewLabel);
@@ -124,27 +126,32 @@ public class VentanaPedido {
         frmPedido.getContentPane().add(Precio);
         
         JLabel lblNewLabel_1 = new JLabel("Producto");
-        lblNewLabel_1.setForeground(new Color(255, 255, 255));
+        lblNewLabel_1.setForeground(Color.BLACK);
         lblNewLabel_1.setFont(new Font("Cambria", Font.PLAIN, 20));
         lblNewLabel_1.setBounds(135, 134, 83, 27);
         frmPedido.getContentPane().add(lblNewLabel_1);
         
         JLabel lblNewLabel_1_1 = new JLabel("Cantidad");
-        lblNewLabel_1_1.setForeground(Color.WHITE);
+        lblNewLabel_1_1.setForeground(Color.BLACK);
         lblNewLabel_1_1.setFont(new Font("Cambria", Font.PLAIN, 20));
         lblNewLabel_1_1.setBounds(133, 171, 83, 27);
         frmPedido.getContentPane().add(lblNewLabel_1_1);
         
         JLabel lblNewLabel_1_1_1 = new JLabel("Precio");
-        lblNewLabel_1_1_1.setForeground(Color.WHITE);
+        lblNewLabel_1_1_1.setForeground(Color.BLACK);
         lblNewLabel_1_1_1.setFont(new Font("Cambria", Font.PLAIN, 20));
         lblNewLabel_1_1_1.setBounds(160, 208, 56, 27);
         frmPedido.getContentPane().add(lblNewLabel_1_1_1);
         
         lblNewLabel_2 = new JLabel("New label");
-        lblNewLabel_2.setIcon(new ImageIcon(VentanaPedido.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-        lblNewLabel_2.setBounds(41, 42, 56, 46);
+        lblNewLabel_2.setIcon(new ImageIcon(VentanaPedido.class.getResource("/imagenes/RESTECH_ImageICono (1).jpeg")));
+        lblNewLabel_2.setBounds(10, 10, 75, 75);
         frmPedido.getContentPane().add(lblNewLabel_2);
+        
+        JLabel lblNewLabel_3 = new JLabel("PEDIDO");
+        lblNewLabel_3.setFont(new Font("Constantia", Font.BOLD, 33));
+        lblNewLabel_3.setBounds(285, 17, 150, 49);
+        frmPedido.getContentPane().add(lblNewLabel_3);
     }
     
     //Getter and Setter
@@ -183,6 +190,4 @@ public class VentanaPedido {
 		Cantidad = cantidad;
 		Precio = precio;
 	}
-	
-	
 }
