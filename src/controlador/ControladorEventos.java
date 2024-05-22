@@ -11,7 +11,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.entidad.Ingrediente;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
@@ -19,6 +18,11 @@ import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
+import modelo.entidad.Pedido;
+import modelo.entidad.Proveedor;
+import modelo.entidad.Usuario;
+import modelo.persistance.mysql.DaoMateriaPrimaMySql;
+import modelo.persistance.mysql.DaoPedidoMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
@@ -32,6 +36,7 @@ import vistas.VentanaProveedor;
 import vistas.VentanaUsuario;
 
 public class ControladorEventos implements ActionListener {
+	
     private Login login;
     private Home home;
     private Almacen almacen;
@@ -41,24 +46,29 @@ public class ControladorEventos implements ActionListener {
     private VentanaIngredientes ingredientes;
     private VentanaProveedor ventanaProveedor;
     private ListaPlatos listaPlatos;
+ 
     private DaoMateriaPrimaMySql daoMateriaPrima;
+    private DaoPedidoMySql daoPedido;
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
     private DaoPlatoMySql daoPlato;
-    
+    private int indice;
+    private LocalDate fechaLocal = LocalDate.now();
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
             VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos) {
         this.login = login;
         this.home = home;
         this.almacen = almacen;
-        this.ventanaPedido = pedido;
+      //  this.ventanaPedido = pedido;
         this.ventanaPlato = plato;
         this.listaPlatos= listaPlatos;
         this.ventanaUsuario = usuario;
         this.ingredientes = ingredientes;
         this.ventanaProveedor = ventanaProveedor;
+        
         this.daoMateriaPrima = new DaoMateriaPrimaMySql();
+        this.daoPedido = new DaoPedidoMySql();
         this.daoProveedor = new DaoProveedorMySql();
         this.daoUsuario = new DaoUsuarioMySql();
         this.daoPlato = new DaoPlatoMySql();
@@ -86,6 +96,13 @@ public class ControladorEventos implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+    	
+    	String textProducto = ventanaPedido.getProducto().getText();
+        String textCantidad = ventanaPedido.getCantidad().getText();
+        String textPrecio = ventanaPedido.getPrecio().getText();
+        
+        indice = ventanaPedido.getTable().getSelectedRow();  
+        
         // Eventos para la ventana Login
         if (e.getSource() == login.getBtnValidar()) {
             System.out.println("Botón validar pulsado");
@@ -332,8 +349,109 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-    }
+        
+        
+      
+     else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
+	     System.out.println("Botón guardar almacen pulsado");
+	 
+			 if(ventanaPedido.getProducto().getText().isEmpty()){
+			  	JOptionPane.showMessageDialog(null,"campo producto vacío", "Aviso",JOptionPane.INFORMATION_MESSAGE);
+			  }
+			 else  if (!textProducto.matches("[a-zA-Z]+")) {
+			 JOptionPane.showMessageDialog(null, "El campo producto solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			 } 
+			 else if(ventanaPedido.getCantidad().getText().isEmpty()){
+			  	JOptionPane.showMessageDialog(null,"campo cantidad vacío", "Aviso",JOptionPane.INFORMATION_MESSAGE);
+			 
+			 }
+			 else  if (!textCantidad.matches("\\d+")) {
+			  JOptionPane.showMessageDialog(null, "El campo cantindad solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			  } 
+			  
+			 
+			 else if(ventanaPedido.getPrecio().getText().isEmpty()){
+			  	JOptionPane.showMessageDialog(null,"campo precio vacío", "Aviso",JOptionPane.INFORMATION_MESSAGE);
+			 }
+			 else  if (!textPrecio.matches("\\d+")) {
+			 JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+			 } 
+			 else {
+				 
+		     int idUsuario = 0;//controladorEventos.usuarioLogueado().getId();
+		     String proveedor = (String) ventanaPedido.getCombo().getSelectedItem();
+		     String producto = ventanaPedido.getProducto().getText();
+		     float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
+		     float precio = Float.parseFloat(ventanaPedido.getPrecio().getText());  
+
+			  ventanaPedido.getTableModel().addRow(new String[] {"",
+					  												Integer.toString(idUsuario),
+					  												proveedor,
+					                                                producto,
+					  												Float.toString(cantidad),
+					  												Float.toString(precio),
+					  												fechaLocal.toString()
+					  												});
+
+			  ventanaPedido.getProducto().setText(null);
+			  ventanaPedido.getCantidad().setText(null);
+			  ventanaPedido.getPrecio().setText(null);  
+			  } 
+			}
+     
+     if (e.getSource() == ventanaPedido.getBtnBorrar()) {
+         System.out.println("Botón borrar pulsado");
+         
+         if (indice != -1) {
+				
+				ventanaPedido.getTableModel().removeRow(indice);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+				}
+         
+     }
+     
+     if (e.getSource() == ventanaPedido.getBtnGuardar()) {
+         System.out.println("Botón guardar pulsado");
+         
+         if (indice != -1) {
+				
+       	  Pedido p = new Pedido();
+       	  
+       	  int idUsuario = 0;//controladorEventos.usuarioLogueado().getId();
+		     int proveedor = (int) ventanaPedido.getCombo().getSelectedItem();
+		     String producto = ventanaPedido.getProducto().getText();
+		     float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
+		     float precio = Float.parseFloat(ventanaPedido.getPrecio().getText()); 
+       	 
+       	  p.setIdUsuario(idUsuario);
+       	  p.setIdProveedor(proveedor);
+       	  p.setMateriaPrima(producto);
+       	  p.setCantidad(cantidad);
+       	  p.setFechaPedido(fechaLocal);
+       	  p.setCostoTotal(precio);
+       	  
+			  
+       	  daoPedido.insertar(p);
+       	  
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "No hay ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+				}
+         
+     }
+      
+        
+ 
+    }      
+        
+        
+        
+        
     
+    
+
     //Agregar ingredientes al plato 
     private void agregarIngredienteAPlato() {
         int selectedRow = ingredientes.getTablaIngredientes().getSelectedRow();
@@ -350,18 +468,42 @@ public class ControladorEventos implements ActionListener {
             JOptionPane.showMessageDialog(null, "Seleccione un ingrediente para agregar", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+//Obtner método para usuario logueado. 
+    
+    public Usuario usuarioLogueado() {
+    	String nombreUsurio = login.getTxtUsuario().getText();
+    	String codigoUsuario = login.getPasswordField().getText();
+    	
+    	Usuario usuario = daoUsuario.buscarNombre(nombreUsurio);
+    	
+    	if(usuario != null && usuario.getCodigo().equals(codigoUsuario)) {
+    	  
+    	 return usuario;
+    	 
+	    }else 
+	    	return null;
+	    	
+    }
+    
+    //cargar tabla en Ingredientes
+    
+    public void cargarDatosEnTablaIngredientes() {
+        List<MateriaPrima> listadoMateriasPrimas = daoMateriaPrima.listar();
+        DefaultTableModel modeloTablaIngredientes = (DefaultTableModel) ingredientes.getTablaIngredientes().getModel();
+        modeloTablaIngredientes.setRowCount(0); 
 
-    // Método para usuario logueado.
-    private Usuario usuarioLogueado() {
-        String nombreUsuario = login.getTxtUsuario().getText();
-        String codigoUsuario = login.getPasswordField().getText();
-        Usuario usuario = daoUsuario.buscarNombre(nombreUsuario);
-        if (usuario != null && usuario.getCodigo().equals(codigoUsuario)) {
-            return usuario;
-        } else {
-            return null;
+        for (MateriaPrima materiaPrima : listadoMateriasPrimas) {
+            modeloTablaIngredientes.addRow(new Object[] {
+                materiaPrima.getNombre(),
+                materiaPrima.getCantidadUtilizada()
+               
+            });
+
         }
     }
+
+
+  
 
     
 
@@ -399,6 +541,11 @@ public class ControladorEventos implements ActionListener {
     //PLATO <--
 
    
+
+    
+    
+    
+
 }
     	
     
