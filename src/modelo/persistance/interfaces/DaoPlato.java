@@ -16,5 +16,6 @@ public interface DaoPlato {
 	public Plato buscar(int id);
 	public List<MateriaPrima> buscarMateriaPrima(int idPlato);
 	public List<Plato> listar();
+	public boolean borrarPlato(String nombre);
 
 }

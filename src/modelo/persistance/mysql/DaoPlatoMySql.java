@@ -29,7 +29,7 @@ public class DaoPlatoMySql implements DaoPlato{
         }
         return true;
     }
-
+    
     private boolean cerrarConexion() {
         try {
             conexion.close();
@@ -107,6 +107,38 @@ public class DaoPlatoMySql implements DaoPlato{
             cerrarConexion();
         }
     }
+    
+    @Override
+    public boolean borrarPlato(String nombre) {
+        if (!abrirConexion()) {
+            return false;
+        }
+
+        try {
+            // Eliminar registros relacionados en la tabla platos_materiasprimas
+            String queryDeleteMateriasPrimas = "DELETE FROM platos_materiasprimas WHERE ID_Plato = (SELECT ID_Plato FROM platos WHERE nombre = ?)";
+            try (PreparedStatement psDeleteMateriasPrimas = conexion.prepareStatement(queryDeleteMateriasPrimas)) {
+                psDeleteMateriasPrimas.setString(1, nombre);
+                psDeleteMateriasPrimas.executeUpdate();
+            }
+
+            // Eliminar el plato de la tabla platos
+            String queryDeletePlato = "DELETE FROM platos WHERE nombre = ?";
+            try (PreparedStatement psDeletePlato = conexion.prepareStatement(queryDeletePlato)) {
+                psDeletePlato.setString(1, nombre);
+
+                int filasAfectadas = psDeletePlato.executeUpdate();
+                return filasAfectadas > 0;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al borrar Plato con nombre " + nombre + ": " + e.getMessage());
+            return false;
+        } finally {
+            cerrarConexion();
+        }
+    }
+
+
     
     @Override
 	public boolean borrarMateriaPrima(int idPlato) {
@@ -217,10 +249,10 @@ public class DaoPlatoMySql implements DaoPlato{
 	@Override
 	public List<MateriaPrima> buscarMateriaPrima(int idPlato) {
 		List<MateriaPrima> ingredientes = new ArrayList<>();
-        String query = "SELECT i.ID_Ingrediente, i.ID_Materia_Prima, pi.Cantidad " +
-                       "FROM Platos_Ingredientes pi " +
-                       "JOIN Ingredientes i ON pi.ID_Ingrediente = i.ID_Ingrediente " +
-                       "WHERE pi.ID_Plato = ?";
+        String query = "SELECT pi.ID_Materia_Prima, pi.Cantidad \r\n"
+        		+ "FROM Platos_MateriasPrimas pi \r\n"
+        		+ "JOIN Materias_Primas i ON pi.ID_Materia_Prima = i.ID_Materia_Prima \r\n"
+        		+ "WHERE pi.ID_Plato = ?";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setInt(1, idPlato);
             ResultSet rs = ps.executeQuery();

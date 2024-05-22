@@ -17,7 +17,7 @@ public class Main {
 	public static void main(String[] args) {
         Login login = new Login();
         Almacen almacen = new Almacen();
-       VentanaPedido pedido = new VentanaPedido();
+        VentanaPedido pedido = new VentanaPedido();
         VentanaPlato plato = new VentanaPlato();
         VentanaUsuario usuario = new VentanaUsuario();
         Home home = new Home();

@@ -19,7 +19,7 @@ import javax.swing.table.TableColumn;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
-import controlador.ControladorEventosPedido;
+import controlador.ControladorEventos;
 
 
 public class VentanaPedido  {
@@ -280,7 +280,7 @@ public class VentanaPedido  {
 	
 
 
-	public void establecerControlador(ControladorEventosPedido controladorEventosPedido) {
+	public void establecerControlador(ControladorEventos controladorEventosPedido) {
 		combo.addActionListener(controladorEventosPedido);
 		btnAnadir.addActionListener(controladorEventosPedido);
 		btnBorrar.addActionListener(controladorEventosPedido);
