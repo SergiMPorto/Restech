@@ -17,7 +17,7 @@ public class Main {
 	public static void main(String[] args) {
         Login login = new Login();
         Almacen almacen = new Almacen();
-        VentanaPedido pedido = new VentanaPedido();
+       VentanaPedido pedido = new VentanaPedido();
         VentanaPlato plato = new VentanaPlato();
         VentanaUsuario usuario = new VentanaUsuario();
         Home home = new Home();
@@ -26,12 +26,21 @@ public class Main {
         ListaPlatos listaPlatos = new ListaPlatos();
         
 
+
         ControladorEventos controlador = new ControladorEventos(login, home, almacen, pedido, plato, usuario, ingredientes, proveedor, listaPlatos);
+
+       
+
 
         login.inciarListener(controlador);
         home.agregarListener(controlador);
         plato.iniciarListerner(controlador);
         usuario.inciarListener(controlador);
+
         ingredientes.iniciarListener(controlador);
+
+        
+        
+
     }
 }

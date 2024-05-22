@@ -18,7 +18,7 @@ public class DaoPedidoMySql implements DaoPedido {
 	private Connection conexion;
 
     private boolean abrirConexion() {
-        String url = "jdbc:mysql://localhost:3306/bbdd";
+        String url = "jdbc:mysql://localhost:3309/bbdd";
         String usuario = "root";
         String password = "";
         try {
@@ -47,12 +47,14 @@ public class DaoPedidoMySql implements DaoPedido {
         }
 
         boolean insertar = true;
-        String query = "INSERT INTO pedidos (id_usuario, id_proveedor, fecha_pedido, costo_total) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO pedido (id_usuario, id_proveedor, materia_prima, cantidad, fecha_pedido, costo_total) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setInt(1, pd.getIdUsuario().getId());
-            ps.setInt(2, pd.getIdProveedor().getId());
-            ps.setDate(3, java.sql.Date.valueOf(pd.getFechaPedido()));
-            ps.setDouble(4, pd.getCostoTotal());
+            ps.setInt(1, pd.getIdUsuario());
+            ps.setInt(2, pd.getIdProveedor());
+            ps.setString(3, pd.getMateriaPrima());
+            ps.setDouble(4, pd.getCantidad());
+            ps.setDate(5, java.sql.Date.valueOf(pd.getFechaPedido()));
+            ps.setDouble(6, pd.getCostoTotal());
             
             int filasAfectadas = ps.executeUpdate();
             insertar = filasAfectadas > 0;
@@ -98,8 +100,8 @@ public class DaoPedidoMySql implements DaoPedido {
         boolean modificado = true;
         String query = "UPDATE pedidos SET id_usuario = ?, id_proveedor = ?, fecha_pedido = ?, costo_total = ? WHERE id_pedido = ?";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setInt(1, pd.getIdUsuario().getId());
-            ps.setInt(2, pd.getIdProveedor().getId());
+          //  ps.setInt(1, pd.getIdUsuario().getId());
+           // ps.setInt(2, pd.getIdProveedor().getId());
             ps.setDate(3, java.sql.Date.valueOf(pd.getFechaPedido()));
             ps.setDouble(4, pd.getCostoTotal());
             ps.setInt(5, pd.getId());
@@ -131,8 +133,8 @@ public class DaoPedidoMySql implements DaoPedido {
             if (rs.next()) {
                 pedido = new Pedido();
                 pedido.setId(rs.getInt("id_pedido"));
-                pedido.setIdUsuario(new Usuario(rs.getInt("id_usuario")));
-                pedido.setIdProveedor(new Proveedor(rs.getInt("id_proveedor")));
+            //    pedido.setIdUsuario(new Usuario(rs.getInt("id_usuario")));
+            //    pedido.setIdProveedor(new Proveedor(rs.getInt("id_proveedor")));
                 pedido.setFechaPedido(rs.getDate("fecha_pedido").toLocalDate());
                 pedido.setCostoTotal(rs.getDouble("costo_total"));
             }
@@ -160,8 +162,8 @@ public class DaoPedidoMySql implements DaoPedido {
             while (rs.next()) {
                 Pedido pedido = new Pedido();
                 pedido.setId(rs.getInt("id_pedido"));
-                pedido.setIdUsuario(new Usuario(rs.getInt("id_usuario")));
-                pedido.setIdProveedor(new Proveedor(rs.getInt("id_proveedor")));
+              //  pedido.setIdUsuario(new Usuario(rs.getInt("id_usuario")));
+              //  pedido.setIdProveedor(new Proveedor(rs.getInt("id_proveedor")));
                 pedido.setFechaPedido(rs.getDate("fecha_pedido").toLocalDate());
                 pedido.setCostoTotal(rs.getDouble("costo_total"));
                 

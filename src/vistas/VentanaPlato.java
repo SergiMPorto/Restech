@@ -56,6 +56,7 @@ public class VentanaPlato {
 	     */
 	    public VentanaPlato() {
 	        initialize();
+	        
 	    }
 
 	    /**
