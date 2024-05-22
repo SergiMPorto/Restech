@@ -1,5 +1,6 @@
 package modelo.entidad;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Plato {
@@ -17,6 +18,13 @@ public class Plato {
     public Plato(int id, String nombre, float precio, int tiempoPreparacion) {
     	
     }
+    public Plato(String nombre, float precio, int tiempoPreparacion) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tiempoPreparacion = tiempoPreparacion;
+        this.materia_prima = new ArrayList<>();
+    }
+
 
     public Plato(int id, String nombre, float precio, int tiempoPreparacion, List<MateriaPrima> materia_prima) {
         this.id = id;

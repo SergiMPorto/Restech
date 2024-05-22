@@ -71,7 +71,7 @@ public class DaoPlatoMySql implements DaoPlato{
     }
 
     public boolean insertarMateriaPrima(Plato pl) {
-        String query = "INSERT INTO platos_materiasprimas (ID_Plato, ID_MateriaPrima, Cantidad) VALUES (?, ?, ?)";
+        String query = "INSERT INTO platos_materiasprimas (ID_Plato, ID_Materia_Prima, Cantidad) VALUES (?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
             for (MateriaPrima mp : pl.getMateriaPrima()) {
                 ps.setInt(1, pl.getId());
@@ -254,4 +254,7 @@ public class DaoPlatoMySql implements DaoPlato{
 	        return false;
 	    }
 	}
+	
+	
+	
 }

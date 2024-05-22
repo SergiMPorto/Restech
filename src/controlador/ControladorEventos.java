@@ -17,6 +17,7 @@ import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
+import modelo.persistance.interfaces.DaoMateriaPrima;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
@@ -297,6 +298,77 @@ public class ControladorEventos implements ActionListener {
     
     //METODOS VENTANA PLATO-->
     
+  /*  private void guardarPlato() {
+        String nombre = ventanaPlato.getNombre().getText().trim();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        float precio = 0;
+        int tiempoPreparacion = 0;
+
+        // Validación del precio como float
+        try {
+            precio = Float.parseFloat(ventanaPlato.getTextPrecio().getText().trim());
+            if (precio <= 0) {
+                JOptionPane.showMessageDialog(null, "El precio debe ser un número positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa un número válido para el precio (ej. 19.99).", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Validación del tiempo de preparación como int
+        try {
+            tiempoPreparacion = Integer.parseInt(ventanaPlato.getTiempoPreparacion().getText().trim());
+            if (tiempoPreparacion <= 0) {
+                JOptionPane.showMessageDialog(null, "El tiempo de preparación debe ser un número entero positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(null, "Por favor, ingresa un número entero válido para el tiempo de preparación.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        System.out.println("nombre: "+nombre +"Precio:"+ precio+"timepo preparacion: " +tiempoPreparacion);
+
+        Plato plato = new Plato(nombre, precio, tiempoPreparacion);
+
+        // Extraer materia prima de la tabla
+        List<MateriaPrima> materiaPrimaList = new ArrayList<>();
+        DefaultTableModel model = (DefaultTableModel) ventanaPlato.getTable().getModel();
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Object materiaPrimaNombreObj = model.getValueAt(i, 0);
+            Object cantidadUtilizadaObj = model.getValueAt(i, 1);
+
+            // Verificar si algún valor es null antes de usarlo
+            if (materiaPrimaNombreObj != null && cantidadUtilizadaObj != null) {
+                String materiaPrimaNombre = materiaPrimaNombreObj.toString();
+                float cantidadUtilizada = Float.parseFloat(cantidadUtilizadaObj.toString());
+                // Suponiendo que la merma y la fecha de caducidad se obtienen de la base de datos directamente
+                // Luego puedes crear el objeto MateriaPrima sin proporcionar estos valores
+                MateriaPrima materiaPrima = new MateriaPrima(materiaPrimaNombre, cantidadUtilizada);
+                materiaPrimaList.add(materiaPrima);
+            } else {
+                // Manejar el caso donde alguno de los valores en la tabla es null
+                JOptionPane.showMessageDialog(null, "Error: Alguno de los valores en la tabla es null.", "Error", JOptionPane.ERROR_MESSAGE);
+                return; // Otra acción adecuada según tu lógica
+            }
+        }
+        plato.setMateriaPrima(materiaPrimaList);
+        
+        System.out.println(plato);
+        if (daoPlato.insertar(plato)) {
+            JOptionPane.showMessageDialog(null, "Plato añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            limpiarFormulario();
+        } else {
+            JOptionPane.showMessageDialog(null, "Error al añadir el plato", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }*/
+    
     private void guardarPlato() {
         String nombre = ventanaPlato.getNombre().getText().trim();
         if (nombre.isEmpty()) {
@@ -331,11 +403,15 @@ public class ControladorEventos implements ActionListener {
             return;
         }
 
-        Plato plato = new Plato(0, nombre, precio, tiempoPreparacion);
+        System.out.println("nombre: " + nombre + " Precio: " + precio + " tiempo preparación: " + tiempoPreparacion);
+
+        Plato plato = new Plato(nombre, precio, tiempoPreparacion);
 
         // Extraer materia prima de la tabla
         List<MateriaPrima> materiaPrimaList = new ArrayList<>();
         DefaultTableModel model = (DefaultTableModel) ventanaPlato.getTable().getModel();
+
+        DaoMateriaPrima daoMateriaPrima = new DaoMateriaPrimaMySql();
 
         for (int i = 0; i < model.getRowCount(); i++) {
             Object materiaPrimaNombreObj = model.getValueAt(i, 0);
@@ -345,17 +421,26 @@ public class ControladorEventos implements ActionListener {
             if (materiaPrimaNombreObj != null && cantidadUtilizadaObj != null) {
                 String materiaPrimaNombre = materiaPrimaNombreObj.toString();
                 float cantidadUtilizada = Float.parseFloat(cantidadUtilizadaObj.toString());
-                // Suponiendo que la merma y la fecha de caducidad se obtienen de la base de datos directamente
-                // Luego puedes crear el objeto MateriaPrima sin proporcionar estos valores
-                MateriaPrima materiaPrima = new MateriaPrima(materiaPrimaNombre, cantidadUtilizada);
-                materiaPrimaList.add(materiaPrima);
+
+                // Obtener MateriaPrima por nombre
+                MateriaPrima materiaPrima = daoMateriaPrima.obtenerPorNombre(materiaPrimaNombre);
+                if (materiaPrima != null) {
+                    // Asignar la cantidad utilizada
+                    materiaPrima.setCantidadUtilizada(cantidadUtilizada);
+                    materiaPrimaList.add(materiaPrima);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error: Materia Prima no encontrada en la base de datos.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             } else {
-                // Manejar el caso donde alguno de los valores en la tabla es null
                 JOptionPane.showMessageDialog(null, "Error: Alguno de los valores en la tabla es null.", "Error", JOptionPane.ERROR_MESSAGE);
                 return; // Otra acción adecuada según tu lógica
             }
         }
+
         plato.setMateriaPrima(materiaPrimaList);
+
+        System.out.println(plato);
 
         if (daoPlato.insertar(plato)) {
             JOptionPane.showMessageDialog(null, "Plato añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -364,6 +449,8 @@ public class ControladorEventos implements ActionListener {
             JOptionPane.showMessageDialog(null, "Error al añadir el plato", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
 
 

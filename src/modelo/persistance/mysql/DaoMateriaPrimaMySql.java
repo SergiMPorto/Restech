@@ -221,4 +221,34 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 
 		    return idMateriaPrima;
 	}
+	
+	public MateriaPrima obtenerPorNombre(String nombre) {
+        MateriaPrima materiaPrima = null;
+        if (!abrirConexion()) {
+            return null;
+        }
+
+        String query = "SELECT * FROM materias_primas WHERE nombre = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setString(1, nombre);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    materiaPrima = new MateriaPrima();
+                    materiaPrima.setId(rs.getInt("ID_Materia_Prima"));
+                    materiaPrima.setNombre(rs.getString("nombre"));
+                    materiaPrima.setPrecio(rs.getFloat("precio"));
+                    materiaPrima.setProveedor(rs.getString("proveedor"));
+                    materiaPrima.setFechaCaducidad(rs.getDate("fecha_caducidad").toLocalDate());
+                    materiaPrima.setMerma(rs.getFloat("merma"));
+                    // Asignar otros atributos necesarios
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+        return materiaPrima;
+    }
+	
 }
