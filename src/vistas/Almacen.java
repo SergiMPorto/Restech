@@ -286,7 +286,7 @@ public class Almacen {
 
     
  
-
+/*
 	public Almacen(JTextField iD, JTextField producto, JTextField cantidad, JTextField fechaCaducidad,
 			JTextField precio, JTextField proveedor, JTextField merma) {
 		super();
@@ -304,7 +304,7 @@ public class Almacen {
 		return "Almacen [ID=" + ID + ", Producto=" + Producto + ", Cantidad=" + Cantidad + ", FechaCaducidad="
 				+ FechaCaducidad + ", Precio=" + Precio + ", Proveedor=" + Proveedor + ", Merma=" + Merma + "]";
 	}
-
+*/
 	public void iniciarListener(ControladorEventos controlador) {
         btnGuardar.addActionListener(controlador);
         btnBorrar.addActionListener(controlador);

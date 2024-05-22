@@ -9,10 +9,13 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+
 import modelo.entidad.MateriaPrima;
+import modelo.entidad.Pedido;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
+import modelo.persistance.mysql.DaoPedidoMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
@@ -33,7 +36,9 @@ public class ControladorEventos implements ActionListener {
     private VentanaUsuario ventanaUsuario;
     private VentanaIngredientes ingredientes;
     private VentanaProveedor ventanaProveedor;
+    
     private DaoMateriaPrimaMySql daoMateriaPrima;
+    private DaoPedidoMySql daoPedido;
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
 
@@ -42,12 +47,14 @@ public class ControladorEventos implements ActionListener {
         this.login = login;
         this.home = home;
         this.almacen = almacen;
-        this.ventanaPedido = pedido;
+      //  this.ventanaPedido = pedido;
         this.ventanaPlato = plato;
         this.ventanaUsuario = usuario;
         this.ingredientes = ingredientes;
         this.ventanaProveedor = ventanaProveedor;
+        
         this.daoMateriaPrima = new DaoMateriaPrimaMySql();
+        this.daoPedido = new DaoPedidoMySql();
         this.daoProveedor = new DaoProveedorMySql();
         this.daoUsuario = new DaoUsuarioMySql();
 
@@ -287,11 +294,43 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-    }
+        
+      
+          
+        
+         } 
+         
+        
+        /* boton borrar ventana pedido
+        
+           else if (e.getSource() == almacen.getBtnBorrar()) {
+             System.out.println("Botón de borrado pulsado");
+             int filaSeleccionada = almacen.getTable().getSelectedRow();
+             if (filaSeleccionada != -1) {
+                 DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
+                 modelo.removeRow(filaSeleccionada);
+                 if (!daoMateriaPrima.borrar(filaSeleccionada)) {
+                     JOptionPane.showMessageDialog(null, "Error al borrar la materia prima de la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+             } else {
+                 JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+             }
+         }
+      
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+    
     
 //Obtner método para usuario logueado. 
     
-    private Usuario usuarioLogueado() {
+    public Usuario usuarioLogueado() {
     	String nombreUsurio = login.getTxtUsuario().getText();
     	String codigoUsuario = login.getPasswordField().getText();
     	
@@ -301,10 +340,9 @@ public class ControladorEventos implements ActionListener {
     	  
     	 return usuario;
     	 
-    }else {
-    	return null;
-    	
-    }	
+	    }else 
+	    	return null;
+	    	
     }
     
     //cargar tabla en Ingredientes
@@ -324,6 +362,9 @@ public class ControladorEventos implements ActionListener {
 
         ingredientes.getTablaIngredientes().setModel(modeloTablaIngredientes);
     }
+    
+    
+    
 }
     	
     
