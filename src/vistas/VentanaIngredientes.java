@@ -227,5 +227,5 @@ public class VentanaIngredientes {
         //Actualiza la tabla con el nuevo modelo
         getTablaIngredientes().setModel(modeloTablaIngredientes);
     }
-    }
+   }
 

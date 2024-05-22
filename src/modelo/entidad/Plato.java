@@ -1,5 +1,6 @@
 package modelo.entidad;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Plato {
@@ -8,7 +9,7 @@ public class Plato {
     private String nombre;
     private float precio;
     private int tiempoPreparacion;
-    private List<Ingrediente> ingredientes;
+    private List<MateriaPrima> materia_prima;
 
     public Plato() {
         
@@ -17,20 +18,27 @@ public class Plato {
     public Plato(int id, String nombre, float precio, int tiempoPreparacion) {
     	
     }
+    public Plato(String nombre, float precio, int tiempoPreparacion) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.tiempoPreparacion = tiempoPreparacion;
+        this.materia_prima = new ArrayList<>();
+    }
 
-    public Plato(int id, String nombre, float precio, int tiempoPreparacion, List<Ingrediente> ingredientes) {
+
+    public Plato(int id, String nombre, float precio, int tiempoPreparacion, List<MateriaPrima> materia_prima) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.tiempoPreparacion = tiempoPreparacion;
-        this.ingredientes = ingredientes;
+        this.materia_prima = materia_prima;
     }
 
-    public Plato(String nombre, float precio, int tiempoPreparacion, List<Ingrediente> ingredientes) {
+    public Plato(String nombre, float precio, int tiempoPreparacion, List<MateriaPrima> materia_prima) {
         this.nombre = nombre;
         this.precio = precio;
         this.tiempoPreparacion = tiempoPreparacion;
-        this.ingredientes = ingredientes;
+        this.materia_prima = materia_prima;
     }
 
     public int getId() {
@@ -65,17 +73,17 @@ public class Plato {
         this.tiempoPreparacion = tiempoPreparacion;
     }
     
-    public List<Ingrediente> getIngredientes() {
-        return ingredientes;
+    public List<MateriaPrima> getMateriaPrima() {
+        return materia_prima;
     }
 
-    public void setIngredientes(List<Ingrediente> ingredientes) {
-        this.ingredientes = ingredientes;
+    public void setMateriaPrima(List<MateriaPrima> materia_prima) {
+        this.materia_prima = materia_prima;
     }
 
     @Override
     public String toString() {
-        return "Plato [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", tiempoPreparacion=" + tiempoPreparacion + ", ingredientes=" + ingredientes + "]";
+        return "Plato [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", tiempoPreparacion=" + tiempoPreparacion + ", materia_prima=" + materia_prima + "]";
     }
 	
 	
