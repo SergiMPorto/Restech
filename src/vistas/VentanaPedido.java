@@ -45,7 +45,7 @@ public class VentanaPedido  {
             public void run() {
                 try {
                     VentanaPedido window = new VentanaPedido();    
-                    window.setVisible(true);
+                    //window.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
