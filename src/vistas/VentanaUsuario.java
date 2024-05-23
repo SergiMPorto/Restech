@@ -72,8 +72,8 @@ public class VentanaUsuario {
 	private void initialize() {
 		frmUsuario= new JFrame();
 		frmUsuario.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaUsuario.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-		frmUsuario.getContentPane().setBackground(new Color(56, 61, 67));
-		frmUsuario.getContentPane().setForeground(new Color(56, 61, 67));
+		frmUsuario.getContentPane().setBackground(new Color(54,217,187));
+		frmUsuario.getContentPane().setForeground(new Color(54,217,187));
 		frmUsuario.setForeground(new Color(102, 153, 204));
 		frmUsuario.setFont(new Font("Lucida Sans", Font.BOLD | Font.ITALIC, 18));
 		frmUsuario.setTitle("PLATO");
@@ -108,13 +108,13 @@ public class VentanaUsuario {
 		
 		JLabel Nombre = new JLabel("NOMBRE");
 		Nombre.setHorizontalAlignment(SwingConstants.CENTER);
-		Nombre.setForeground(new Color(255, 255, 255));
+		Nombre.setForeground(new Color(0, 0, 0));
 		Nombre.setFont(new Font("Forte", Font.BOLD, 21));
-		Nombre.setBounds(187, 176, 117, 27);
+		Nombre.setBounds(205, 176, 90, 27);
 		frmUsuario.getContentPane().add(Nombre);
 		
 		textNombre = new JTextField();
-		textNombre.setBounds(314, 176, 400, 27);
+		textNombre.setBounds(305, 176, 400, 27);
 		frmUsuario.getContentPane().add(textNombre);
 		textNombre.setColumns(10);
 		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
@@ -134,43 +134,43 @@ public class VentanaUsuario {
 		frmUsuario.getContentPane().add(btnBorrar);
 		
 		lblNewLabel_3 = new JLabel("USUARIO");
-		lblNewLabel_3.setForeground(new Color(255, 255, 255));
-		lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
-		lblNewLabel_3.setBounds(320, 53, 200, 47);
+		lblNewLabel_3.setForeground(new Color(0, 0, 0));
+		lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
+		lblNewLabel_3.setBounds(292, 49, 207, 47);
 		frmUsuario.getContentPane().add(lblNewLabel_3);
 		
 		Permiso = new JTextField();
 		Permiso.setColumns(10);
-		Permiso.setBounds(314, 227, 55, 27);
+		Permiso.setBounds(305, 227, 55, 27);
 		frmUsuario.getContentPane().add(Permiso);
 		
 		lblPermiso = new JLabel("PERMISO");
-	    lblPermiso.setForeground(new Color(255, 255, 255));
-		lblPermiso.setFont(new Font("Forte", Font.BOLD, 20));
-		lblPermiso.setBounds(204, 224, 90, 27);
+	    lblPermiso.setForeground(new Color(0, 0, 0));
+		lblPermiso.setFont(new Font("DialogInput", Font.BOLD, 20));
+		lblPermiso.setBounds(205, 227, 90, 27);
 		frmUsuario.getContentPane().add(lblPermiso);
 		
 		textID = new JTextField();
 		textID.setColumns(10);
-		textID.setBounds(314, 131, 55, 27);
+		textID.setBounds(305, 131, 55, 27);
 		frmUsuario.getContentPane().add(textID);
 		
 		lblId = new JLabel("ID");
 		lblId.setHorizontalAlignment(SwingConstants.CENTER);
-		lblId.setForeground(new Color(255, 255, 255));
-		lblId.setFont(new Font("Forte", Font.BOLD, 20));
-		lblId.setBounds(259, 131, 55, 30);
+		lblId.setForeground(new Color(0, 0, 0));
+		lblId.setFont(new Font("DialogInput", Font.BOLD, 20));
+		lblId.setBounds(259, 131, 36, 35);
 		frmUsuario.getContentPane().add(lblId);
 		
 		Codigo = new JTextField();
 		Codigo.setColumns(10);
-		Codigo.setBounds(314, 276, 150, 27);
+		Codigo.setBounds(305, 276, 150, 27);
 		frmUsuario.getContentPane().add(Codigo);
 		
 		JLabel lblCdigo = new JLabel("CÓDIGO");
-		lblCdigo.setForeground(new Color(255, 255, 255));
-		lblCdigo.setFont(new Font("Forte", Font.BOLD, 20));
-		lblCdigo.setBounds(204, 276, 90, 27);
+		lblCdigo.setForeground(new Color(0, 0, 0));
+		lblCdigo.setFont(new Font("DialogInput", Font.BOLD, 20));
+		lblCdigo.setBounds(223, 276, 72, 27);
 		frmUsuario.getContentPane().add(lblCdigo);
 		
 	}
