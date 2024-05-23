@@ -17,7 +17,7 @@ import modelo.persistance.mysql.DaoProveedorMySql;
 
 import java.util.List;
 
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -59,6 +59,7 @@ public class VentanaProveedor {
     private JButton btnExportar; 
 
     private JLabel lblNewLabel_4;
+    private JLabel lblNewLabel_5;
 
     public VentanaProveedor( String nombre, String descripcion, String telefono, String direccion) {
         initialize(); 
@@ -72,22 +73,29 @@ public class VentanaProveedor {
         
         textID = new JTextField();
         textID.setColumns(10);
-        textID.setBounds(185, 432, 119, 27);
+        textID.setBounds(187, 432, 119, 27);
         proveedor.getContentPane().add(textID);
         
         cargarProveedores();
         
         JLabel lblId = new JLabel("Id");
-        lblId.setForeground(new Color(255, 255, 255));
-        lblId.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblId.setBounds(94, 432, 45, 27);
+        lblId.setBackground(new Color(0, 0, 0));
+        lblId.setForeground(new Color(0, 0, 0));
+        lblId.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblId.setBounds(147, 432, 30, 27);
         proveedor.getContentPane().add(lblId);
         
         lblNewLabel_4 = new JLabel("Proveedor");
-        lblNewLabel_4.setForeground(Color.WHITE);
-        lblNewLabel_4.setFont(new Font("Cambria", Font.BOLD, 45));
-        lblNewLabel_4.setBounds(238, 13, 263, 47);
+        lblNewLabel_4.setBackground(new Color(0, 0, 0));
+        lblNewLabel_4.setForeground(new Color(0, 0, 0));
+        lblNewLabel_4.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
+        lblNewLabel_4.setBounds(238, 13, 280, 47);
         proveedor.getContentPane().add(lblNewLabel_4);
+        
+        lblNewLabel_5 = new JLabel("New label");
+        lblNewLabel_5.setIcon(new ImageIcon(VentanaPedido.class.getResource("/imagenes/RESTECH_ImageICono (1).jpeg")));
+        lblNewLabel_5.setBounds(661, 0, 75, 75);
+        proveedor.getContentPane().add(lblNewLabel_5);
     }
 
     private void initialize() {
@@ -96,7 +104,7 @@ public class VentanaProveedor {
         proveedor.setBounds(100, 100, 750, 750);
         proveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         proveedor.getContentPane().setLayout(null);
-        proveedor.getContentPane().setBackground(new Color(56, 61, 67));
+        proveedor.getContentPane().setBackground(new Color(54,217,187));
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Teléfono", "Dirección"}));
         
         
@@ -122,52 +130,52 @@ public class VentanaProveedor {
         
         
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(20, 70, 700, 281);
+        scrollPane.setBounds(26, 90, 700, 281);
         proveedor.getContentPane().add(scrollPane);
         proveedor.setResizable(false);
 
         nombre = new JTextField();
-        nombre.setBounds(185, 469, 427, 27);
+        nombre.setBounds(187, 469, 427, 27);
         proveedor.getContentPane().add(nombre);
         nombre.setColumns(10);
 
         descripcion = new JTextField();
         descripcion.setColumns(10);
-        descripcion.setBounds(185, 506, 427, 27);
+        descripcion.setBounds(187, 506, 427, 27);
         proveedor.getContentPane().add(descripcion);
 
         telefono = new JTextField();
         telefono.setColumns(10);
-        telefono.setBounds(185, 543, 427, 27);
+        telefono.setBounds(187, 543, 427, 27);
         proveedor.getContentPane().add(telefono);
 
         direccion = new JTextField();
         direccion.setColumns(10);
-        direccion.setBounds(185, 580, 498, 27);
+        direccion.setBounds(187, 580, 498, 27);
         proveedor.getContentPane().add(direccion);
 
         lblNewLabel = new JLabel("Nombre");
-        lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel.setBounds(82, 469, 91, 27);
+        lblNewLabel.setForeground(new Color(0, 0, 0));
+        lblNewLabel.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel.setBounds(102, 469, 75, 27);
         proveedor.getContentPane().add(lblNewLabel);
 
         lblNewLabel_1 = new JLabel("Descripción");
-        lblNewLabel_1.setForeground(new Color(255, 255, 255));
-        lblNewLabel_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1.setBounds(82, 506, 119, 27);
+        lblNewLabel_1.setForeground(new Color(0, 0, 0));
+        lblNewLabel_1.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel_1.setBounds(45, 506, 132, 31);
         proveedor.getContentPane().add(lblNewLabel_1);
 
         lblNewLabel_2 = new JLabel("Teléfono");
-        lblNewLabel_2.setForeground(new Color(255, 255, 255));
-        lblNewLabel_2.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_2.setBounds(82, 543, 119, 27);
+        lblNewLabel_2.setForeground(new Color(0, 0, 0));
+        lblNewLabel_2.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel_2.setBounds(77, 546, 100, 24);
         proveedor.getContentPane().add(lblNewLabel_2);
 
         lblNewLabel_3 = new JLabel("Dirección");
-        lblNewLabel_3.setForeground(new Color(255, 255, 255));
-        lblNewLabel_3.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_3.setBounds(82, 583, 119, 20);
+        lblNewLabel_3.setForeground(new Color(0, 0, 0));
+        lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel_3.setBounds(67, 585, 110, 22);
         proveedor.getContentPane().add(lblNewLabel_3);
 
         btnGuardar = new JButton("Guardar");
@@ -182,7 +190,7 @@ public class VentanaProveedor {
         
         btnExportar = new JButton("Exportar a Excel");
         btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnExportar.setBounds(243, 664, 150, 27);
+        btnExportar.setBounds(185, 664, 208, 27);
         proveedor.getContentPane().add(btnExportar);
 
         btnExportar.addActionListener(new ActionListener() {

@@ -84,7 +84,7 @@ public class VentanaIngredientes {
         
         JLabel lblNewLabel = new JLabel("Cantidad");
         lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
+        lblNewLabel.setFont(new Font("Cambria", Font.PLAIN, 20));
         lblNewLabel.setBounds(211, 676, 80, 27);
         frmIngredientes.getContentPane().add(lblNewLabel);
         
