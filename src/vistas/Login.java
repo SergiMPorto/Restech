@@ -55,10 +55,11 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
 		//frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
 		frame.setBounds(100, 100, 750, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setBackground(new Color(56, 61, 67));
+		frame.getContentPane().setBackground(new Color(54,217,187));
 		frame.getContentPane().setForeground(new Color(56, 61, 67));
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
@@ -69,21 +70,21 @@ public class Login {
 		txtUsuario.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("USUARIO");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setFont(new Font("Forte", Font.BOLD, 25));
-		lblNewLabel.setBounds(161, 214, 122, 31);
+		lblNewLabel.setForeground(new Color(0, 0, 0));
+		lblNewLabel.setFont(new Font("DialogInput", Font.BOLD, 35));
+		lblNewLabel.setBounds(137, 214, 146, 31);
 		frame.getContentPane().add(lblNewLabel);
 		
-		JLabel lblContrasea = new JLabel("CODIGO");
-		lblContrasea.setForeground(Color.WHITE);
-		lblContrasea.setFont(new Font("Forte", Font.BOLD, 25));
-		lblContrasea.setBounds(183, 280, 100, 31);
+		JLabel lblContrasea = new JLabel("CÓDIGO");
+		lblContrasea.setForeground(new Color(0,0,0));
+		lblContrasea.setFont(new Font("DialogInput", Font.BOLD, 35));
+		lblContrasea.setBounds(153, 280, 130, 31);
 		frame.getContentPane().add(lblContrasea);
 		
 		lblNewLabel_1 = new JLabel("Bienvenido");
-		lblNewLabel_1.setForeground(SystemColor.inactiveCaption);
-		lblNewLabel_1.setFont(new Font("Forte", Font.BOLD, 75));
-		lblNewLabel_1.setBounds(168, 73, 391, 82);
+		
+		lblNewLabel_1.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 73));
+		lblNewLabel_1.setBounds(129, 72, 481, 82);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		btnValidar = new JButton("Validar");
@@ -91,8 +92,8 @@ public class Login {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnValidar.setBackground(Color.GRAY);
-		btnValidar.setFont(new Font("Lucida Sans", Font.BOLD, 25));
+		btnValidar.setBackground(new Color(255, 255, 255));
+		btnValidar.setFont(new Font("Lucida Sans", Font.BOLD, 50));
 		btnValidar.setBounds(183, 358, 376, 69);
 		frame.getContentPane().add(btnValidar);
 		
@@ -101,8 +102,12 @@ public class Login {
 		frame.getContentPane().add(passwordField);
 		
 		lblNewLabel_2 = new JLabel("");
-		//lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/RESTECH_ImageICono.jpeg")));
-		lblNewLabel_2.setBounds(253, 450, 255, 239);
+
+		lblNewLabel_2.setBounds(238, 448, 947, 878);
+
+		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/RESTECH_ImageICono.jpeg")));
+		lblNewLabel_2.setBounds(253, 450, 250, 239);
+
 		frame.getContentPane().add(lblNewLabel_2);
 	}
 

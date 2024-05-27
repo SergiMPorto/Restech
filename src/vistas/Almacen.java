@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 //Agregar este import a tu clase Almacen
 import java.io.InputStream;
+import java.awt.Toolkit;
 
 public class Almacen {
 
@@ -91,26 +92,27 @@ public class Almacen {
 
     private void initialize() {
         almacen = new JFrame();
+        almacen.setIconImage(Toolkit.getDefaultToolkit().getImage(Almacen.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
         almacen.setBounds(700, 70, 750, 750);
         almacen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         almacen.getContentPane().setLayout(null);
-        almacen.getContentPane().setBackground(new Color(56, 61, 67));
+        almacen.getContentPane().setBackground(new Color(54,217,187));
         almacen.setResizable(false);
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGuardar.setBounds(300, 653, 125, 27);
+        btnGuardar.setBounds(300, 660, 125, 27);
         almacen.getContentPane().add(btnGuardar);
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnCancelar.setBounds(570, 653, 150, 27);
+        btnCancelar.setBounds(570, 660, 125, 27);
         almacen.getContentPane().add(btnCancelar);
 
         lblNewLabel_3 = new JLabel("Almacén");
-        lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD, 45));
-        lblNewLabel_3.setBounds(286, 21, 185, 47);
-        lblNewLabel_3.setForeground(new Color(255, 255, 255));
+        lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
+        lblNewLabel_3.setBounds(266, 13, 207, 47);
+        lblNewLabel_3.setForeground(new Color(0, 0, 0));
         almacen.getContentPane().add(lblNewLabel_3);
 
         // Inicializar la tabla con un DefaultTableModel
@@ -148,92 +150,93 @@ public class Almacen {
         almacen.getContentPane().add(scrollPane);
 
         Producto = new JTextField();
-        Producto.setBounds(203, 426, 222, 27);
+        Producto.setBounds(250, 426, 222, 27);
         almacen.getContentPane().add(Producto);
         Producto.setColumns(10);
 
         Cantidad = new JTextField();
-        Cantidad.setBounds(203, 574, 63, 27);
+        Cantidad.setBounds(250, 574, 63, 27);
         almacen.getContentPane().add(Cantidad);
         Cantidad.setColumns(10);
 
         FechaCaducidad = new JTextField();
-        FechaCaducidad.setBounds(203, 537, 115, 27);
+        FechaCaducidad.setBounds(250, 537, 115, 27);
         almacen.getContentPane().add(FechaCaducidad);
         FechaCaducidad.setColumns(10);
 
         JLabel JlProducto = new JLabel("Producto");
-        JlProducto.setForeground(new Color(255, 255, 255));
-        JlProducto.setFont(new Font("Forte", Font.ITALIC, 20));
-        JlProducto.setBounds(110, 429, 341, 20);
+        JlProducto.setForeground(new Color(0, 0, 0));
+        JlProducto.setFont(new Font("DialogInput", Font.BOLD, 20));
+        JlProducto.setBounds(144, 423, 96, 30);
         almacen.getContentPane().add(JlProducto);
 
         JLabel JlCantidad = new JLabel("Cantidad");
-        JlCantidad.setForeground(new Color(255, 255, 255));
-        JlCantidad.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlCantidad.setBounds(110, 581, 115, 20);
+        JlCantidad.setForeground(new Color(0, 0, 0));
+        JlCantidad.setFont(new Font("DialogInput", Font.BOLD, 20));
+        JlCantidad.setBounds(139, 581, 101, 20);
         almacen.getContentPane().add(JlCantidad);
 
         JLabel FechaCaducidad_1 = new JLabel("Fecha Caducidad");
-        FechaCaducidad_1.setForeground(new Color(255, 255, 255));
-        FechaCaducidad_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        FechaCaducidad_1.setBounds(43, 533, 150, 35);
+        FechaCaducidad_1.setForeground(new Color(0, 0, 0));
+        FechaCaducidad_1.setFont(new Font("DialogInput", Font.BOLD, 20));
+        FechaCaducidad_1.setBounds(57, 536, 183, 35);
         almacen.getContentPane().add(FechaCaducidad_1);
 
         btnBorrar = new JButton("Borrar");
         btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnBorrar.setBounds(435, 653, 125, 27);
+        btnBorrar.setBounds(435, 660, 125, 27);
         almacen.getContentPane().add(btnBorrar);
 
         Precio = new JTextField();
-        Precio.setBounds(203, 463, 96, 27);
+        Precio.setBounds(250, 463, 96, 27);
         almacen.getContentPane().add(Precio);
         Precio.setColumns(10);
 
         Proveedor = new JTextField();
-        Proveedor.setBounds(203, 500, 96, 27);
+        Proveedor.setBounds(250, 500, 96, 27);
         almacen.getContentPane().add(Proveedor);
         Proveedor.setColumns(10);
 
         Merma = new JTextField();
         Merma.setColumns(10);
-        Merma.setBounds(203, 611, 63, 27);
+        Merma.setBounds(250, 611, 63, 27);
         almacen.getContentPane().add(Merma);
 
         JLabel JlPrecio = new JLabel("Precio");
-        JlPrecio.setForeground(new Color(255, 255, 255));
-        JlPrecio.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlPrecio.setBounds(140, 470, 83, 20);
+        JlPrecio.setForeground(new Color(0, 0, 0));
+        JlPrecio.setFont(new Font("DialogInput", Font.BOLD, 20));
+        JlPrecio.setBounds(168, 470, 72, 20);
         almacen.getContentPane().add(JlPrecio);
 
         JLabel JlProveedor = new JLabel("Proveedor");
-        JlProveedor.setForeground(new Color(255, 255, 255));
-        JlProveedor.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlProveedor.setBounds(110, 503, 96, 20);
+        JlProveedor.setForeground(new Color(0, 0, 0));
+        JlProveedor.setFont(new Font("DialogInput", Font.BOLD, 20));
+        JlProveedor.setBounds(132, 506, 108, 20);
         almacen.getContentPane().add(JlProveedor);
 
         JLabel JlMerma = new JLabel("Merma");
-        JlMerma.setForeground(new Color(255, 255, 255));
-        JlMerma.setFont(new Font("Forte", Font.PLAIN, 20));
-        JlMerma.setBounds(123, 613, 83, 23);
+        JlMerma.setForeground(new Color(0, 0, 0));
+        JlMerma.setFont(new Font("DialogInput", Font.BOLD, 20));
+        JlMerma.setBounds(177, 615, 63, 23);
         almacen.getContentPane().add(JlMerma);
         
         ID = new JTextField();
         ID.setColumns(10);
-        ID.setBounds(203, 392, 63, 27);
+        ID.setBounds(250, 392, 63, 27);
         almacen.getContentPane().add(ID);
         
         JLabel lblId = new JLabel("ID");
-        lblId.setForeground(new Color(255, 255, 255));
+        lblId.setBackground(new Color(0, 0, 0));
+        lblId.setForeground(new Color(0, 0, 0));
         lblId.setHorizontalAlignment(SwingConstants.CENTER);
-        lblId.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblId.setBounds(123, 396, 83, 23);
+        lblId.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblId.setBounds(216, 399, 29, 20);
         almacen.getContentPane().add(lblId);
         
 
         btnExportar = new JButton("Exportar a Excel");
         btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnExportar.setBounds(120, 653, 170, 27);
+        btnExportar.setBounds(120, 660, 170, 27);
         almacen.getContentPane().add(btnExportar);
 
         btnExportar.addActionListener(new ActionListener() {
@@ -242,9 +245,9 @@ public class Almacen {
             }
         });
 
-        lblNewLabel = new JLabel("New label");
+        lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(Almacen.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-        lblNewLabel.setBounds(20, 21, 49, 39);
+        lblNewLabel.setBounds(642, 10, 53, 50);
         almacen.getContentPane().add(lblNewLabel);
 
     }

@@ -83,38 +83,36 @@ public class VentanaPlato {
 	        frmPlato.setTitle("PLATO");
 	        frmPlato.setBounds(750, 50, 750, 750);
 	        frmPlato.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	        frmPlato.getContentPane().setBackground(new Color(56, 61, 67));
+	        frmPlato.getContentPane().setBackground(new Color(54,217,187));
 	        SpringLayout springLayout = new SpringLayout();
 	        frmPlato.getContentPane().setLayout(springLayout);
 	        frmPlato.setResizable(false);
 
 	        JLabel nombre_1 = new JLabel("NOMBRE");
 	        springLayout.putConstraint(SpringLayout.NORTH, nombre_1, 137, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.WEST, nombre_1, 207, SpringLayout.WEST, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.SOUTH, nombre_1, 164, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.EAST, nombre_1, 324, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, nombre_1, 227, SpringLayout.WEST, frmPlato.getContentPane());
 	        nombre_1.setHorizontalAlignment(SwingConstants.CENTER);
-	        nombre_1.setForeground(new Color(128, 128, 128));
-	        nombre_1.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+	        nombre_1.setForeground(new Color(0, 0, 0));
+	        nombre_1.setFont(new Font("DialogInput", Font.BOLD, 20));
 	        frmPlato.getContentPane().add(nombre_1);
 
 	        nombre = new JTextField();
-	        springLayout.putConstraint(SpringLayout.NORTH, nombre, 137, SpringLayout.NORTH, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.WEST, nombre, 320, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, nombre_1, 0, SpringLayout.SOUTH, nombre);
+	        springLayout.putConstraint(SpringLayout.EAST, nombre_1, -12, SpringLayout.WEST, nombre);
+	        springLayout.putConstraint(SpringLayout.NORTH, nombre, 137, SpringLayout.NORTH, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.SOUTH, nombre, 164, SpringLayout.NORTH, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.EAST, nombre, 570, SpringLayout.WEST, frmPlato.getContentPane());
 	        frmPlato.getContentPane().add(nombre);
 	        nombre.setColumns(10);
 
 	        precio = new JLabel("PRECIO");
-	        springLayout.putConstraint(SpringLayout.NORTH, precio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.WEST, precio, 207, SpringLayout.WEST, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.SOUTH, precio, 214, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.EAST, precio, 324, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, precio, 0, SpringLayout.WEST, nombre_1);
 	        precio.setHorizontalAlignment(SwingConstants.CENTER);
-	        precio.setForeground(new Color(128, 128, 128));
-	        precio.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+	        precio.setForeground(new Color(0, 0, 0));
+	        precio.setFont(new Font("DialogInput", Font.BOLD, 20));
 	        frmPlato.getContentPane().add(precio);
+
 
 	        textPrecio = new JTextField();
 	        springLayout.putConstraint(SpringLayout.NORTH, textPrecio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -124,16 +122,26 @@ public class VentanaPlato {
 	        frmPlato.getContentPane().add(textPrecio);
 	        textPrecio.setColumns(10);
 
+	        textPrecio = new JTextField();
+	        springLayout.putConstraint(SpringLayout.SOUTH, precio, 0, SpringLayout.SOUTH, textPrecio);
+	        springLayout.putConstraint(SpringLayout.EAST, precio, -6, SpringLayout.WEST, textPrecio);
+	        springLayout.putConstraint(SpringLayout.NORTH, textPrecio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, textPrecio, 320, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, textPrecio, 214, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.EAST, textPrecio, 420, SpringLayout.WEST, frmPlato.getContentPane());
+	        frmPlato.getContentPane().add(textPrecio);
+	        textPrecio.setColumns(10);
+
+
 	        lblNewLabel_2 = new JLabel("TIEMPO DE PREPARACIÓN");
-	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 244, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 60, SpringLayout.WEST, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 271, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_2, 310, SpringLayout.WEST, frmPlato.getContentPane());
-	        lblNewLabel_2.setForeground(new Color(128, 128, 128));
-	        lblNewLabel_2.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+	        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 55, SpringLayout.WEST, frmPlato.getContentPane());
+	        lblNewLabel_2.setForeground(new Color(0, 0, 0));
+	        lblNewLabel_2.setFont(new Font("DialogInput", Font.BOLD, 20));
 	        frmPlato.getContentPane().add(lblNewLabel_2);
 
 	        tiempoPreparacion = new JTextField();
+	        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 0, SpringLayout.SOUTH, tiempoPreparacion);
+	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_2, -8, SpringLayout.WEST, tiempoPreparacion);
 	        springLayout.putConstraint(SpringLayout.NORTH, tiempoPreparacion, 244, SpringLayout.NORTH, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.WEST, tiempoPreparacion, 320, SpringLayout.WEST, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.SOUTH, tiempoPreparacion, 271, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -146,7 +154,7 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.WEST, guardar, 400, SpringLayout.WEST, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.EAST, guardar, 550, SpringLayout.WEST, frmPlato.getContentPane());
 	        guardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        guardar.setBackground(Color.GRAY);
+	        guardar.setBackground(new Color(255, 255, 255));
 	        guardar.setForeground(Color.BLACK);
 	        frmPlato.getContentPane().add(guardar);
 
@@ -155,16 +163,16 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.WEST, borrar, 560, SpringLayout.WEST, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.EAST, borrar, 710, SpringLayout.WEST, frmPlato.getContentPane());
 	        borrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        borrar.setBackground(Color.GRAY);
+	        borrar.setBackground(new Color(255, 255, 255));
 	        borrar.setForeground(Color.BLACK);
 	        frmPlato.getContentPane().add(borrar);
 
 	        lblNewLabel_3 = new JLabel("PLATO");
-	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 53, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_3, 320, SpringLayout.WEST, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, 100, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_3, 782, SpringLayout.WEST, frmPlato.getContentPane());
-	        lblNewLabel_3.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 45));
+	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 32, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_3, 290, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, -52, SpringLayout.NORTH, nombre_1);
+	        lblNewLabel_3.setForeground(new Color(0, 0, 0));
+	        lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
 	        frmPlato.getContentPane().add(lblNewLabel_3);
 
 	     // Creamos el modelo de la tabla sin las columnas de merma y fecha de caducidad
@@ -187,7 +195,7 @@ public class VentanaPlato {
 
 	        
 	        ingredientes = new JButton("Ingredientes");
-	        springLayout.putConstraint(SpringLayout.NORTH, ingredientes, 178, SpringLayout.SOUTH, lblNewLabel_3);
+	        springLayout.putConstraint(SpringLayout.NORTH, ingredientes, 278, SpringLayout.NORTH, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.WEST, ingredientes, 574, SpringLayout.WEST, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.SOUTH, ingredientes, -10, SpringLayout.NORTH, scrollPane);
 	        springLayout.putConstraint(SpringLayout.EAST, ingredientes, -10, SpringLayout.EAST, frmPlato.getContentPane());
@@ -196,10 +204,11 @@ public class VentanaPlato {
 	        frmPlato.getContentPane().add(ingredientes);
 	        
 	        JLabel lblNewLabel = new JLabel("New label");
-	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 69, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 54, SpringLayout.WEST, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, 116, SpringLayout.NORTH, frmPlato.getContentPane());
-	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 108, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_3, -235, SpringLayout.WEST, lblNewLabel);
+	        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 0, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 682, SpringLayout.WEST, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, 47, SpringLayout.NORTH, frmPlato.getContentPane());
+	        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 0, SpringLayout.EAST, frmPlato.getContentPane());
 	        lblNewLabel.setIcon(new ImageIcon(VentanaPlato.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
 	        frmPlato.getContentPane().add(lblNewLabel);
 	        
@@ -208,7 +217,7 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.EAST, listarPlatos, -12, SpringLayout.WEST, guardar);
 	        listarPlatos.setForeground(Color.BLACK);
 	        listarPlatos.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        listarPlatos.setBackground(Color.GRAY);
+	        listarPlatos.setBackground(new Color(255, 255, 255));
 	        frmPlato.getContentPane().add(listarPlatos);
 
 	        ajustarTamañoColumnaCantidad();
@@ -225,7 +234,7 @@ public class VentanaPlato {
 
 		private void ajustarTamañoColumnaCantidad() {
 	        TableColumnModel columnModel = table.getColumnModel();
-	        columnModel.getColumn(0).setPreferredWidth(50); // Ajustar ancho de la columna Producto
+	        columnModel.getColumn(0).setPreferredWidth(50); 
 	        columnModel.getColumn(1).setPreferredWidth(150);
 	    }
 

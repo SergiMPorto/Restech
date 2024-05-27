@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -65,10 +68,11 @@ public class VentanaPedido  {
     private void initialize() {
     	
         frmPedido = new JFrame();
-        frmPedido.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPedido.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+        frmPedido.setBackground(Color.WHITE);
+        frmPedido.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPedido.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
         frmPedido.setTitle("Pedido");
-        frmPedido.getContentPane().setBackground(new Color(56, 61, 67));
-        frmPedido.getContentPane().setForeground(new Color(56, 61, 67));
+        frmPedido.getContentPane().setBackground(new Color(54,217,187));
+        frmPedido.getContentPane().setForeground(new Color(54,217,187));
         frmPedido.setBounds(730, 50, 750, 750);
         frmPedido.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPedido.getContentPane().setLayout(null);
@@ -77,26 +81,19 @@ public class VentanaPedido  {
         
 
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"}));
-        //Cambiar tamaño de tablas
-        table.setPreferredScrollableViewportSize(new Dimension(750, 400));
+ table.setPreferredScrollableViewportSize(new Dimension(750,400));
         
         TableColumn column = null;
-        for( int i = 0; i < table.getColumnCount(); i++) {
-        	column = table.getColumnModel().getColumn(i);
-        	if (i == 0) {
-                column.setPreferredWidth(25); 
-            } else if (i == 1) {
-                column.setPreferredWidth(25); 
-            } else if (i == 2) {
-                column.setPreferredWidth(180); 
-            } else if (i == 3) {
-                column.setPreferredWidth(150);
-            } else if (i == 4) {
-                column.setPreferredWidth(35); 
-            } else if (i == 5) {
-                column.setPreferredWidth(30); 
-            } else if (i == 6) {
-                column.setPreferredWidth(100);
+        
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            column = table.getColumnModel().getColumn(i);
+            switch (i) {
+                case 0 -> column.setPreferredWidth(5);
+                case 1 -> column.setPreferredWidth(5);
+                case 2 -> column.setPreferredWidth(75);
+                case 3 -> column.setPreferredWidth(100);
+                case 4, 5 -> column.setPreferredWidth(10);
+                case 6 -> column.setPreferredWidth(75);
             }
         }
         
@@ -111,7 +108,7 @@ public class VentanaPedido  {
 */        
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 325, 700, 322);
+        scrollPane.setBounds(10, 325, 716, 322);
         frmPedido.getContentPane().add(scrollPane);
         
         
@@ -122,25 +119,28 @@ public class VentanaPedido  {
         frmPedido.getContentPane().add(combo);
 
 
+
         btnAnadir = new JButton("Añadir");
         btnAnadir.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnAnadir.setBounds(350, 657, 100, 30);
+        btnAnadir.setBounds(331, 657, 125, 30);
         frmPedido.getContentPane().add(btnAnadir);
-        
+
+        btnGuardar = new JButton("Guardar");
+        btnGuardar.setForeground(Color.BLACK);
+        btnGuardar.setBackground(Color.WHITE);
+        btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        btnGuardar.setBounds(466, 657, 125, 30);
+        frmPedido.getContentPane().add(btnGuardar);
+          
         btnBorrar = new JButton("Borrar");
         btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnBorrar.setBounds(460, 657, 100, 30);
+        btnBorrar.setBounds(601, 657, 125, 30);
         frmPedido.getContentPane().add(btnBorrar);
-          
-        btnGuardar = new JButton("Guardar");
-        btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGuardar.setBounds(570, 657, 100, 30);
-        frmPedido.getContentPane().add(btnGuardar);
         
         JLabel lblNewLabel = new JLabel("Proveedor");
-        lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel.setBounds(125, 97, 95, 27);
+        lblNewLabel.setForeground(Color.BLACK);
+        lblNewLabel.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel.setBounds(109, 94, 119, 30);
         frmPedido.getContentPane().add(lblNewLabel);
         
         Producto = new JTextField();
@@ -159,27 +159,32 @@ public class VentanaPedido  {
         frmPedido.getContentPane().add(Precio);
         
         JLabel lblNewLabel_1 = new JLabel("Producto");
-        lblNewLabel_1.setForeground(new Color(255, 255, 255));
-        lblNewLabel_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1.setBounds(125, 134, 95, 27);
+        lblNewLabel_1.setForeground(Color.BLACK);
+        lblNewLabel_1.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel_1.setBounds(116, 134, 100, 27);
         frmPedido.getContentPane().add(lblNewLabel_1);
         
         JLabel lblNewLabel_1_1 = new JLabel("Cantidad");
-        lblNewLabel_1_1.setForeground(Color.WHITE);
-        lblNewLabel_1_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1_1.setBounds(125, 171, 95, 27);
+        lblNewLabel_1_1.setForeground(Color.BLACK);
+        lblNewLabel_1_1.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel_1_1.setBounds(116, 167, 100, 27);
         frmPedido.getContentPane().add(lblNewLabel_1_1);
         
         JLabel lblNewLabel_1_1_1 = new JLabel("Precio");
-        lblNewLabel_1_1_1.setForeground(Color.WHITE);
-        lblNewLabel_1_1_1.setFont(new Font("Forte", Font.PLAIN, 20));
-        lblNewLabel_1_1_1.setBounds(125, 208, 95, 27);
+        lblNewLabel_1_1_1.setForeground(Color.BLACK);
+        lblNewLabel_1_1_1.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel_1_1_1.setBounds(131, 204, 85, 27);
         frmPedido.getContentPane().add(lblNewLabel_1_1_1);
         
         lblNewLabel_2 = new JLabel("New label");
-        lblNewLabel_2.setIcon(new ImageIcon(VentanaPedido.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-        lblNewLabel_2.setBounds(41, 42, 56, 46);
+        lblNewLabel_2.setIcon(new ImageIcon(VentanaPedido.class.getResource("/imagenes/RESTECH_ImageICono (1).jpeg")));
+        lblNewLabel_2.setBounds(661, 0, 75, 75);
         frmPedido.getContentPane().add(lblNewLabel_2);
+        
+        JLabel lblNewLabel_3 = new JLabel("PEDIDO");
+        lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
+        lblNewLabel_3.setBounds(285, 17, 199, 63);
+        frmPedido.getContentPane().add(lblNewLabel_3);
     }
    
     
@@ -217,10 +222,10 @@ public class VentanaPedido  {
 	public JButton getBtnBorrar() {
 		return btnBorrar;
 	}
-
 	public void setBtnBorrar(JButton btnBorrar) {
 		this.btnBorrar = btnBorrar;
 	}
+	
 
 	public JTextField getProducto() {
 		return Producto;
@@ -277,6 +282,7 @@ public class VentanaPedido  {
 	public void setScrollPane(JScrollPane scrollPane) {
 		this.scrollPane = scrollPane;
 	}
+
 	
 
 
@@ -287,5 +293,7 @@ public class VentanaPedido  {
 		btnGuardar.addActionListener(controladorEventosPedido);
 	}
 
+
 	
+
 }

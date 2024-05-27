@@ -59,21 +59,21 @@ public class Home {
 		frmMen = new JFrame();
 		frmMen.setTitle("Menú");
 		frmMen.setIconImage(Toolkit.getDefaultToolkit().getImage(Home.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-		frmMen.getContentPane().setBackground(new Color(56, 61, 67));
+		frmMen.getContentPane().setBackground(new Color(54,217,187));
 		frmMen.getContentPane().setForeground(new Color(56, 61, 67));
 		frmMen.setBounds(100, 100, 750, 750);
 		frmMen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMen.getContentPane().setLayout(null);
 		frmMen.setResizable(false);
 		JLabel lblNewLabel = new JLabel("Menú");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setBackground(new Color(240, 240, 240));
-		lblNewLabel.setFont(new Font("Cambria", Font.BOLD | Font.ITALIC, 50));
-		lblNewLabel.setBounds(307, 33, 187, 46);
+		lblNewLabel.setForeground(new Color(0, 0, 0));
+		lblNewLabel.setBackground(new Color(0, 0, 0));
+		lblNewLabel.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
+		lblNewLabel.setBounds(307, 33, 132, 46);
 		frmMen.getContentPane().add(lblNewLabel);
 		
 		btnAlmacen = new JButton("Producto");
-		btnAlmacen.setIcon(new ImageIcon(Home.class.getResource("/imagenes/Almacen (1).jpeg")));
+		btnAlmacen.setIcon(new ImageIcon(Home.class.getResource("/imagenes/almacen .jpg")));
 		btnAlmacen.setToolTipText("Producto");
 		ImageIcon icon = new ImageIcon("D:\\Restech\\Imagenes\\Almacen.jpeg");
 		Image image = icon.getImage();
@@ -90,7 +90,7 @@ public class Home {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnPlatos.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Plato.jpeg")));
+		btnPlatos.setIcon(new ImageIcon(Home.class.getResource("/imagenes/NuevoPlato (1).jpg")));
 		btnPlatos.setFont(new Font("Lucida Sans", Font.BOLD, 30));
 		btnPlatos.setBounds(492, 68, 150, 150);
 		frmMen.getContentPane().add(btnPlatos);
@@ -115,33 +115,34 @@ public class Home {
 
 		
 		JLabel lblPlato = new JLabel("PLATO");
-		lblPlato.setForeground(SystemColor.textHighlightText);
-		lblPlato.setBounds(492, 247, 164, 39);
-		lblPlato.setFont(new Font("Forte", Font.PLAIN, 30));
+		lblPlato.setBackground(new Color(0, 0, 0));
+		lblPlato.setForeground(new Color(0, 0, 0));
+		lblPlato.setBounds(519, 228, 109, 39);
+		lblPlato.setFont(new Font("DialogInput", Font.BOLD, 35));
 		frmMen.getContentPane().add(lblPlato);
 		
 		JLabel lblProveedor = new JLabel("PEDIDO");
-		lblProveedor.setForeground(SystemColor.textHighlightText);
-		lblProveedor.setBounds(66, 650, 198, 39);
-		lblProveedor.setFont(new Font("Forte", Font.PLAIN, 30));
+		lblProveedor.setForeground(new Color(0, 0, 0));
+		lblProveedor.setBounds(87, 637, 143, 39);
+		lblProveedor.setFont(new Font("DialogInput", Font.BOLD, 35));
 		frmMen.getContentPane().add(lblProveedor);
 		
 		JLabel lblAlmacen = new JLabel("ALMACEN");
-		lblAlmacen.setForeground(SystemColor.textHighlightText);
-		lblAlmacen.setBounds(66, 247, 164, 39);
-		lblAlmacen.setFont(new Font("Forte", Font.PLAIN, 30));
+		lblAlmacen.setForeground(new Color(0, 0, 0));
+		lblAlmacen.setBounds(80, 228, 150, 39);
+		lblAlmacen.setFont(new Font("DialogInput", Font.BOLD, 35));
 		frmMen.getContentPane().add(lblAlmacen);
 		
 		JLabel lblUsuario = new JLabel("USUARIO");
-		lblUsuario.setForeground(SystemColor.textHighlightText);
-		lblUsuario.setBounds(478, 650, 164, 39);
-		lblUsuario.setFont(new Font("Forte", Font.PLAIN, 30));
+		lblUsuario.setForeground(new Color(0, 0, 0));
+		lblUsuario.setBounds(492, 637, 150, 39);
+		lblUsuario.setFont(new Font("DialogInput", Font.BOLD, 35));
 		frmMen.getContentPane().add(lblUsuario);
 		
 		JLabel lblProveedores = new JLabel("PROVEEDORES");
-		lblProveedores.setForeground(SystemColor.textHighlightText);
-		lblProveedores.setFont(new Font("Forte", Font.PLAIN, 30));
-		lblProveedores.setBounds(246, 407, 211, 39);
+		lblProveedores.setForeground(new Color(0, 0, 0));
+		lblProveedores.setFont(new Font("DialogInput", Font.BOLD, 35));
+		lblProveedores.setBounds(238, 407, 234, 39);
 		frmMen.getContentPane().add(lblProveedores);
 		
 		
