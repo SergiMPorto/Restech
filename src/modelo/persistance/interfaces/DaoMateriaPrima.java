@@ -16,5 +16,6 @@ public interface DaoMateriaPrima {
     List<MateriaPrima> listar();
     public int obtenerIdMateriaPrima(String nombreMateriaPrima);
     public MateriaPrima obtenerPorNombre(String nombre);
+    public boolean actualizarCantidadUtilizada(int id, float nuevaCantidad);
 
 }

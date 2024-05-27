@@ -224,33 +224,64 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 		    return idMateriaPrima;
 	}
 	
-	public MateriaPrima obtenerPorNombre(String nombre) {
-        MateriaPrima materiaPrima = null;
-        if (!abrirConexion()) {
-            return null;
-        }
+	@Override
+	public boolean actualizarCantidadUtilizada(int id, float nuevaCantidad) {
+		if (!abrirConexion()) {
+	        return false;
+	    }
 
-        String query = "SELECT * FROM materias_primas WHERE nombre = ?";
-        try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setString(1, nombre);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    materiaPrima = new MateriaPrima();
-                    materiaPrima.setId(rs.getInt("ID_Materia_Prima"));
-                    materiaPrima.setNombre(rs.getString("nombre"));
-                    materiaPrima.setPrecio(rs.getFloat("precio"));
-                    materiaPrima.setProveedor(rs.getString("proveedor"));
-                    materiaPrima.setFechaCaducidad(rs.getDate("fecha_caducidad").toLocalDate());
-                    materiaPrima.setMerma(rs.getFloat("merma"));
-                    // Asignar otros atributos necesarios
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            cerrarConexion();
-        }
-        return materiaPrima;
-    }
+	    boolean actualizado = true;
+	    String query = "UPDATE materias_primas SET cantidad_utilizada = ? WHERE id_materia_prima = ?";
+	    try {
+	        PreparedStatement ps = conexion.prepareStatement(query);
+	        ps.setFloat(1, nuevaCantidad);
+	        ps.setInt(2, id);
+
+	        int numeroFilasAfectadas = ps.executeUpdate();
+	        if (numeroFilasAfectadas == 0) {
+	            actualizado = false;
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Error al actualizar cantidad utilizada de MateriaPrima con id " + id);
+	        actualizado = false;
+	        e.printStackTrace();
+	    } finally {
+	        cerrarConexion();
+	    }
+
+	    return actualizado;
+	}
+	
+	public MateriaPrima obtenerPorNombre(String nombre) {
+	    MateriaPrima materiaPrima = null;
+	    if (!abrirConexion()) {
+	        return null;
+	    }
+
+	    String query = "SELECT * FROM materias_primas WHERE nombre = ?";
+	    try (PreparedStatement ps = conexion.prepareStatement(query)) {
+	        ps.setString(1, nombre);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                materiaPrima = new MateriaPrima();
+	                materiaPrima.setId(rs.getInt("id_materia_prima")); // Corregido el nombre de la columna
+	                materiaPrima.setNombre(rs.getString("nombre"));
+	                materiaPrima.setPrecio(rs.getFloat("precio"));
+	                materiaPrima.setProveedor(rs.getString("proveedor"));
+	                materiaPrima.setFechaCaducidad(rs.getDate("fecha_caducidad").toLocalDate());
+	                materiaPrima.setCantidadUtilizada(rs.getFloat("cantidad_utilizada")); // Añadido para asignar cantidad utilizada
+	                materiaPrima.setMerma(rs.getFloat("merma"));
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        cerrarConexion();
+	    }
+	    return materiaPrima;
+	}
+
+
+	
 	
 }

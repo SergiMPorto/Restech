@@ -69,7 +69,12 @@ public class VentanaIngredientes {
         frmIngredientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
 
-        modeloIngredientes = new DefaultTableModel();
+        modeloIngredientes = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Hacemos que las celdas no sean editables
+            }
+        };
         modeloIngredientes.setColumnIdentifiers(new Object[]{"Producto", "Cantidad Utilizada"});
         frmIngredientes.getContentPane().setLayout(null);
         tablaIngredientes = new JTable(modeloIngredientes);
@@ -91,6 +96,7 @@ public class VentanaIngredientes {
         guardar = new JButton("Guardar");
         guardar.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		guardarCantidad();
         	}
         });
         guardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -207,6 +213,38 @@ public class VentanaIngredientes {
         borrar.addActionListener(controlador);
         guardar.addActionListener(controlador);
     }
+	
+	private void guardarCantidad() {
+        int filaSeleccionada = tablaIngredientes.getSelectedRow();
+        if (filaSeleccionada != -1) {
+            String nombreProducto = (String) tablaIngredientes.getValueAt(filaSeleccionada, 0);
+            try {
+                float cantidadUtilizada = Float.parseFloat(cantidad.getText());
+
+                // Obtener la materia prima desde la base de datos
+                MateriaPrima materiaPrima = daoMateriaPrima.obtenerPorNombre(nombreProducto);
+
+                if (materiaPrima != null) {
+                    float nuevaCantidad = materiaPrima.getCantidadUtilizada() - cantidadUtilizada;
+                    if (nuevaCantidad >= 0) {
+                        // Actualizar la cantidad utilizada en la base de datos
+                        boolean actualizado = daoMateriaPrima.actualizarCantidadUtilizada(materiaPrima.getId(), nuevaCantidad);
+                        if (actualizado) {
+                            // Actualizar la tabla en la interfaz de usuario
+                            tablaIngredientes.setValueAt(nuevaCantidad, filaSeleccionada, 1);
+                            cantidad.setText("");
+                        } else {
+                            System.out.println("Error al actualizar la cantidad en la base de datos.");
+                        }
+                    } else {
+                        System.out.println("Cantidad utilizada no puede ser mayor que la cantidad actual.");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Cantidad inválida.");
+            }
+        }
+    }
     public void cargarDatosEnTablaIngredientes() {
         //Obtén la lista de Materias Primas desde la base de datos
         List<MateriaPrima> listadoMateriasPrimas = daoMateriaPrima.listar();
@@ -227,5 +265,7 @@ public class VentanaIngredientes {
         //Actualiza la tabla con el nuevo modelo
         getTablaIngredientes().setModel(modeloTablaIngredientes);
     }
-   }
+    
+    
+}
 
