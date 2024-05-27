@@ -154,7 +154,7 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.WEST, guardar, 400, SpringLayout.WEST, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.EAST, guardar, 550, SpringLayout.WEST, frmPlato.getContentPane());
 	        guardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        guardar.setBackground(Color.GRAY);
+	        guardar.setBackground(new Color(255, 255, 255));
 	        guardar.setForeground(Color.BLACK);
 	        frmPlato.getContentPane().add(guardar);
 
@@ -163,7 +163,7 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.WEST, borrar, 560, SpringLayout.WEST, frmPlato.getContentPane());
 	        springLayout.putConstraint(SpringLayout.EAST, borrar, 710, SpringLayout.WEST, frmPlato.getContentPane());
 	        borrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        borrar.setBackground(Color.GRAY);
+	        borrar.setBackground(new Color(255, 255, 255));
 	        borrar.setForeground(Color.BLACK);
 	        frmPlato.getContentPane().add(borrar);
 
@@ -217,7 +217,7 @@ public class VentanaPlato {
 	        springLayout.putConstraint(SpringLayout.EAST, listarPlatos, -12, SpringLayout.WEST, guardar);
 	        listarPlatos.setForeground(Color.BLACK);
 	        listarPlatos.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-	        listarPlatos.setBackground(Color.GRAY);
+	        listarPlatos.setBackground(new Color(255, 255, 255));
 	        frmPlato.getContentPane().add(listarPlatos);
 
 	        ajustarTamañoColumnaCantidad();

@@ -108,7 +108,7 @@ public class VentanaPedido  {
 */        
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 325, 700, 322);
+        scrollPane.setBounds(10, 325, 716, 322);
         frmPedido.getContentPane().add(scrollPane);
         
         
@@ -122,26 +122,20 @@ public class VentanaPedido  {
 
         btnAnadir = new JButton("Añadir");
         btnAnadir.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnAnadir.setBounds(350, 657, 100, 30);
+        btnAnadir.setBounds(331, 657, 125, 30);
         frmPedido.getContentPane().add(btnAnadir);
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setForeground(Color.BLACK);
         btnGuardar.setBackground(Color.WHITE);
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGuardar.setBounds(460, 657, 100, 30);
+        btnGuardar.setBounds(466, 657, 125, 30);
         frmPedido.getContentPane().add(btnGuardar);
-
-        
+          
         btnBorrar = new JButton("Borrar");
         btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnBorrar.setBounds(460, 657, 100, 30);
+        btnBorrar.setBounds(601, 657, 125, 30);
         frmPedido.getContentPane().add(btnBorrar);
-          
-        btnGuardar = new JButton("Guardar");
-        btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGuardar.setBounds(570, 657, 100, 30);
-        frmPedido.getContentPane().add(btnGuardar);
         
         JLabel lblNewLabel = new JLabel("Proveedor");
         lblNewLabel.setForeground(Color.BLACK);
@@ -228,10 +222,10 @@ public class VentanaPedido  {
 	public JButton getBtnBorrar() {
 		return btnBorrar;
 	}
-
 	public void setBtnBorrar(JButton btnBorrar) {
 		this.btnBorrar = btnBorrar;
 	}
+	
 
 	public JTextField getProducto() {
 		return Producto;
@@ -298,6 +292,7 @@ public class VentanaPedido  {
 		btnBorrar.addActionListener(controladorEventosPedido);
 		btnGuardar.addActionListener(controladorEventosPedido);
 	}
+
 
 	
 

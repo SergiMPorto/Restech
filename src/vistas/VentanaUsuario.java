@@ -25,6 +25,7 @@ import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 
 import javax.swing.JFrame;
+import javax.swing.ImageIcon;
 
 public class VentanaUsuario {
 
@@ -40,6 +41,7 @@ public class VentanaUsuario {
 	private JScrollPane scrollPane;
 	private JLabel lblId;
 	private JTextField Codigo;
+	private JLabel lblNewLabel;
 
 
 
@@ -103,7 +105,7 @@ public class VentanaUsuario {
 		 }
 		
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(14, 332, 700, 265);
+        scrollPane.setBounds(14, 332, 712, 267);
         frmUsuario.getContentPane().add(scrollPane);
 		
 		JLabel Nombre = new JLabel("NOMBRE");
@@ -120,17 +122,17 @@ public class VentanaUsuario {
 		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		
 	    btnGuardar = new JButton("GUARDAR");
-		btnGuardar.setBackground(Color.GRAY);
+		btnGuardar.setBackground(new Color(255, 255, 255));
 		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
 		btnGuardar.setForeground(new Color(0, 0, 0));
-		btnGuardar.setBounds(410, 630, 150, 27);
+		btnGuardar.setBounds(466, 630, 125, 30);
 		frmUsuario.getContentPane().add(btnGuardar);
 		
 		btnBorrar = new JButton("BORRAR");
-		btnBorrar.setBackground(Color.GRAY);
+		btnBorrar.setBackground(new Color(255, 255, 255));
 		btnBorrar.setForeground(new Color(0, 0, 0));
 		btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnBorrar.setBounds(570, 630, 150, 27);
+		btnBorrar.setBounds(601, 630, 125, 30);
 		frmUsuario.getContentPane().add(btnBorrar);
 		
 		lblNewLabel_3 = new JLabel("USUARIO");
@@ -172,6 +174,11 @@ public class VentanaUsuario {
 		lblCdigo.setFont(new Font("DialogInput", Font.BOLD, 20));
 		lblCdigo.setBounds(223, 276, 72, 27);
 		frmUsuario.getContentPane().add(lblCdigo);
+		
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(VentanaUsuario.class.getResource("/imagenes/RESTECH_ImageICono (1).jpeg")));
+		lblNewLabel.setBounds(661, 0, 75, 75);
+		frmUsuario.getContentPane().add(lblNewLabel);
 		
 	}
 

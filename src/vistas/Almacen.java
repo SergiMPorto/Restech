@@ -106,7 +106,7 @@ public class Almacen {
 
         btnCancelar = new JButton("Cancelar");
         btnCancelar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnCancelar.setBounds(570, 660, 150, 27);
+        btnCancelar.setBounds(570, 660, 125, 27);
         almacen.getContentPane().add(btnCancelar);
 
         lblNewLabel_3 = new JLabel("Almacén");
@@ -245,9 +245,9 @@ public class Almacen {
             }
         });
 
-        lblNewLabel = new JLabel("New label");
+        lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon(Almacen.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-        lblNewLabel.setBounds(687, 0, 49, 39);
+        lblNewLabel.setBounds(642, 10, 53, 50);
         almacen.getContentPane().add(lblNewLabel);
 
     }

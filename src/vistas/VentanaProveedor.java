@@ -180,17 +180,17 @@ public class VentanaProveedor {
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGuardar.setBounds(411, 666, 150, 27);
+        btnGuardar.setBounds(514, 666, 100, 30);
         proveedor.getContentPane().add(btnGuardar);
 
         btnBorrar = new JButton("Borrar");
         btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnBorrar.setBounds(570, 666, 150, 27);
+        btnBorrar.setBounds(626, 666, 100, 30);
         proveedor.getContentPane().add(btnBorrar);
         
         btnExportar = new JButton("Exportar a Excel");
         btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnExportar.setBounds(185, 664, 208, 27);
+        btnExportar.setBounds(298, 666, 208, 30);
         proveedor.getContentPane().add(btnExportar);
 
         btnExportar.addActionListener(new ActionListener() {
