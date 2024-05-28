@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,6 +24,7 @@ import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 
 import controlador.ControladorEventos;
+import modelo.entidad.Proveedor;
 
 
 public class VentanaPedido  {
@@ -292,7 +294,12 @@ public class VentanaPedido  {
 		btnBorrar.addActionListener(controladorEventosPedido);
 		btnGuardar.addActionListener(controladorEventosPedido);
 	}
-
+	 public void cargarProveedoresEnCombo(List<Proveedor> proveedores) {
+	        combo.removeAllItems();
+	        for (Proveedor proveedor : proveedores) {
+	            combo.addItem(proveedor.getNombre());
+	        }
+	    }
 
 	
 

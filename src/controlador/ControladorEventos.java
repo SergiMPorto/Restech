@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +93,11 @@ public class ControladorEventos implements ActionListener {
         almacen.iniciarListener(this);
         ventanaUsuario.inciarListener(this);
         
+        cargarProveedoresEnPedido();
+        
     }
+    
+   
 
 
     @Override
@@ -181,29 +186,50 @@ public class ControladorEventos implements ActionListener {
                 String nombre = almacen.getProducto().getText();
                 float precio = Float.parseFloat(almacen.getPrecio().getText());
                 String proveedor = almacen.getProveedor().getText();
-                LocalDate fechaCaducidad = LocalDate.parse(almacen.getFechaCaducidad().getText());
+
+             // Crear formato de fecha en español
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                // Parsear fecha
+                LocalDate fechaCaducidad;
+                try {
+                    fechaCaducidad = LocalDate.parse(almacen.getFechaCaducidad().getText(), formato);
+                } catch (DateTimeParseException ex) {
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 float cantidad = Float.parseFloat(almacen.getCantidad().getText());
                 float merma = Float.parseFloat(almacen.getMerma().getText());
+
+                // Formatear fecha para mostrarla en la tabla en formato español
+                String fechaCaducidadFormatted = fechaCaducidad.format(formato);
+
                 MateriaPrima materiaPrima = new MateriaPrima(0, nombre, precio, proveedor, fechaCaducidad, cantidad, merma);
                 DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
-                modelo.addRow(new Object[]{materiaPrima.getId(), nombre, precio, proveedor, fechaCaducidad, cantidad, merma});
-                //Borrar datos
+                
+                // Añadir fila a la tabla con la fecha formateada
+                modelo.addRow(new Object[]{materiaPrima.getId(), nombre, precio, proveedor, fechaCaducidadFormatted, cantidad, merma});
+                
+                // Borrar datos de los campos
                 almacen.getProducto().setText("");
                 almacen.getPrecio().setText("");
                 almacen.getProveedor().setText("");
                 almacen.getFechaCaducidad().setText("");
                 almacen.getCantidad().setText("");
                 almacen.getMerma().setText("");
+
                 if (daoMateriaPrima.insertar(materiaPrima)) {
-                    JOptionPane.showMessageDialog(null, "Materia prima añadida correctamente a la base de datos", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Materia prima añadida correctamente a la base de datos", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 }
 
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
             } catch (DateTimeParseException ex) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato yyyy-MM-dd", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
         else if (e.getSource() == almacen.getBtnBorrar()) {
             int filaSeleccionada = almacen.getTable().getSelectedRow();
             if (filaSeleccionada != -1) {
@@ -286,101 +312,98 @@ public class ControladorEventos implements ActionListener {
             }
         }
         
-        
+        //ventana Pedido
       
-     else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
-	     System.out.println("Botón guardar almacen pulsado");
-	 
-			 if(ventanaPedido.getProducto().getText().isEmpty()){
-			  	JOptionPane.showMessageDialog(null,"campo producto vacío", "Aviso",JOptionPane.INFORMATION_MESSAGE);
-			  }
-			 else  if (!textProducto.matches("[a-zA-Z]+")) {
-			 JOptionPane.showMessageDialog(null, "El campo producto solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-			 } 
-			 else if(ventanaPedido.getCantidad().getText().isEmpty()){
-			  	JOptionPane.showMessageDialog(null,"campo cantidad vacío", "Aviso",JOptionPane.INFORMATION_MESSAGE);
-			 
-			 }
-			 else  if (!textCantidad.matches("\\d+")) {
-			  JOptionPane.showMessageDialog(null, "El campo cantindad solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-			  } 
-			  
-			 
-			 else if(ventanaPedido.getPrecio().getText().isEmpty()){
-			  	JOptionPane.showMessageDialog(null,"campo precio vacío", "Aviso",JOptionPane.INFORMATION_MESSAGE);
-			 }
-			 else  if (!textPrecio.matches("\\d+")) {
-			 JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-			 } 
-			 else {
-				 
-		     int idUsuario = 0;//controladorEventos.usuarioLogueado().getId();
-		     String proveedor = (String) ventanaPedido.getCombo().getSelectedItem();
-		     String producto = ventanaPedido.getProducto().getText();
-		     float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
-		     float precio = Float.parseFloat(ventanaPedido.getPrecio().getText());  
+        else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
+            System.out.println("Botón añadir producto pulsado");
 
-			  ventanaPedido.getTableModel().addRow(new String[] {"",
-					  												Integer.toString(idUsuario),
-					  												proveedor,
-					                                                producto,
-					  												Float.toString(cantidad),
-					  												Float.toString(precio),
-					  												fechaLocal.toString()
-					  												});
+            if (ventanaPedido.getProducto().getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (!textProducto.matches("[a-zA-Z]+")) {
+                JOptionPane.showMessageDialog(null, "El campo producto solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (ventanaPedido.getCantidad().getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo cantidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (!textCantidad.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "El campo cantidad solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (ventanaPedido.getPrecio().getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo precio vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (!textPrecio.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                String proveedor = (String) ventanaPedido.getCombo().getSelectedItem();
+                String producto = ventanaPedido.getProducto().getText();
+                float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
+                float precio = Float.parseFloat(ventanaPedido.getPrecio().getText());
+                LocalDate fechaPedido = LocalDate.now(); // Obtener la fecha actual
 
-			  ventanaPedido.getProducto().setText(null);
-			  ventanaPedido.getCantidad().setText(null);
-			  ventanaPedido.getPrecio().setText(null);  
-			  } 
-			}
+                // Añadir la fila a la tabla con la fecha actual
+                ventanaPedido.getTableModel().addRow(new String[]{
+                        "",
+                        "", 
+                        proveedor,
+                        producto,
+                        Float.toString(cantidad),
+                        Float.toString(precio),
+                        fechaPedido.toString() // Añadir la fecha actual
+                });
+
+                ventanaPedido.getProducto().setText(null);
+                ventanaPedido.getCantidad().setText(null);
+                ventanaPedido.getPrecio().setText(null);
+            }
+        }
+
+
+        else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
+            System.out.println("Botón guardar pedido pulsado");
+
+            DefaultTableModel modelo = (DefaultTableModel) ventanaPedido.getTable().getModel();
+            int rowCount = modelo.getRowCount();
+
+            if (rowCount == 0) {
+                JOptionPane.showMessageDialog(null, "No hay ningún producto para guardar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            for (int i = 0; i < rowCount; i++) {
+                int idUsuario = 0; // controladorEventos.usuarioLogueado().getId();
+                int proveedor = (int) modelo.getValueAt(i, 2);
+                String producto = (String) modelo.getValueAt(i, 3);
+                float cantidad = Float.parseFloat((String) modelo.getValueAt(i, 4));
+                float precio = Float.parseFloat((String) modelo.getValueAt(i, 5));
+                LocalDate fechaPedido = LocalDate.now(); // Obtener la fecha actual
+
+                Pedido p = new Pedido();
+                p.setIdUsuario(idUsuario);
+                p.setIdProveedor(proveedor);
+                p.setMateriaPrima(producto);
+                p.setCantidad(cantidad);
+                p.setFechaPedido(fechaPedido); // Asignar la fecha actual
+                p.setCostoTotal(precio);
+
+                if (!daoPedido.insertar(p)) {
+                    JOptionPane.showMessageDialog(null, "Error al guardar el pedido en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            JOptionPane.showMessageDialog(null, "Pedido guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            modelo.setRowCount(0); // Limpiar la tabla después de guardar
+        }
+
+        else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
+            System.out.println("Botón borrar pulsado");
+
+            if (indice != -1) {
+                ventanaPedido.getTableModel().removeRow(indice);
+                indice = -1; // Reiniciar el índice después de borrar
+            } else {
+                JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
      
-     if (e.getSource() == ventanaPedido.getBtnBorrar()) {
-         System.out.println("Botón borrar pulsado");
-         
-         if (indice != -1) {
-				
-				ventanaPedido.getTableModel().removeRow(indice);
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-				}
-         
-     }
-     
-     if (e.getSource() == ventanaPedido.getBtnGuardar()) {
-         System.out.println("Botón guardar pulsado");
-         
-         if (indice != -1) {
-				
-       	  Pedido p = new Pedido();
-       	  
-       	  int idUsuario = 0;//controladorEventos.usuarioLogueado().getId();
-		     int proveedor = (int) ventanaPedido.getCombo().getSelectedItem();
-		     String producto = ventanaPedido.getProducto().getText();
-		     float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
-		     float precio = Float.parseFloat(ventanaPedido.getPrecio().getText()); 
-       	 
-       	  p.setIdUsuario(idUsuario);
-       	  p.setIdProveedor(proveedor);
-       	  p.setMateriaPrima(producto);
-       	  p.setCantidad(cantidad);
-       	  p.setFechaPedido(fechaLocal);
-       	  p.setCostoTotal(precio);
-       	  
-			  
-       	  daoPedido.insertar(p);
-       	  
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "No hay ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-				}
-         
-     }
-      
-        
- 
-    }      
+    } 
         
         
         
@@ -421,6 +444,15 @@ public class ControladorEventos implements ActionListener {
             });
 
 
+        }
+    }
+    
+    
+    //Cargar proveedores 
+    private void cargarProveedoresEnPedido() {
+        List<Proveedor> proveedores = daoProveedor.listar();
+        for (Proveedor proveedor : proveedores) {
+            ventanaPedido.getCombo().addItem(proveedor.getNombre());
         }
     }
 
