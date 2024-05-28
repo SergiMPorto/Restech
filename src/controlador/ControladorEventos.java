@@ -28,6 +28,7 @@ import modelo.persistance.mysql.DaoPedidoMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
+import vistas.Gastos;
 import vistas.Home;
 import vistas.ListaPlatos;
 import vistas.Login;
@@ -48,6 +49,7 @@ public class ControladorEventos implements ActionListener {
     private VentanaIngredientes ingredientes;
     private VentanaProveedor ventanaProveedor;
     private ListaPlatos listaPlatos;
+    private Gastos gastos;
  
     private DaoMateriaPrimaMySql daoMateriaPrima;
     private DaoPedidoMySql daoPedido;
@@ -58,7 +60,7 @@ public class ControladorEventos implements ActionListener {
     private LocalDate fechaLocal = LocalDate.now();
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
-            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos) {
+            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos, Gastos gastos) {
         this.login = login;
         this.home = home;
         this.almacen = almacen;
@@ -68,6 +70,7 @@ public class ControladorEventos implements ActionListener {
         this.ventanaUsuario = usuario;
         this.ingredientes = ingredientes;
         this.ventanaProveedor = ventanaProveedor;
+        this.gastos = gastos;
         
         this.daoMateriaPrima = new DaoMateriaPrimaMySql();
         this.daoPedido = new DaoPedidoMySql();
@@ -85,6 +88,7 @@ public class ControladorEventos implements ActionListener {
         login.setVisible(true);
         ventanaProveedor.setVisible(false);
         ingredientes.setVisible(false);
+        gastos.setVisible(false);
 
         // Establecer los ActionListener
         login.inciarListener(this);
@@ -315,8 +319,6 @@ public class ControladorEventos implements ActionListener {
         //ventana Pedido
       
         else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
-            System.out.println("Botón añadir producto pulsado");
-
             if (ventanaPedido.getProducto().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (!textProducto.matches("[a-zA-Z]+")) {
@@ -334,30 +336,24 @@ public class ControladorEventos implements ActionListener {
                 String producto = ventanaPedido.getProducto().getText();
                 float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
                 float precio = Float.parseFloat(ventanaPedido.getPrecio().getText());
-                LocalDate fechaPedido = LocalDate.now(); // Obtener la fecha actual
+                LocalDate fechaPedido = LocalDate.now();
 
-                // Añadir la fila a la tabla con la fecha actual
-                ventanaPedido.getTableModel().addRow(new String[]{
+                ventanaPedido.getTableModel().addRow(new Object[]{
                         "",
-                        "", 
+                        "",
                         proveedor,
                         producto,
-                        Float.toString(cantidad),
-                        Float.toString(precio),
-                        fechaPedido.toString() // Añadir la fecha actual
+                        cantidad,
+                        precio,
+                        fechaPedido.toString()
                 });
 
                 ventanaPedido.getProducto().setText(null);
                 ventanaPedido.getCantidad().setText(null);
                 ventanaPedido.getPrecio().setText(null);
             }
-        }
-
-
-        else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
-            System.out.println("Botón guardar pedido pulsado");
-
-            DefaultTableModel modelo = (DefaultTableModel) ventanaPedido.getTable().getModel();
+        } else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
+            DefaultTableModel modelo = ventanaPedido.getTableModel();
             int rowCount = modelo.getRowCount();
 
             if (rowCount == 0) {
@@ -366,19 +362,19 @@ public class ControladorEventos implements ActionListener {
             }
 
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = 0; // controladorEventos.usuarioLogueado().getId();
+                int idUsuario = 0;
                 int proveedor = (int) modelo.getValueAt(i, 2);
                 String producto = (String) modelo.getValueAt(i, 3);
-                float cantidad = Float.parseFloat((String) modelo.getValueAt(i, 4));
-                float precio = Float.parseFloat((String) modelo.getValueAt(i, 5));
-                LocalDate fechaPedido = LocalDate.now(); // Obtener la fecha actual
+                float cantidad = (float) modelo.getValueAt(i, 4);
+                float precio = (float) modelo.getValueAt(i, 5);
+                LocalDate fechaPedido = LocalDate.now();
 
                 Pedido p = new Pedido();
                 p.setIdUsuario(idUsuario);
                 p.setIdProveedor(proveedor);
                 p.setMateriaPrima(producto);
                 p.setCantidad(cantidad);
-                p.setFechaPedido(fechaPedido); // Asignar la fecha actual
+                p.setFechaPedido(fechaPedido);
                 p.setCostoTotal(precio);
 
                 if (!daoPedido.insertar(p)) {
@@ -388,22 +384,20 @@ public class ControladorEventos implements ActionListener {
             }
 
             JOptionPane.showMessageDialog(null, "Pedido guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            modelo.setRowCount(0); // Limpiar la tabla después de guardar
-        }
-
-        else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
-            System.out.println("Botón borrar pulsado");
-
+            modelo.setRowCount(0);
+        } else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
             if (indice != -1) {
                 ventanaPedido.getTableModel().removeRow(indice);
-                indice = -1; // Reiniciar el índice después de borrar
+                indice = -1;
             } else {
                 JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
+        } else if (e.getSource() == ventanaPedido.getBtnGastos()) {
+            // Manejar el evento del botón de gestión de gastos aquí
         }
-
+    }
      
-    } 
+    
         
         
         

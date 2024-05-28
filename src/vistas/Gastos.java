@@ -86,4 +86,9 @@ public class Gastos {
      frameGastos.getContentPane().add(textField);
      textField.setColumns(10);
 }
+
+	public void setVisible(boolean b) {
+		frameGastos.setVisible(b);
+		
+	}
 }

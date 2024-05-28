@@ -41,6 +41,7 @@ public class VentanaPedido  {
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
     private JLabel lblNewLabel_2;
+    JButton btnGastos;
 
     /**
      * Launch the application.
@@ -82,8 +83,10 @@ public class VentanaPedido  {
 
         
 
-        table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"}));
- table.setPreferredScrollableViewportSize(new Dimension(750,400));
+        // Inicializar el DefaultTableModel
+        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"});
+        table = new JTable(tableModel);
+        table.setPreferredScrollableViewportSize(new Dimension(750,400));
         
         TableColumn column = null;
         
@@ -187,11 +190,22 @@ public class VentanaPedido  {
         lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
         lblNewLabel_3.setBounds(285, 17, 199, 63);
         frmPedido.getContentPane().add(lblNewLabel_3);
+        
+        btnGastos = new JButton("Gestión Gastos");
+        btnGastos.setFont(new Font("Lucida Sans", Font.BOLD, 15));
+        btnGastos.setBounds(577, 268, 157, 30);
+        frmPedido.getContentPane().add(btnGastos);
     }
    
     
 	
-	 public void setVisible(boolean b) {
+	 public JButton getBtnGastos() {
+		return btnGastos;
+	}
+	public void setBtnGastos(JButton btnGastos) {
+		this.btnGastos = btnGastos;
+	}
+	public void setVisible(boolean b) {
 	        frmPedido.setVisible(b);
 	    }
 	 
@@ -293,6 +307,7 @@ public class VentanaPedido  {
 		btnAnadir.addActionListener(controladorEventosPedido);
 		btnBorrar.addActionListener(controladorEventosPedido);
 		btnGuardar.addActionListener(controladorEventosPedido);
+		btnGastos.addActionListener(controladorEventosPedido);
 	}
 	 public void cargarProveedoresEnCombo(List<Proveedor> proveedores) {
 	        combo.removeAllItems();
@@ -300,7 +315,4 @@ public class VentanaPedido  {
 	            combo.addItem(proveedor.getNombre());
 	        }
 	    }
-
-	
-
 }
