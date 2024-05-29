@@ -355,26 +355,18 @@ public class VentanaPlato {
     private void calcularPrecioPlato() {
         double totalPrecio = 0;
 
-        // Recorremos todas las filas de la tabla
         for (int i = 0; i < table.getRowCount(); i++) {
-            // Obtenemos el nombre del producto (materia prima)
             String producto = (String) table.getValueAt(i, 0);
-            // Buscamos el objeto MateriaPrima correspondiente al nombre del producto
+            int cantidad = (int) table.getValueAt(i, 1);
             MateriaPrima materiaPrima = buscarMateriaPrima(producto);
             if (materiaPrima != null) {
-                // Sumamos al precio total el precio unitario de la materia prima
-                totalPrecio += materiaPrima.getPrecio();
+                totalPrecio += materiaPrima.getPrecio() * cantidad;
             }
         }
-
-        // Aplicamos un margen de beneficio del 15%
+        
         totalPrecio *= 1.15;
-
-        // Formateamos el precio con un máximo de tres dígitos enteros y dos decimales
         DecimalFormat formatoPrecio = new DecimalFormat("###.##");
         String precioFormateado = formatoPrecio.format(totalPrecio);
-
-        // Actualizamos el campo de texto del precio del plato
         textPrecio.setText(precioFormateado);
     }
     
