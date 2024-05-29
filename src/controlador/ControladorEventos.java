@@ -362,8 +362,13 @@ public class ControladorEventos implements ActionListener {
             }
 
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = 0;
-                int proveedor = (int) modelo.getValueAt(i, 2);
+                int idUsuario = 1;
+                
+                String cellValue = (String) modelo.getValueAt(i, 2);
+                String[] parts = cellValue.split(" ");
+                int proveedor = Integer.parseInt(parts[0]);
+                
+               // int proveedor = (int) modelo.getValueAt(i, 2);
                 String producto = (String) modelo.getValueAt(i, 3);
                 float cantidad = (float) modelo.getValueAt(i, 4);
                 float precio = (float) modelo.getValueAt(i, 5);
@@ -446,7 +451,7 @@ public class ControladorEventos implements ActionListener {
     private void cargarProveedoresEnPedido() {
         List<Proveedor> proveedores = daoProveedor.listar();
         for (Proveedor proveedor : proveedores) {
-            ventanaPedido.getCombo().addItem(proveedor.getNombre());
+            ventanaPedido.getCombo().addItem(proveedor.getId() + " " + proveedor.getNombre());
         }
     }
 
