@@ -190,4 +190,38 @@ public class DaoProveedorMySql implements DaoProveedor {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	  public List<Proveedor> buscarPorNombre(String nombre) {
+        if (!abrirConexion()) {
+            return null;
+        }
+
+        List<Proveedor> listaProveedores = new ArrayList<>();
+        String query = "SELECT id_proveedor, nombre, descripcion, numero_contacto, direccion FROM proveedores WHERE nombre LIKE ?";
+
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setString(1, "%" + nombre + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Proveedor pv = new Proveedor();
+                pv.setId(rs.getInt("id_proveedor"));
+                pv.setNombre(rs.getString("nombre"));
+                pv.setDescripcion(rs.getString("descripcion"));
+                pv.setTelefono(rs.getString("numero_contacto"));
+                pv.setDireccion(rs.getString("direccion"));
+                listaProveedores.add(pv);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al buscar proveedores por nombre");
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+
+        return listaProveedores;
+    }
+
+	
 }
+

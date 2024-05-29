@@ -190,5 +190,96 @@ public class DaoGastoMySql implements DaoGasto {
 
         return listaGastos;
     }
-}
 
+    @Override
+    public List<Gasto> listarPorMes(int mes, int anio) {
+        if (!abrirConexion()) {
+            return null;
+        }
+
+        List<Gasto> listaGastos = new ArrayList<>();
+        String query = "SELECT id_gasto, id_pedido, costo, fecha FROM gastos WHERE MONTH(fecha) = ? AND YEAR(fecha) = ?";
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setInt(1, mes);
+            ps.setInt(2, anio);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Gasto gasto = new Gasto();
+                gasto.setIdGasto(rs.getInt("id_gasto"));
+                gasto.setPedido(new Pedido(rs.getInt("id_pedido"))); // Usar pedido directamente
+                gasto.setCosto(rs.getFloat("costo"));
+                gasto.setFecha(rs.getDate("fecha").toLocalDate());
+                listaGastos.add(gasto);
+            }
+        } catch (SQLException e) {
+            System.out.println("listarPorMes -> Error al obtener los gastos del mes");
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+
+        return listaGastos;
+    }
+
+    @Override
+    public List<Gasto> listarPorProveedor(int idProveedor) {
+        if (!abrirConexion()) {
+            return null;
+        }
+
+        List<Gasto> listaGastos = new ArrayList<>();
+        String query = "SELECT g.id_gasto, g.id_pedido, g.costo, g.fecha FROM gastos g INNER JOIN pedidos p ON g.id_pedido = p.id WHERE p.id_proveedor = ?";
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setInt(1, idProveedor);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Gasto gasto = new Gasto();
+                gasto.setIdGasto(rs.getInt("id_gasto"));
+                gasto.setPedido(new Pedido(rs.getInt("id_pedido"))); // Usar pedido directamente
+                gasto.setCosto(rs.getFloat("costo"));
+                gasto.setFecha(rs.getDate("fecha").toLocalDate());
+                listaGastos.add(gasto);
+            }
+        } catch (SQLException e) {
+            System.out.println("listarPorProveedor -> Error al obtener los gastos del proveedor");
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+
+        return listaGastos;
+    }
+
+    @Override
+    public float obtenerSumaGastosPorProveedor(int idProveedor) {
+        if (!abrirConexion()) {
+            return 0;
+        }
+
+        float sumaGastos = 0;
+        String query = "SELECT SUM(g.costo) as totalGasto FROM gastos g INNER JOIN pedidos p ON g.id_pedido = p.id WHERE p.id_proveedor = ?";
+
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setInt(1, idProveedor);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                sumaGastos = rs.getFloat("totalGasto");
+            }
+        } catch (SQLException e) {
+            System.out.println("obtenerSumaGastosPorProveedor -> Error al obtener la suma de los gastos del proveedor");
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+
+        return sumaGastos;
+    }
+}

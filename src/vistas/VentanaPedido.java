@@ -84,7 +84,7 @@ public class VentanaPedido  {
         
 
         // Inicializar el DefaultTableModel
-        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"});
+        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"ID", "Usuario", "Proveedor", "Materia Prima", "Cantidad", "Precio", "Fecha Pedido"});
         table = new JTable(tableModel);
         table.setPreferredScrollableViewportSize(new Dimension(750,400));
         
@@ -117,8 +117,7 @@ public class VentanaPedido  {
         frmPedido.getContentPane().add(scrollPane);
         
         
-        String[] proveedores = { "elemento 1", "elemento 2", "elemento 3",
-        		"elemento 4", "elemento 5" };
+        String[] proveedores = { };
         combo = new JComboBox(proveedores);
         combo.setBounds(226, 97, 427, 27);
         frmPedido.getContentPane().add(combo);
