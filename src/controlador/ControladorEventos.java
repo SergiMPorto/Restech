@@ -8,16 +8,20 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import modelo.entidad.Gasto;
 import modelo.entidad.Ingrediente;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.interfaces.DaoMateriaPrima;
+import modelo.persistance.mysql.DaoGastoMySql;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
 import modelo.entidad.Pedido;
@@ -56,6 +60,7 @@ public class ControladorEventos implements ActionListener {
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
     private DaoPlatoMySql daoPlato;
+    private DaoGastoMySql daoGastos;
     private int indice;
     private LocalDate fechaLocal = LocalDate.now();
 
@@ -96,18 +101,26 @@ public class ControladorEventos implements ActionListener {
         ventanaProveedor.iniciarListener(this);
         almacen.iniciarListener(this);
         ventanaUsuario.inciarListener(this);
+        gastos.getSeleccion().addActionListener(this);
+        gastos.getBtnBuscar().addActionListener(this);
         
         cargarProveedoresEnPedido();
+        cargarProveedores();
         
     }
     
    
 
 
-    @Override
+   
+
+
+
+
+	@Override
     public void actionPerformed(ActionEvent e) {
     	
-    	String textProducto = ventanaPedido.getProducto().getText();
+		String textMateriaPrima = ventanaPedido.getProducto().getText();
         String textCantidad = ventanaPedido.getCantidad().getText();
         String textPrecio = ventanaPedido.getPrecio().getText();
         
@@ -320,48 +333,65 @@ public class ControladorEventos implements ActionListener {
       
         else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
             if (ventanaPedido.getProducto().getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else if (!textProducto.matches("[a-zA-Z]+")) {
-                JOptionPane.showMessageDialog(null, "El campo producto solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Campo materia prima vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (!textMateriaPrima.matches("[a-zA-Z ]+")) { // Permitimos espacios en blanco en nombres de materias primas
+                JOptionPane.showMessageDialog(null, "El campo materia prima solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (ventanaPedido.getCantidad().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo cantidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (!textCantidad.matches("\\d+")) {
                 JOptionPane.showMessageDialog(null, "El campo cantidad solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (ventanaPedido.getPrecio().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo precio vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else if (!textPrecio.matches("\\d+")) {
-                JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (!textPrecio.matches("\\d+(\\.\\d{1,2})?")) { // Permitimos decimales en el precio
+                JOptionPane.showMessageDialog(null, "El campo precio solo admite números y un punto decimal", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                String proveedor = (String) ventanaPedido.getCombo().getSelectedItem();
-                String producto = ventanaPedido.getProducto().getText();
+                String proveedorNombre = (String) ventanaPedido.getCombo().getSelectedItem();
+                List<Proveedor> proveedores = daoProveedor.buscarPorNombre(proveedorNombre);
+                if (proveedores.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Proveedor no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Proveedor proveedor = proveedores.get(0); // Suponiendo que la lista contiene el proveedor deseado
+                Usuario usuarioLogueado = usuarioLogueado();
+
+                if (usuarioLogueado == null) {
+                    JOptionPane.showMessageDialog(null, "Usuario no logueado", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String materiaPrima = ventanaPedido.getProducto().getText();
                 float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
                 float precio = Float.parseFloat(ventanaPedido.getPrecio().getText());
                 LocalDate fechaPedido = LocalDate.now();
 
                 ventanaPedido.getTableModel().addRow(new Object[]{
-                        "",
-                        "",
-                        proveedor,
-                        producto,
-                        cantidad,
-                        precio,
-                        fechaPedido.toString()
+                    null, // El ID del pedido se generará automáticamente en la base de datos
+                    usuarioLogueado.getId(),
+                    proveedor.getId(),
+                    materiaPrima,
+                    cantidad,
+                    precio,
+                    fechaPedido.toString()
                 });
 
                 ventanaPedido.getProducto().setText(null);
                 ventanaPedido.getCantidad().setText(null);
                 ventanaPedido.getPrecio().setText(null);
             }
-        } else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
+        }
+
+
+        else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
             DefaultTableModel modelo = ventanaPedido.getTableModel();
             int rowCount = modelo.getRowCount();
 
             if (rowCount == 0) {
-                JOptionPane.showMessageDialog(null, "No hay ningún producto para guardar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No hay ninguna materia prima para guardar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
             for (int i = 0; i < rowCount; i++) {
+<<<<<<< HEAD
                 int idUsuario = 1;
                 
                 String cellValue = (String) modelo.getValueAt(i, 2);
@@ -373,11 +403,32 @@ public class ControladorEventos implements ActionListener {
                 float cantidad = (float) modelo.getValueAt(i, 4);
                 float precio = (float) modelo.getValueAt(i, 5);
                 LocalDate fechaPedido = LocalDate.now();
+=======
+                // Obtener y verificar los valores de las celdas de la tabla
+                Object idUsuarioObj = modelo.getValueAt(i, 1);
+                Object idProveedorObj = modelo.getValueAt(i, 2);
+                Object materiaPrimaObj = modelo.getValueAt(i, 3);
+                Object cantidadObj = modelo.getValueAt(i, 4);
+                Object precioObj = modelo.getValueAt(i, 5);
+                Object fechaPedidoObj = modelo.getValueAt(i, 6);
+
+                if (idUsuarioObj == null || idProveedorObj == null || materiaPrimaObj == null || cantidadObj == null || precioObj == null || fechaPedidoObj == null) {
+                    JOptionPane.showMessageDialog(null, "Falta información en alguna fila", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int idUsuario = (Integer) idUsuarioObj;
+                int idProveedor = (Integer) idProveedorObj;
+                String materiaPrima = (String) materiaPrimaObj;
+                float cantidad = Float.parseFloat(cantidadObj.toString());
+                float precio = Float.parseFloat(precioObj.toString());
+                LocalDate fechaPedido = LocalDate.parse(fechaPedidoObj.toString());
+>>>>>>> c464622d144d08585294e3ca605a4e52e3b14af7
 
                 Pedido p = new Pedido();
                 p.setIdUsuario(idUsuario);
-                p.setIdProveedor(proveedor);
-                p.setMateriaPrima(producto);
+                p.setIdProveedor(idProveedor);
+                p.setMateriaPrima(materiaPrima);
                 p.setCantidad(cantidad);
                 p.setFechaPedido(fechaPedido);
                 p.setCostoTotal(precio);
@@ -390,25 +441,57 @@ public class ControladorEventos implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Pedido guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             modelo.setRowCount(0);
-        } else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
-            if (indice != -1) {
-                ventanaPedido.getTableModel().removeRow(indice);
-                indice = -1;
-            } else {
-                JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } else if (e.getSource() == ventanaPedido.getBtnGastos()) {
-            // Manejar el evento del botón de gestión de gastos aquí
+        }
+
+
+ else if (e.getSource() == ventanaPedido.getBtnGastos()) {
+            System.out.println("Ventana Gastos Pulsada");
+            gastos.setVisible(true);
+        } else if (e.getSource() == gastos.getSeleccion()) {
+            elegirOpcion();
         }
     }
-     
-    
-        
-        
-        
-        
-    
-    
+
+
+	 private void elegirOpcion() {
+	        String seleccion = (String) gastos.getSeleccion().getSelectedItem();
+	        if (seleccion.equals("Listar por Proveedor")) {
+	            gastos.getProveedores().setEnabled(true);
+	            gastos.getMeses().setEnabled(false);
+	        } else if (seleccion.equals("Listar por Meses")) {
+	            gastos.getMeses().setEnabled(true);
+	            gastos.getProveedores().setEnabled(false);
+	        } else {
+	            gastos.getMeses().setEnabled(false);
+	            gastos.getProveedores().setEnabled(false);
+	        }
+	    }
+
+	 private void buscarGastos() {
+		    String seleccion = (String) gastos.getSeleccion().getSelectedItem();
+		    if (seleccion.equals("Listar por Proveedor")) {
+		        String proveedorNombre = (String) gastos.getProveedores().getSelectedItem();
+		        List<Proveedor> proveedores = daoProveedor.buscarPorNombre(proveedorNombre);
+		        if (proveedores != null && !proveedores.isEmpty()) {
+		            Proveedor proveedor = proveedores.get(0); // Suponiendo que la lista contiene el proveedor deseado
+		            List<Gasto> gastosPorProveedor = daoGastos.listarPorProveedor(proveedor.getId());
+		            gastos.actualizarTablaGastos(gastosPorProveedor);
+		            float sumaGastos = daoGastos.obtenerSumaGastosPorProveedor(proveedor.getId());
+		            gastos.mostrarSumaGastos(sumaGastos);
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Proveedor no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+		        }
+		    } else if (seleccion.equals("Listar por Meses")) {
+		        int mes = gastos.getMeses().getSelectedIndex() + 1;
+		        int anio = LocalDate.now().getYear();
+		        List<Gasto> gastosPorMes = daoGastos.listarPorMes(mes, anio);
+		        gastos.actualizarTablaGastos(gastosPorMes);
+		        float sumaGastos = gastosPorMes.stream().map(Gasto::getCosto).reduce(0f, Float::sum);
+		        gastos.mostrarSumaGastos(sumaGastos);
+		    }
+		}
+
+
 
 
 //Obtner método para usuario logueado. 
@@ -454,8 +537,13 @@ public class ControladorEventos implements ActionListener {
             ventanaPedido.getCombo().addItem(proveedor.getId() + " " + proveedor.getNombre());
         }
     }
-
-
+    private void cargarProveedores() {
+        List<Proveedor> proveedores = daoProveedor.listar();
+        gastos.getProveedores().removeAllItems();
+        for (Proveedor proveedor : proveedores) {
+            gastos.getProveedores().addItem(proveedor.getNombre());
+        }
+    }
   
 
     
@@ -553,7 +641,12 @@ public class ControladorEventos implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(null, "Error al añadir el plato", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    
     }
+    
+    	
+    	
+
 
 
 
@@ -606,7 +699,8 @@ public class ControladorEventos implements ActionListener {
     }
     //PLATO <--
 
-   
+
+
 
     
     

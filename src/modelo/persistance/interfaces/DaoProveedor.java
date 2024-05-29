@@ -14,6 +14,8 @@ public interface DaoProveedor {
     Optional<Proveedor> buscar(int id);
     List<Proveedor> listar();
 	boolean insertar(VentanaProveedor nuevoProveedor);
+	
+	List<Proveedor> buscarPorNombre(String nombre);
 
 
 }

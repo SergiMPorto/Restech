@@ -39,8 +39,7 @@ public class Main {
         plato.iniciarListener(controlador);
         usuario.inciarListener(controlador);
         pedido.establecerControlador(controlador);
-        
-
+        gastos.iniciarListener(controlador);
         ingredientes.iniciarListener(controlador);
 
         
