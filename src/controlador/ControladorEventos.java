@@ -326,8 +326,7 @@ public class ControladorEventos implements ActionListener {
             }
         }
         
-        //ventana Pedido
-      
+      //ventana Pedido
         else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
             if (ventanaPedido.getProducto().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -342,6 +341,7 @@ public class ControladorEventos implements ActionListener {
             } else if (!textPrecio.matches("\\d+")) {
                 JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else {
+                String usuario = ControladorEventos.this.usuarioLogueado().getNombre();
                 String proveedor = (String) ventanaPedido.getCombo().getSelectedItem();
                 String producto = ventanaPedido.getProducto().getText();
                 float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
@@ -350,7 +350,7 @@ public class ControladorEventos implements ActionListener {
 
                 ventanaPedido.getTableModel().addRow(new Object[]{
                         "",
-                        "",
+                        usuario,
                         proveedor,
                         producto,
                         cantidad,
@@ -372,13 +372,10 @@ public class ControladorEventos implements ActionListener {
             }
 
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = 1;
-                
+                int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
                 String cellValue = (String) modelo.getValueAt(i, 2);
                 String[] parts = cellValue.split(" ");
                 int proveedor = Integer.parseInt(parts[0]);
-                
-          
                 String producto = (String) modelo.getValueAt(i, 3);
                 float cantidad = (float) modelo.getValueAt(i, 4);
                 float precio = (float) modelo.getValueAt(i, 5);
@@ -407,8 +404,6 @@ public class ControladorEventos implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
-            
-            //Ventana Gastos
         } else if (e.getSource() == ventanaPedido.getBtnGastos()) {
             
     
