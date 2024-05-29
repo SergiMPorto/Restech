@@ -3,6 +3,7 @@ package controlador;
 import java.util.ArrayList;
 
 import vistas.Almacen;
+import vistas.Gastos;
 import vistas.Home;
 import vistas.ListaPlatos;
 import vistas.VentanaIngredientes;
@@ -24,10 +25,11 @@ public class Main {
         VentanaIngredientes ingredientes = new VentanaIngredientes();
         VentanaProveedor proveedor = new VentanaProveedor( null, null, null, null);
         ListaPlatos listaPlatos = new ListaPlatos();
-        
+        Gastos gastos = new Gastos();
+       
 
 
-        ControladorEventos controlador = new ControladorEventos(login, home, almacen, pedido, plato, usuario, ingredientes, proveedor, listaPlatos);
+        ControladorEventos controlador = new ControladorEventos(login, home, almacen, pedido, plato, usuario, ingredientes, proveedor, listaPlatos, gastos);
 
        
 
@@ -36,6 +38,8 @@ public class Main {
         home.agregarListener(controlador);
         plato.iniciarListener(controlador);
         usuario.inciarListener(controlador);
+        pedido.establecerControlador(controlador);
+        
 
         ingredientes.iniciarListener(controlador);
 
