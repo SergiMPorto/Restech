@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -225,6 +227,7 @@ public class VentanaPlato {
 
         ajustarTamañoColumnaCantidad();
         
+        //confirmar si borramos un item de la tabla
         borrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -242,6 +245,15 @@ public class VentanaPlato {
 
                     calcularPrecioPlato();
                 }
+            }
+        });
+        
+        //limpiar campos cuando se cierre la ventana
+        frmPlato.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Llamar al método para limpiar los campos cuando la ventana se está cerrando
+                limpiarCampos();
             }
         });
     }
@@ -396,6 +408,19 @@ public class VentanaPlato {
     private MateriaPrima buscarMateriaPrima(String nombre) {
         DaoMateriaPrima daoMateriaPrima = new DaoMateriaPrimaMySql();
         return daoMateriaPrima.obtenerPorNombre(nombre);
+    }
+    
+    public void limpiarCampos() {
+        // Limpiar los JTextField
+        tiempoPreparacion.setText("");
+        nombre.setText("");
+
+        // Establecer el JLabel de precio a "0"
+        textPrecio.setText("0");
+
+        // Limpiar la tabla
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Eliminar todas las filas de la tabla
     }
 
 }
