@@ -18,7 +18,13 @@ public class Usuario {
 
    
    
-    public Usuario(int id, String nombre, int permisos, String codigo) {
+    public Usuario(int id, String nombre) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+	}
+
+	public Usuario(int id, String nombre, int permisos, String codigo) {
 		super();
 		this.id = id;
 		this.nombre = nombre;

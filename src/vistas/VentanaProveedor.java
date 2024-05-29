@@ -105,6 +105,7 @@ public class VentanaProveedor {
         proveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         proveedor.getContentPane().setLayout(null);
         proveedor.getContentPane().setBackground(new Color(54,217,187));
+        proveedor.setResizable(false);
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Teléfono", "Dirección"}));
         
         

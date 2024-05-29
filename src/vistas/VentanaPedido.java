@@ -84,7 +84,7 @@ public class VentanaPedido  {
         
 
         // Inicializar el DefaultTableModel
-        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"ID", "Usuario", "Proveedor", "Materia Prima", "Cantidad", "Precio", "Fecha Pedido"});
+        tableModel = new DefaultTableModel(new Object[][]{}, new String[]{"ID","Usuario","Proveedor","Producto", "Cantidad", "Precio", "Fecha Pedido"});
         table = new JTable(tableModel);
         table.setPreferredScrollableViewportSize(new Dimension(750,400));
         
@@ -113,7 +113,7 @@ public class VentanaPedido  {
 */        
 
         scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(10, 325, 716, 322);
+        scrollPane.setBounds(10, 308, 716, 322);
         frmPedido.getContentPane().add(scrollPane);
         
         
@@ -130,8 +130,8 @@ public class VentanaPedido  {
         frmPedido.getContentPane().add(btnAnadir);
 
         btnGuardar = new JButton("Guardar");
-        btnGuardar.setForeground(Color.BLACK);
-        btnGuardar.setBackground(Color.WHITE);
+        btnGuardar.setForeground(new Color(0, 0, 0));
+        
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
         btnGuardar.setBounds(466, 657, 125, 30);
         frmPedido.getContentPane().add(btnGuardar);

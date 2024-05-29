@@ -231,7 +231,8 @@ public class DaoGastoMySql implements DaoGasto {
         }
 
         List<Gasto> listaGastos = new ArrayList<>();
-        String query = "SELECT g.id_gasto, g.id_pedido, g.costo, g.fecha FROM gastos g INNER JOIN pedidos p ON g.id_pedido = p.id WHERE p.id_proveedor = ?";
+        
+        String query = "SELECT g.id_gasto, g.id_pedido, g.costo, g.fecha FROM gastos g INNER JOIN pedido p ON g.id_pedido = p.ID_Pedido WHERE p.ID_Proveedor = ?";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
@@ -241,9 +242,9 @@ public class DaoGastoMySql implements DaoGasto {
             while (rs.next()) {
                 Gasto gasto = new Gasto();
                 gasto.setIdGasto(rs.getInt("id_gasto"));
-                gasto.setPedido(new Pedido(rs.getInt("id_pedido"))); // Usar pedido directamente
+                gasto.setPedido(new Pedido(rs.getInt("id_pedido"))); 
                 gasto.setCosto(rs.getFloat("costo"));
-                gasto.setFecha(rs.getDate("fecha").toLocalDate());
+                gasto.setFecha(rs.getDate("fecha").toLocalDate()); 
                 listaGastos.add(gasto);
             }
         } catch (SQLException e) {
@@ -255,6 +256,7 @@ public class DaoGastoMySql implements DaoGasto {
 
         return listaGastos;
     }
+
 
     @Override
     public float obtenerSumaGastosPorProveedor(int idProveedor) {

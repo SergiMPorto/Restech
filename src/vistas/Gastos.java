@@ -17,9 +17,13 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorEventos;
 import modelo.entidad.Gasto;
+import modelo.entidad.Pedido;
 import modelo.entidad.Proveedor;
+import modelo.persistance.interfaces.DaoProveedor;
 
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JPanel;
 
 public class Gastos {
 
@@ -30,6 +34,9 @@ public class Gastos {
     private JComboBox<String> meses;
     private JComboBox<String> seleccion;
     private JButton btnBuscar;
+    private DaoProveedor daoProveedor;
+    private DefaultTableModel model;
+
 
     /**
      * Launch the application.
@@ -52,6 +59,7 @@ public class Gastos {
      */
     public Gastos() {
         initialize();
+   
     }
 
     /**
@@ -68,6 +76,7 @@ public class Gastos {
         frameGastos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frameGastos.getContentPane().setLayout(null);
         frameGastos.setResizable(false);
+        
 
         JLabel lblNewLabel_3 = new JLabel("Gastos");
         lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
@@ -88,10 +97,10 @@ public class Gastos {
         btnBuscar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
         btnBuscar.setBounds(497, 673, 100, 30);
         frameGastos.getContentPane().add(btnBuscar);
+        
+        
      
-        table = new JTable(new DefaultTableModel(new Object[]{"ID Gasto", "ID Pedido", "Costo", "Fecha"}, 0));
-        table.setBounds(10, 290, 716, 373);
-        frameGastos.getContentPane().add(table);
+    
      
         String[] seleccionArray = {"Seleccione", "Listar por Proveedor", "Listar Por Meses"};
         seleccion = new JComboBox<>(seleccionArray);
@@ -107,7 +116,13 @@ public class Gastos {
         meses = new JComboBox<>(mesesArray);
         meses.setBounds(459, 177, 236, 30);
         frameGastos.getContentPane().add(meses);
-        meses.setEnabled(false); // Inicialmente deshabilitado
+        meses.setEnabled(false);
+        
+        model = new DefaultTableModel(null, new String[]{"ID Gasto", "ID Pedido", "Precio", "Fecha"});
+        table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(10, 255, 716, 408);
+        frameGastos.getContentPane().add(scrollPane);
     }
 
     public JComboBox<String> getSeleccion() {
@@ -124,7 +139,7 @@ public class Gastos {
     
     public void actualizarTablaGastos(List<Gasto> gastos) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0); // Limpiar tabla
+        model.setRowCount(0); 
 
         for (Gasto gasto : gastos) {
             model.addRow(new Object[]{
@@ -174,4 +189,18 @@ public class Gastos {
         seleccion.addActionListener(controlador);
         btnBuscar.addActionListener(controlador);
     }
+    
+    public void actualizarTablaGastosConPedidos(List<Gasto> gastosPorProveedor) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);  
+        for (Gasto gasto : gastosPorProveedor) {
+            model.addRow(new Object[]{
+                gasto.getIdGasto(),
+                gasto.getPedido().getId(),
+                gasto.getCosto(),
+                gasto.getFecha()
+            });
+        }
+    }
+
 }

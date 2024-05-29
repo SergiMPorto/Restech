@@ -103,10 +103,10 @@ public class Login {
 		
 		lblNewLabel_2 = new JLabel("");
 
-		lblNewLabel_2.setBounds(238, 448, 947, 878);
+		lblNewLabel_2.setBounds(250, 450, 250, 250);
 
 		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/RESTECH_ImageICono.jpeg")));
-		lblNewLabel_2.setBounds(253, 450, 250, 239);
+		lblNewLabel_2.setBounds(250, 450, 250, 239);
 
 		frame.getContentPane().add(lblNewLabel_2);
 	}
