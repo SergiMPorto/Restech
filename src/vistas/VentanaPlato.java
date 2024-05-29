@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -221,6 +224,26 @@ public class VentanaPlato {
         frmPlato.getContentPane().add(lblNewLabel);
 
         ajustarTamañoColumnaCantidad();
+        
+        borrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               
+                int confirm = JOptionPane.showConfirmDialog(frmPlato, "¿Estás seguro de que quieres borrar los elementos seleccionados?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+                
+                
+                if (confirm == JOptionPane.YES_OPTION) {
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    int[] selectedRows = table.getSelectedRows();
+
+                    for (int i = selectedRows.length - 1; i >= 0; i--) {
+                        model.removeRow(selectedRows[i]);
+                    }
+
+                    calcularPrecioPlato();
+                }
+            }
+        });
     }
 
     public JButton getListarPlatos() {
