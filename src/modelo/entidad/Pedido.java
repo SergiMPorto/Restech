@@ -10,7 +10,7 @@ public class Pedido {
     private String materiaPrima;
     private double cantidad;
     private LocalDate fechaPedido;
-    private double costoTotal; 
+    private double precio; 
     
     public Pedido() {
         super();
@@ -30,7 +30,7 @@ public class Pedido {
 		this.materiaPrima = materiaPrima;
 		this.cantidad = cantidad;
 		this.fechaPedido = fechaPedido;
-		this.costoTotal = costoTotal;
+		this.precio = costoTotal;
 	}
 
     
@@ -83,17 +83,17 @@ public class Pedido {
 	}
 
 	public double getCostoTotal() {
-		return costoTotal;
+		return precio;
 	}
 
 	public void setCostoTotal(double costoTotal) {
-		this.costoTotal = costoTotal;
+		this.precio = costoTotal;
 	}
 
 	@Override
     public String toString() {
         return "Pedido [id=" + id + ", idUsuario=" + idUsuario + ", idProveedor=" + idProveedor + ", fechaPedido="
-                + fechaPedido + ", costoTotal=" + costoTotal + "]";
+                + fechaPedido + ", costoTotal=" + precio + "]";
     }
 	
 

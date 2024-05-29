@@ -332,9 +332,9 @@ public class ControladorEventos implements ActionListener {
         //ventana Pedido
       
         else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
-            if (ventanaPedido.getMateriaPrima().getText().isEmpty()) {
+            if (ventanaPedido.getProducto().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo materia prima vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else if (!textMateriaPrima.matches("[a-zA-Z]+")) {
+            } else if (!textMateriaPrima.matches("[a-zA-Z ]+")) { // Permitimos espacios en blanco en nombres de materias primas
                 JOptionPane.showMessageDialog(null, "El campo materia prima solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (ventanaPedido.getCantidad().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo cantidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -342,8 +342,8 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "El campo cantidad solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (ventanaPedido.getPrecio().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo precio vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else if (!textPrecio.matches("\\d+")) {
-                JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (!textPrecio.matches("\\d+(\\.\\d{1,2})?")) { // Permitimos decimales en el precio
+                JOptionPane.showMessageDialog(null, "El campo precio solo admite números y un punto decimal", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 String proveedorNombre = (String) ventanaPedido.getCombo().getSelectedItem();
                 List<Proveedor> proveedores = daoProveedor.buscarPorNombre(proveedorNombre);
@@ -353,26 +353,35 @@ public class ControladorEventos implements ActionListener {
                 }
                 Proveedor proveedor = proveedores.get(0); // Suponiendo que la lista contiene el proveedor deseado
                 Usuario usuarioLogueado = usuarioLogueado();
-                
-                String materiaPrima = ventanaPedido.getMateriaPrima().getText();
+
+                if (usuarioLogueado == null) {
+                    JOptionPane.showMessageDialog(null, "Usuario no logueado", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String materiaPrima = ventanaPedido.getProducto().getText();
                 float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
                 float precio = Float.parseFloat(ventanaPedido.getPrecio().getText());
                 LocalDate fechaPedido = LocalDate.now();
 
                 ventanaPedido.getTableModel().addRow(new Object[]{
-                        usuarioLogueado.getId(),
-                        proveedor.getId(),
-                        materiaPrima,
-                        cantidad,
-                        precio,
-                        fechaPedido.toString()
+                    null, // El ID del pedido se generará automáticamente en la base de datos
+                    usuarioLogueado.getId(),
+                    proveedor.getId(),
+                    materiaPrima,
+                    cantidad,
+                    precio,
+                    fechaPedido.toString()
                 });
 
                 ventanaPedido.getProducto().setText(null);
                 ventanaPedido.getCantidad().setText(null);
                 ventanaPedido.getPrecio().setText(null);
             }
-        } else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
+        }
+
+
+        else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
             DefaultTableModel modelo = ventanaPedido.getTableModel();
             int rowCount = modelo.getRowCount();
 
@@ -382,12 +391,25 @@ public class ControladorEventos implements ActionListener {
             }
 
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = (Integer) modelo.getValueAt(i, 0);
-                int idProveedor = (Integer) modelo.getValueAt(i, 1);
-                String materiaPrima = (String) modelo.getValueAt(i, 2);
-                float cantidad = (Float) modelo.getValueAt(i, 3);
-                float precio = (Float) modelo.getValueAt(i, 4);
-                LocalDate fechaPedido = LocalDate.parse((String) modelo.getValueAt(i, 5));
+                // Obtener y verificar los valores de las celdas de la tabla
+                Object idUsuarioObj = modelo.getValueAt(i, 1);
+                Object idProveedorObj = modelo.getValueAt(i, 2);
+                Object materiaPrimaObj = modelo.getValueAt(i, 3);
+                Object cantidadObj = modelo.getValueAt(i, 4);
+                Object precioObj = modelo.getValueAt(i, 5);
+                Object fechaPedidoObj = modelo.getValueAt(i, 6);
+
+                if (idUsuarioObj == null || idProveedorObj == null || materiaPrimaObj == null || cantidadObj == null || precioObj == null || fechaPedidoObj == null) {
+                    JOptionPane.showMessageDialog(null, "Falta información en alguna fila", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                int idUsuario = (Integer) idUsuarioObj;
+                int idProveedor = (Integer) idProveedorObj;
+                String materiaPrima = (String) materiaPrimaObj;
+                float cantidad = Float.parseFloat(cantidadObj.toString());
+                float precio = Float.parseFloat(precioObj.toString());
+                LocalDate fechaPedido = LocalDate.parse(fechaPedidoObj.toString());
 
                 Pedido p = new Pedido();
                 p.setIdUsuario(idUsuario);
@@ -405,14 +427,10 @@ public class ControladorEventos implements ActionListener {
 
             JOptionPane.showMessageDialog(null, "Pedido guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             modelo.setRowCount(0);
-        } else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
-            if (indice != -1) {
-                ventanaPedido.getTableModel().removeRow(indice);
-                indice = -1;
-            } else {
-                JOptionPane.showMessageDialog(null, "No has seleccionado ninguna materia prima", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } else if (e.getSource() == ventanaPedido.getBtnGastos()) {
+        }
+
+
+ else if (e.getSource() == ventanaPedido.getBtnGastos()) {
             System.out.println("Ventana Gastos Pulsada");
             gastos.setVisible(true);
         } else if (e.getSource() == gastos.getSeleccion()) {
