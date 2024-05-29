@@ -106,6 +106,16 @@ public class MateriaPrima {
     public String toString() {
         return "MateriaPrima [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", proveedor=" + proveedor + ", fechaCaducidad=" + fechaCaducidad + ", cantidadUtilizada=" + cantidadUtilizada + ", merma=" + merma + "]";
     }
+    
+    public float getPrecioUnitario() {
+        // Calculamos el precio unitario dividiendo el precio total entre la cantidad utilizada
+        if (cantidadUtilizada != 0) {
+            return precio / cantidadUtilizada;
+        } else {
+            // En caso de que la cantidad utilizada sea 0, devolvemos 0 para evitar divisiones por cero
+            return 0;
+        }
+    }
 	
 	
 	

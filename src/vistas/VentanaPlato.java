@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,27 +18,25 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import controlador.ControladorEventos;
 import modelo.entidad.MateriaPrima;
+import modelo.persistance.interfaces.DaoMateriaPrima;
+import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 
 public class VentanaPlato {
 
     private JFrame frmPlato;
     private JTextField nombre;
     private JLabel precio;
-    private JTextField textPrecio;
+    private JLabel textPrecio;
     private JLabel lblNewLabel_2;
 
-    public JTextField getTextPrecio() {
-        return textPrecio;
-    }
-
-    public void setTextPrecio(JTextField textPrecio) {
-        this.textPrecio = textPrecio;
-    }
+    
 
     private JTextField tiempoPreparacion;
     private JButton guardar;
@@ -108,43 +107,31 @@ public class VentanaPlato {
         nombre.setColumns(10);
 
         precio = new JLabel("PRECIO");
-        springLayout.putConstraint(SpringLayout.WEST, precio, 0, SpringLayout.WEST, nombre_1);
+        springLayout.putConstraint(SpringLayout.NORTH, precio, 244, SpringLayout.NORTH, frmPlato.getContentPane());
+        springLayout.putConstraint(SpringLayout.WEST, precio, 227, SpringLayout.WEST, frmPlato.getContentPane());
         precio.setHorizontalAlignment(SwingConstants.CENTER);
         precio.setForeground(new Color(0, 0, 0));
         precio.setFont(new Font("DialogInput", Font.BOLD, 20));
         frmPlato.getContentPane().add(precio);
 
-        textPrecio = new JTextField();
-        springLayout.putConstraint(SpringLayout.NORTH, textPrecio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
+        textPrecio = new JLabel("0");
+        springLayout.putConstraint(SpringLayout.NORTH, textPrecio, 244, SpringLayout.NORTH, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.WEST, textPrecio, 320, SpringLayout.WEST, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, textPrecio, 214, SpringLayout.NORTH, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, textPrecio, 420, SpringLayout.WEST, frmPlato.getContentPane());
+        springLayout.putConstraint(SpringLayout.EAST, textPrecio, 570, SpringLayout.WEST, frmPlato.getContentPane());
+        textPrecio.setFont(new Font("DialogInput", Font.BOLD, 20)); // Establecer el mismo tamaño de letra que precio
         frmPlato.getContentPane().add(textPrecio);
-        textPrecio.setColumns(10);
-
-        textPrecio = new JTextField();
-        springLayout.putConstraint(SpringLayout.SOUTH, precio, 0, SpringLayout.SOUTH, textPrecio);
-        springLayout.putConstraint(SpringLayout.EAST, precio, -6, SpringLayout.WEST, textPrecio);
-        springLayout.putConstraint(SpringLayout.NORTH, textPrecio, 187, SpringLayout.NORTH, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, textPrecio, 320, SpringLayout.WEST, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, textPrecio, 214, SpringLayout.NORTH, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, textPrecio, 420, SpringLayout.WEST, frmPlato.getContentPane());
-        frmPlato.getContentPane().add(textPrecio);
-        textPrecio.setColumns(10);
 
         lblNewLabel_2 = new JLabel("TIEMPO DE PREPARACIÓN");
+        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 187, SpringLayout.NORTH, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 55, SpringLayout.WEST, frmPlato.getContentPane());
         lblNewLabel_2.setForeground(new Color(0, 0, 0));
         lblNewLabel_2.setFont(new Font("DialogInput", Font.BOLD, 20));
         frmPlato.getContentPane().add(lblNewLabel_2);
 
         tiempoPreparacion = new JTextField();
-        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 0, SpringLayout.SOUTH, tiempoPreparacion);
-        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_2, -8, SpringLayout.WEST, tiempoPreparacion);
-        springLayout.putConstraint(SpringLayout.NORTH, tiempoPreparacion, 244, SpringLayout.NORTH, frmPlato.getContentPane());
+        springLayout.putConstraint(SpringLayout.NORTH, tiempoPreparacion, 187, SpringLayout.NORTH, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.WEST, tiempoPreparacion, 320, SpringLayout.WEST, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, tiempoPreparacion, 271, SpringLayout.NORTH, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, tiempoPreparacion, 420, SpringLayout.WEST, frmPlato.getContentPane());
+        springLayout.putConstraint(SpringLayout.EAST, tiempoPreparacion, 570, SpringLayout.WEST, frmPlato.getContentPane());
         frmPlato.getContentPane().add(tiempoPreparacion);
         tiempoPreparacion.setColumns(10);
 
@@ -192,6 +179,15 @@ public class VentanaPlato {
         springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 620, SpringLayout.NORTH, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, scrollPane, 726, SpringLayout.WEST, frmPlato.getContentPane());
         frmPlato.getContentPane().add(scrollPane);
+        
+     // Escuchador de eventos para la tabla
+        table.getModel().addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                // Si hay un cambio en la tabla, recalculamos el precio del plato
+                calcularPrecioPlato();
+            }
+        });
 
         ingredientes = new JButton("Ingredientes");
         springLayout.putConstraint(SpringLayout.NORTH, ingredientes, 278, SpringLayout.NORTH, frmPlato.getContentPane());
@@ -269,8 +265,16 @@ public class VentanaPlato {
         this.precio = precio;
     }
 
-    public void setPrecio(JTextField precio) {
+   /*public void setPrecio(JTextField precio) {
         textPrecio = precio;
+    }*/
+    
+    public JLabel getTextPrecio() {
+        return textPrecio;
+    }
+
+    public void setTextPrecio(JLabel textPrecio) {
+        this.textPrecio = textPrecio;
     }
 
     public JLabel getLblNewLabel_2() {
@@ -347,4 +351,36 @@ public class VentanaPlato {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.addRow(new Object[]{producto, cantidad});
     }
+    
+    private void calcularPrecioPlato() {
+        double totalPrecio = 0;
+
+        // Recorremos todas las filas de la tabla
+        for (int i = 0; i < table.getRowCount(); i++) {
+            // Obtenemos el nombre del producto (materia prima)
+            String producto = (String) table.getValueAt(i, 0);
+            // Buscamos el objeto MateriaPrima correspondiente al nombre del producto
+            MateriaPrima materiaPrima = buscarMateriaPrima(producto);
+            if (materiaPrima != null) {
+                // Sumamos al precio total el precio unitario de la materia prima
+                totalPrecio += materiaPrima.getPrecio();
+            }
+        }
+
+        // Aplicamos un margen de beneficio del 15%
+        totalPrecio *= 1.15;
+
+        // Formateamos el precio con un máximo de tres dígitos enteros y dos decimales
+        DecimalFormat formatoPrecio = new DecimalFormat("###.##");
+        String precioFormateado = formatoPrecio.format(totalPrecio);
+
+        // Actualizamos el campo de texto del precio del plato
+        textPrecio.setText(precioFormateado);
+    }
+    
+    private MateriaPrima buscarMateriaPrima(String nombre) {
+        DaoMateriaPrima daoMateriaPrima = new DaoMateriaPrimaMySql();
+        return daoMateriaPrima.obtenerPorNombre(nombre);
+    }
+
 }
