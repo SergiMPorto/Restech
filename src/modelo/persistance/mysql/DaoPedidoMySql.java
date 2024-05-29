@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//import com.mysql.cj.xdevapi.Statement;
+
 import modelo.entidad.Pedido;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
@@ -18,7 +20,7 @@ public class DaoPedidoMySql implements DaoPedido {
 	private Connection conexion;
 
     private boolean abrirConexion() {
-        String url = "jdbc:mysql://localhost:3306/bbdd";
+        String url = "jdbc:mysql://localhost:3309/bbdd";
         String usuario = "root";
         String password = "";
         try {
@@ -40,6 +42,40 @@ public class DaoPedidoMySql implements DaoPedido {
         return true;
     }
 
+    public int insertarYRetornarId(Pedido pedido) {
+        int idPedido = -1;
+        
+        if (!abrirConexion()) {
+            return -1;
+        }
+
+        boolean insertar = true;
+        String query = "INSERT INTO pedido (id_usuario, id_proveedor, materia_prima, cantidad, fecha_pedido, costo_total) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = conexion.prepareStatement(query, java.sql.Statement.RETURN_GENERATED_KEYS)) {
+        	
+            ps.setInt(1, pedido.getIdUsuario());
+            ps.setInt(2, pedido.getIdProveedor());
+            ps.setString(3, pedido.getMateriaPrima());
+            ps.setDouble(4, pedido.getCantidad());
+            ps.setDate(5, java.sql.Date.valueOf(pedido.getFechaPedido()));
+            ps.setDouble(6, pedido.getCostoTotal());
+
+            int filasAfectadas = ps.executeUpdate();
+            if (filasAfectadas > 0) {
+                try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        idPedido = generatedKeys.getInt(1);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return idPedido;
+    }
+
+    
     @Override
     public boolean insertar(Pedido pd) {
         if (!abrirConexion()) {
@@ -47,14 +83,15 @@ public class DaoPedidoMySql implements DaoPedido {
         }
 
         boolean insertar = true;
-        String query = "INSERT INTO pedido (id_usuario, id_proveedor, materia_prima, cantidad, fecha_pedido, costo_total) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO pedido (id_pedido, id_usuario, id_proveedor, materia_prima, cantidad, fecha_pedido, costo_total) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
-            ps.setInt(1, pd.getIdUsuario());
-            ps.setInt(2, pd.getIdProveedor());
-            ps.setString(3, pd.getMateriaPrima());
-            ps.setDouble(4, pd.getCantidad());
-            ps.setDate(5, java.sql.Date.valueOf(pd.getFechaPedido()));
-            ps.setDouble(6, pd.getCostoTotal());
+        	ps.setInt(1, pd.getId());
+            ps.setInt(2, pd.getIdUsuario());
+            ps.setInt(3, pd.getIdProveedor());
+            ps.setString(4, pd.getMateriaPrima());
+            ps.setDouble(5, pd.getCantidad());
+            ps.setDate(6, java.sql.Date.valueOf(pd.getFechaPedido()));
+            ps.setDouble(7, pd.getCostoTotal());
             
             int filasAfectadas = ps.executeUpdate();
             insertar = filasAfectadas > 0;

@@ -365,8 +365,11 @@ public class ControladorEventos implements ActionListener {
                 return;
             }
 
+            int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
+            int idPedido = -1;
+            
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = ControladorEventos.this.usuarioLogueado().getId();           
+                        
                 String cellValue = (String) modelo.getValueAt(i, 2);
                 String[] parts = cellValue.split(" ");
                 int proveedor = Integer.parseInt(parts[0]);
@@ -382,15 +385,32 @@ public class ControladorEventos implements ActionListener {
                 p.setCantidad(cantidad);
                 p.setFechaPedido(fechaPedido);
                 p.setCostoTotal(precio);
-
-                if (!daoPedido.insertar(p)) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar el pedido en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-
-            JOptionPane.showMessageDialog(null, "Pedido guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            modelo.setRowCount(0);
+                
+                if (i == 0) {
+                    // Insertar el primer pedido y obtener el idPedido generado
+                    idPedido = daoPedido.insertarYRetornarId(p);
+                    System.out.println(idPedido);
+                    if (idPedido == -1) {
+                        JOptionPane.showMessageDialog(null, "Error al guardar el pedido en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                        return ;
+                    }
+                    p.setId(idPedido);
+                } else {
+	                    // Reutilizar el idPedido generado
+	                    p.setId(idPedido);
+	                
+	
+		                if (!daoPedido.insertar(p)) {
+		                    JOptionPane.showMessageDialog(null, "Error al guardar el pedido en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+		                    return;
+		                }
+	            
+	
+			            JOptionPane.showMessageDialog(null, "Pedido guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+			          //  modelo.setRowCount(0);
+			             }
+          }
+            
         } else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
             if (indice != -1) {
                 ventanaPedido.getTableModel().removeRow(indice);
