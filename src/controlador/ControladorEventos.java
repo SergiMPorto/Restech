@@ -57,6 +57,7 @@ public class ControladorEventos implements ActionListener {
     private DaoUsuarioMySql daoUsuario;
     private DaoPlatoMySql daoPlato;
     private int indice;
+  
     private LocalDate fechaLocal = LocalDate.now();
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
@@ -112,6 +113,7 @@ public class ControladorEventos implements ActionListener {
         String textPrecio = ventanaPedido.getPrecio().getText();
         
         indice = ventanaPedido.getTable().getSelectedRow();  
+       
         
         // Eventos para la ventana Login
         if (e.getSource() == login.getBtnValidar()) {
@@ -332,6 +334,7 @@ public class ControladorEventos implements ActionListener {
             } else if (!textPrecio.matches("\\d+")) {
                 JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else {
+            	String usuario = ControladorEventos.this.usuarioLogueado().getNombre();;
                 String proveedor = (String) ventanaPedido.getCombo().getSelectedItem();
                 String producto = ventanaPedido.getProducto().getText();
                 float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
@@ -340,7 +343,7 @@ public class ControladorEventos implements ActionListener {
 
                 ventanaPedido.getTableModel().addRow(new Object[]{
                         "",
-                        "",
+                        usuario,
                         proveedor,
                         producto,
                         cantidad,
@@ -353,6 +356,7 @@ public class ControladorEventos implements ActionListener {
                 ventanaPedido.getPrecio().setText(null);
             }
         } else if (e.getSource() == ventanaPedido.getBtnGuardar()) {
+        	
             DefaultTableModel modelo = ventanaPedido.getTableModel();
             int rowCount = modelo.getRowCount();
 
@@ -362,13 +366,10 @@ public class ControladorEventos implements ActionListener {
             }
 
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = 1;
-                
+                int idUsuario = ControladorEventos.this.usuarioLogueado().getId();           
                 String cellValue = (String) modelo.getValueAt(i, 2);
                 String[] parts = cellValue.split(" ");
                 int proveedor = Integer.parseInt(parts[0]);
-                
-               // int proveedor = (int) modelo.getValueAt(i, 2);
                 String producto = (String) modelo.getValueAt(i, 3);
                 float cantidad = (float) modelo.getValueAt(i, 4);
                 float precio = (float) modelo.getValueAt(i, 5);
@@ -403,14 +404,6 @@ public class ControladorEventos implements ActionListener {
     }
      
     
-        
-        
-        
-        
-    
-    
-
-
 //Obtner método para usuario logueado. 
     
     public Usuario usuarioLogueado() {
@@ -427,6 +420,9 @@ public class ControladorEventos implements ActionListener {
 	    	return null;
 	    	
     }
+    
+    
+      
     
     //cargar tabla en Ingredientes
     
