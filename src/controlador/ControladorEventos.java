@@ -92,7 +92,7 @@ public class ControladorEventos implements ActionListener {
         gastos.setVisible(false);
 
         // Establecer los ActionListener
-        login.inciarListener(this);
+    
         home.iniciarListener(this);
         ventanaProveedor.iniciarListener(this);
         almacen.iniciarListener(this);
@@ -118,20 +118,27 @@ public class ControladorEventos implements ActionListener {
         // Eventos para la ventana Login
         if (e.getSource() == login.getBtnValidar()) {
             System.out.println("Botón validar pulsado");
+            if (login.getTxtUsuario().getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo Usuario vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (login.getPasswordField().getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Campo Código vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else {
             String nombreUsuario = login.getTxtUsuario().getText();
             String codigoUsuario = login.getPasswordField().getText();
             Usuario usuario = daoUsuario.buscarNombre(nombreUsuario);
-            if (usuario != null) {
-                if (usuario.getCodigo().equals(codigoUsuario)) {
-                    login.setVisible(false);
-                    home.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Código incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
-            }
+	            if (usuario != null) {
+	                if (usuario.getCodigo().equals(codigoUsuario)) {
+	                    login.setVisible(false);
+	                    home.setVisible(true);
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "Código incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+	                }
+	            } else {
+	                JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+	            }
+            }    
         }
+        
         // Eventos para la ventana Home
         else if (e.getSource() == home.getBtnPedido()) {
             System.out.println("Botón Pedido pulsado");
@@ -254,6 +261,26 @@ public class ControladorEventos implements ActionListener {
         // Eventos para la ventana Proveedor
         else if (e.getSource() == ventanaProveedor.getBtnGuardar()) {
             try {
+            	
+            	if (ventanaProveedor.getNombre().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo nombre vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }else if (!textProducto.matches("[a-zA-Z]+")) {
+                    JOptionPane.showMessageDialog(null, "El campo nombre solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }          	
+                else if (ventanaProveedor.getDescripcion().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo descripción vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!textProducto.matches("[a-zA-Z]+")) {
+                    JOptionPane.showMessageDialog(null, "El campo descripción solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }           	
+                else if (ventanaProveedor.getTelefono().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo teléfono vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!textProducto.matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "El campo teléfono solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }            	
+                else if (ventanaProveedor.getDireccion().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } 
+  
                 String nombre = ventanaProveedor.getNombre().getText();
                 String descripcion = ventanaProveedor.getDescripcion().getText();
                 String telefono = ventanaProveedor.getTelefono().getText();
