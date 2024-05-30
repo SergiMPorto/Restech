@@ -89,7 +89,6 @@ public class Login {
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		btnValidar = new JButton("Validar");
-		
 		btnValidar.setBackground(new Color(255, 255, 255));
 		btnValidar.setFont(new Font("Lucida Sans", Font.BOLD, 50));
 		btnValidar.setBounds(183, 358, 376, 69);
