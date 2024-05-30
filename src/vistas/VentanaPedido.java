@@ -118,7 +118,9 @@ public class VentanaPedido  {
         
         
 
-        String[] proveedores = {}; 
+
+        String[] proveedores = {};
+
         combo = new JComboBox(proveedores);
         combo.setBounds(226, 97, 427, 27);
         frmPedido.getContentPane().add(combo);

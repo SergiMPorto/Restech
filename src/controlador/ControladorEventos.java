@@ -20,6 +20,7 @@ import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.interfaces.DaoMateriaPrima;
+import modelo.persistance.interfaces.DaoUsuario;
 import modelo.persistance.mysql.DaoGastoMySql;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
@@ -372,8 +373,16 @@ public class ControladorEventos implements ActionListener {
             }
 
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
+
+              
            
+
+            	String nombreUsuario = ControladorEventos.this.usuarioLogueado().getNombre();
+            	System.out.println(nombreUsuario);
+            	int idUsuario = obtenerIdUsuarioPorNombre(nombreUsuario);
+            	System.out.println(idUsuario);
+                System.out.println(idUsuario);
+
                 String cellValue = (String) modelo.getValueAt(i, 2);
                 String[] parts = cellValue.split(" ");
                 int proveedor = Integer.parseInt(parts[0]);
@@ -684,6 +693,18 @@ public class ControladorEventos implements ActionListener {
     
  
    
+//obtener id de usuario
+    
+    public int obtenerIdUsuarioPorNombre(String nombreUsuario) {
+        // Crear una instancia del DAO de Usuario
+        DaoUsuario daoUsuario = new DaoUsuarioMySql(); // Suponiendo que tienes una implementación específica de MySQL
+        
+        // Llamar al método buscarIdUsuarioPorNombre del DAO para obtener el ID del usuario
+        int idUsuario = daoUsuario.buscarIdUsuarioPorNombre(nombreUsuario);
+        
+        // Devolver el ID del usuario si se encontró, de lo contrario, devolver -1
+        return idUsuario;
+    }
 
     
     
