@@ -16,7 +16,8 @@ public class DaoUsuarioMySql implements DaoUsuario {
 	private Connection conexion;
 
     private boolean abrirConexion() {
-        String url = "jdbc:mysql://localhost:3306/bbdd";
+        String url = "jdbc:mysql://localhost:3309"
+        		+ "/bbdd";
         String usuario = "root";
         String password = "";
         try {
@@ -202,7 +203,7 @@ public class DaoUsuarioMySql implements DaoUsuario {
 	    }
 
 	    Usuario u = null;
-	    String query = "SELECT codigo, nombre, permisos FROM usuarios WHERE nombre = ?";
+	    String query = "SELECT id_usuario, codigo, nombre, permisos FROM usuarios WHERE nombre = ?";
 	    try {
 	        PreparedStatement ps = conexion.prepareStatement(query);
 	        ps.setString(1, nombre); 
@@ -210,6 +211,7 @@ public class DaoUsuarioMySql implements DaoUsuario {
 	        ResultSet rs = ps.executeQuery();
 	        if (rs.next()) {
 	            u = new Usuario();
+	            u.setId(rs.getInt("id_usuario"));
 	            u.setNombre(rs.getString("nombre"));
 	            u.setPermisos(rs.getInt("permisos"));
 	            u.setCodigo(rs.getString("codigo"));

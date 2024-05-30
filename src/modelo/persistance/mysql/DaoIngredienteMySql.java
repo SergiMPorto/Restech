@@ -18,7 +18,7 @@ public class DaoIngredienteMySql implements DaoIngrediente{
 	private Connection conexion;
 
     public boolean abrirConexion() {
-        String url = "jdbc:mysql://localhost:3306/bbdd";
+        String url = "jdbc:mysql://localhost:3309/bbdd";
         String usuario = "root";
         String password = "";
         try {
