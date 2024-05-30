@@ -18,11 +18,9 @@ public class DaoPedidoMySql implements DaoPedido {
 	private Connection conexion;
 
     private boolean abrirConexion() {
-<<<<<<< HEAD
+
         String url = "jdbc:mysql://localhost:3306/bbdd";
-=======
-        String url = "jdbc:mysql://localhost:3306/bbdd";  // Asegúrate de que el puerto y el nombre de la base de datos sean correctos
->>>>>>> c464622d144d08585294e3ca605a4e52e3b14af7
+
         String usuario = "root";
         String password = "";
         try {
