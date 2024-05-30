@@ -30,7 +30,6 @@ import javax.swing.ImageIcon;
 public class VentanaUsuario {
 
 	private JFrame frmUsuario;
-	private JTextField textID;
 	private JTextField textNombre;
 	private JButton btnBorrar;
 	private JLabel lblNewLabel_3;
@@ -39,7 +38,6 @@ public class VentanaUsuario {
 	private JButton btnGuardar;
 	private JTable table;
 	private JScrollPane scrollPane;
-	private JLabel lblId;
 	private JTextField Codigo;
 	private JLabel lblNewLabel;
 
@@ -109,17 +107,17 @@ public class VentanaUsuario {
         frmUsuario.getContentPane().add(scrollPane);
 		
 		JLabel Nombre = new JLabel("NOMBRE");
-		Nombre.setHorizontalAlignment(SwingConstants.CENTER);
 		Nombre.setForeground(new Color(0, 0, 0));
-		Nombre.setFont(new Font("Forte", Font.BOLD, 21));
-		Nombre.setBounds(205, 176, 90, 27);
+		Nombre.setFont(new Font("DialogInput", Font.BOLD, 20));
+		
+		Nombre.setBounds(220, 176, 75, 27);
 		frmUsuario.getContentPane().add(Nombre);
 		
 		textNombre = new JTextField();
 		textNombre.setBounds(305, 176, 400, 27);
 		frmUsuario.getContentPane().add(textNombre);
 		textNombre.setColumns(10);
-		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
+		
 		
 	    btnGuardar = new JButton("GUARDAR");
 		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -134,7 +132,7 @@ public class VentanaUsuario {
 		
 		lblNewLabel_3 = new JLabel("USUARIO");
 		lblNewLabel_3.setForeground(new Color(0, 0, 0));
-		lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
+		lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD, 20));
 		lblNewLabel_3.setBounds(292, 49, 221, 47);
 		frmUsuario.getContentPane().add(lblNewLabel_3);
 		
@@ -146,20 +144,8 @@ public class VentanaUsuario {
 		lblPermiso = new JLabel("PERMISO");
 	    lblPermiso.setForeground(new Color(0, 0, 0));
 		lblPermiso.setFont(new Font("DialogInput", Font.BOLD, 20));
-		lblPermiso.setBounds(205, 227, 90, 27);
+		lblPermiso.setBounds(207, 227, 88, 27);
 		frmUsuario.getContentPane().add(lblPermiso);
-		
-		textID = new JTextField();
-		textID.setColumns(10);
-		textID.setBounds(305, 131, 55, 27);
-		frmUsuario.getContentPane().add(textID);
-		
-		lblId = new JLabel("ID");
-		lblId.setHorizontalAlignment(SwingConstants.CENTER);
-		lblId.setForeground(new Color(0, 0, 0));
-		lblId.setFont(new Font("DialogInput", Font.BOLD, 20));
-		lblId.setBounds(259, 131, 36, 35);
-		frmUsuario.getContentPane().add(lblId);
 		
 		Codigo = new JTextField();
 		Codigo.setColumns(10);
@@ -199,13 +185,7 @@ public class VentanaUsuario {
 		return table;
 	}
 
-	public JTextField getTextID() {
-		return textID;
-	}
-
-	public void setTextID(JTextField textID) {
-		this.textID = textID;
-	}
+	
 
 	public void setTable(JTable table) {
 		this.table = table;
@@ -286,15 +266,15 @@ public class VentanaUsuario {
 
 	@Override
 	public String toString() {
-		return "VentanaUsuario [textID=" + textID + ", textNombre=" + textNombre + ", Permiso=" + Permiso
+		return "VentanaUsuario [textNombre=" + textNombre + ", Permiso=" + Permiso
 				+ ", lblPermiso=" + lblPermiso + "]";
 	}
 
 
 
-	public VentanaUsuario(JTextField textID, JTextField textNombre, JTextField permiso, JTextField codigo) {
+
+	public VentanaUsuario(JTextField textNombre, JTextField permiso, JTextField codigo) {
 		super();
-		this.textID = textID;
 		this.textNombre = textNombre;
 		Permiso = permiso;
 		Codigo = codigo;
