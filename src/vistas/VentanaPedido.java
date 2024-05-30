@@ -118,6 +118,7 @@ public class VentanaPedido  {
         
         
 
+
         String[] proveedores = {};
 
         combo = new JComboBox(proveedores);

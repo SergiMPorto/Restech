@@ -187,4 +187,29 @@ public class DaoPedidoMySql implements DaoPedido {
         }
         return listaPedidos;
     }
+    
+    public int buscarIdUsuarioPorNombre(String nombreUsuario) {
+	    if (!abrirConexion()) {
+	        return -1; // Devolver un valor por defecto o lanzar una excepción, dependiendo de tus necesidades
+	    }
+
+	    int idUsuario = -1; // Valor por defecto si no se encuentra el usuario
+
+	    String query = "SELECT id_usuario FROM usuarios WHERE nombre = ?";
+	    try (PreparedStatement ps = conexion.prepareStatement(query)) {
+	        ps.setString(1, nombreUsuario);
+	        ResultSet rs = ps.executeQuery();
+	        
+	        if (rs.next()) {
+	            idUsuario = rs.getInt("id_usuario");
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Error al buscar ID de usuario por nombre: " + nombreUsuario);
+	        e.printStackTrace();
+	    } finally {
+	        cerrarConexion();
+	    }
+	    return idUsuario;
+	}
+
 }

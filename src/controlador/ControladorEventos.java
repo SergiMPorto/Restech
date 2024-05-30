@@ -20,6 +20,7 @@ import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.interfaces.DaoMateriaPrima;
+import modelo.persistance.interfaces.DaoUsuario;
 import modelo.persistance.mysql.DaoGastoMySql;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
@@ -372,7 +373,11 @@ public class ControladorEventos implements ActionListener {
             }
 
             for (int i = 0; i < rowCount; i++) {
-                int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
+            	String nombreUsuario = ControladorEventos.this.usuarioLogueado().getNombre();
+            	System.out.println(nombreUsuario);
+            	int idUsuario = obtenerIdUsuarioPorNombre(nombreUsuario);
+            	System.out.println(idUsuario);
+                System.out.println(idUsuario);
                 String cellValue = (String) modelo.getValueAt(i, 2);
                 String[] parts = cellValue.split(" ");
                 int proveedor = Integer.parseInt(parts[0]);
@@ -417,6 +422,7 @@ public class ControladorEventos implements ActionListener {
         
            else if(e.getSource()==gastos.getBtnBuscar()) {
         	   System.out.println("Pulsado botón buscar");
+        	   buscarGastosPorProveedor();
         	   }
            }
 
@@ -443,11 +449,10 @@ public class ControladorEventos implements ActionListener {
                  break;
          }
      }
-   	 
    	private void buscarGastosPorProveedor() {
-   	    int idProveedor = Integer.parseInt(gastos.getProveedores().getSelectedItem().toString().split(" - ")[0]); 
+   	    int idProveedor = Integer.parseInt(gastos.getProveedores().getSelectedItem().toString().split(" - ")[0]);
    	    List<Gasto> gastosList = daoGastos.listarPorProveedor(idProveedor);
-   	    gastos.actualizarTablaGastos(gastosList); 
+   	    gastos.actualizarTablaGastosConPedidos(gastosList);
    	}
 
    	private void buscarGastosPorMes() {
@@ -520,7 +525,7 @@ public class ControladorEventos implements ActionListener {
         List<Proveedor> proveedores = daoProveedor.listar();
         gastos.getProveedores().removeAllItems();
         for (Proveedor proveedor : proveedores) {
-            gastos.getProveedores().addItem(proveedor.getNombre());
+            gastos.getProveedores().addItem(proveedor.getId() + " - " + proveedor.getNombre());
         }
     }
     
@@ -681,6 +686,18 @@ public class ControladorEventos implements ActionListener {
     //PLATO <--
 
    
+//obtener id de usuario
+    
+    public int obtenerIdUsuarioPorNombre(String nombreUsuario) {
+        // Crear una instancia del DAO de Usuario
+        DaoUsuario daoUsuario = new DaoUsuarioMySql(); // Suponiendo que tienes una implementación específica de MySQL
+        
+        // Llamar al método buscarIdUsuarioPorNombre del DAO para obtener el ID del usuario
+        int idUsuario = daoUsuario.buscarIdUsuarioPorNombre(nombreUsuario);
+        
+        // Devolver el ID del usuario si se encontró, de lo contrario, devolver -1
+        return idUsuario;
+    }
 
     
     

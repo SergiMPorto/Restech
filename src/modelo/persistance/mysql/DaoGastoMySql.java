@@ -224,6 +224,7 @@ public class DaoGastoMySql implements DaoGasto {
         return listaGastos;
     }
 
+  
     @Override
     public List<Gasto> listarPorProveedor(int idProveedor) {
         if (!abrirConexion()) {
@@ -232,7 +233,8 @@ public class DaoGastoMySql implements DaoGasto {
 
         List<Gasto> listaGastos = new ArrayList<>();
         
-        String query = "SELECT g.id_gasto, g.id_pedido, g.costo, g.fecha FROM gastos g INNER JOIN pedido p ON g.id_pedido = p.ID_Pedido WHERE p.ID_Proveedor = ?";
+        String query = "SELECT g.id_gasto, g.id_pedido, g.costo, g.fecha, p.ID_Proveedor, p.materia_prima, p.cantidad, p.precio " +
+                       "FROM gastos g INNER JOIN pedido p ON g.id_pedido = p.ID_Pedido WHERE p.ID_Proveedor = ?";
 
         try {
             PreparedStatement ps = conexion.prepareStatement(query);
@@ -242,7 +244,13 @@ public class DaoGastoMySql implements DaoGasto {
             while (rs.next()) {
                 Gasto gasto = new Gasto();
                 gasto.setIdGasto(rs.getInt("id_gasto"));
-                gasto.setPedido(new Pedido(rs.getInt("id_pedido"))); 
+                Pedido pedido = new Pedido();
+                pedido.setId(rs.getInt("id_pedido"));
+                pedido.setIdProveedor(rs.getInt("ID_Proveedor"));
+                pedido.setMateriaPrima(rs.getString("materiaPrima"));
+                pedido.setCantidad(rs.getFloat("cantidad"));
+                pedido.setCostoTotal(rs.getFloat("costoTotal"));
+                gasto.setPedido(pedido); 
                 gasto.setCosto(rs.getFloat("costo"));
                 gasto.setFecha(rs.getDate("fecha").toLocalDate()); 
                 listaGastos.add(gasto);
@@ -257,31 +265,5 @@ public class DaoGastoMySql implements DaoGasto {
         return listaGastos;
     }
 
-
-    @Override
-    public float obtenerSumaGastosPorProveedor(int idProveedor) {
-        if (!abrirConexion()) {
-            return 0;
-        }
-
-        float sumaGastos = 0;
-        String query = "SELECT SUM(g.costo) as totalGasto FROM gastos g INNER JOIN pedidos p ON g.id_pedido = p.id WHERE p.id_proveedor = ?";
-
-        try {
-            PreparedStatement ps = conexion.prepareStatement(query);
-            ps.setInt(1, idProveedor);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                sumaGastos = rs.getFloat("totalGasto");
-            }
-        } catch (SQLException e) {
-            System.out.println("obtenerSumaGastosPorProveedor -> Error al obtener la suma de los gastos del proveedor");
-            e.printStackTrace();
-        } finally {
-            cerrarConexion();
-        }
-
-        return sumaGastos;
+    
     }
-}

@@ -13,5 +13,5 @@ public interface DaoGasto {
 	List<Gasto> listar();
 	List<Gasto> listarPorMes(int mes, int anio);
     List<Gasto> listarPorProveedor(int idProveedor);
-	float obtenerSumaGastosPorProveedor(int idProveedor);
+	
 	}
