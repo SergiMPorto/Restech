@@ -40,6 +40,7 @@ public class Main {
         pedido.establecerControlador(controlador);
         gastos.iniciarListener(controlador);
         ingredientes.iniciarListener(controlador);
+        proveedor.iniciarListener(controlador);
     }
 
     private static Usuario obtenerUsuarioLogueado() {

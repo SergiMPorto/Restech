@@ -154,6 +154,7 @@ public class Home {
 	        btnPlatos.addActionListener(controlador);
 	        btnPedido.addActionListener(controlador);
 	        btnUsuario.addActionListener(controlador);
+	        btnProveedor.addActionListener(controlador);
 	    }
 
 	public void setVisible(boolean b) {

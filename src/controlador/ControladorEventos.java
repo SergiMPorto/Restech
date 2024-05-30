@@ -97,12 +97,6 @@ public class ControladorEventos implements ActionListener {
         ingredientes.setVisible(false);
         gastos.setVisible(false);
 
-        // Establecer los ActionListener
-      
-       // home.iniciarListener(this);
-       // ventanaProveedor.iniciarListener(this);
-       // almacen.iniciarListener(this);
-       // ventanaUsuario.inciarListener(this);
         
         cargarProveedoresEnPedido1();
         
