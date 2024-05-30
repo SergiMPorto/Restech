@@ -125,6 +125,8 @@ public class ControladorEventos implements ActionListener {
             System.out.println("Botón validar pulsado");
             if (login.getTxtUsuario().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo Usuario vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            } else if (!login.getTxtUsuario().getText().matches("[a-zA-Z]+")) {
+                JOptionPane.showMessageDialog(null, "El campo Usuario solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (login.getPasswordField().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo Código vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -136,10 +138,10 @@ public class ControladorEventos implements ActionListener {
 	                    login.setVisible(false);
 	                    home.setVisible(true);
 	                } else {
-	                    JOptionPane.showMessageDialog(null, "Código incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+	                    JOptionPane.showMessageDialog(null, "Código incorrecto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 	                }
 	            } else {
-	                JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Error", JOptionPane.ERROR_MESSAGE);
+	                JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 	            }
             }    
         }
@@ -265,56 +267,52 @@ public class ControladorEventos implements ActionListener {
         }
         // Eventos para la ventana Proveedor
         else if (e.getSource() == ventanaProveedor.getBtnGuardar()) {
-            try {
-            	
+   	  	
             	if (ventanaProveedor.getNombre().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo nombre vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }else if (!textProducto.matches("[a-zA-Z]+")) {
+                }else if (!ventanaProveedor.getNombre().getText().matches("[a-zA-Z]+")) {
                     JOptionPane.showMessageDialog(null, "El campo nombre solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }          	
                 else if (ventanaProveedor.getDescripcion().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo descripción vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!textProducto.matches("[a-zA-Z]+")) {
+                } else if (!ventanaProveedor.getDescripcion().getText().matches("[a-zA-Z]+")) {
                     JOptionPane.showMessageDialog(null, "El campo descripción solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }           	
                 else if (ventanaProveedor.getTelefono().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo teléfono vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!textProducto.matches("\\d+")) {
+                } else if (!ventanaProveedor.getTelefono().getText().matches("\\d+")) {
                     JOptionPane.showMessageDialog(null, "El campo teléfono solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }            	
                 else if (ventanaProveedor.getDireccion().getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Campo dirección vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 } 
-  
-              	 int id = Integer.parseInt(ventanaProveedor.getId().getText());
-                 String nombre = ventanaProveedor.getNombre().getText();
-                 String descripcion = ventanaProveedor.getDescripcion().getText();
-                 String telefono = ventanaProveedor.getTelefono().getText();
-                 String direccion = ventanaProveedor.getDireccion().getText();
-
-                Proveedor proveedor = new Proveedor(nombre, descripcion, telefono, direccion);
-                DefaultTableModel modelo = (DefaultTableModel) ventanaProveedor.getTable().getModel();
-                modelo.addRow(new Object[]{proveedor.getId(), nombre, descripcion, telefono, direccion});
-                ventanaProveedor.getTable().revalidate();
-
-                if (daoProveedor.insertar(proveedor)) {
-                    JOptionPane.showMessageDialog(null, "Proveedor añadido correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Error al añadir el proveedor a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Ingrese un número de teléfono válido", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else if (e.getSource() == ventanaProveedor.getBtnBorrar()) {
+            
+	                String nombre = ventanaProveedor.getNombre().getText();
+	                String descripcion = ventanaProveedor.getDescripcion().getText();
+	                String telefono = ventanaProveedor.getTelefono().getText();
+	                String direccion = ventanaProveedor.getDireccion().getText();
+	              	 
+	                Proveedor proveedor = new Proveedor(nombre, descripcion, telefono, direccion);
+	               
+	
+	                 if (daoProveedor.insertar(proveedor)) {
+	                    JOptionPane.showMessageDialog(null, "Proveedor añadido correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+	                } else {
+	                    JOptionPane.showMessageDialog(null, "Error al añadir el proveedor a la base de datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+	                }
+	                 
+	                ventanaProveedor.cargarProveedores();  
+        }
+           else if (e.getSource() == ventanaProveedor.getBtnBorrar()) {
             int filaSeleccionada = ventanaProveedor.getTable().getSelectedRow();
             if (filaSeleccionada != -1) {
                 DefaultTableModel modelo = (DefaultTableModel) ventanaProveedor.getTable().getModel();
                 int idProveedor = (Integer) modelo.getValueAt(filaSeleccionada, 0);
                 modelo.removeRow(filaSeleccionada);
                 if (daoProveedor.borrar(idProveedor)) {
-                    JOptionPane.showMessageDialog(null, "Proveedor borrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                   // JOptionPane.showMessageDialog(null, "Proveedor borrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al borrar el proveedor", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al borrar el proveedor", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
