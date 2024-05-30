@@ -127,16 +127,17 @@ public class VentanaPlato {
         frmPlato.getContentPane().add(textPrecio);
 
         lblNewLabel_2 = new JLabel("TIEMPO DE PREPARACIÓN");
-        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 187, SpringLayout.NORTH, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 55, SpringLayout.WEST, frmPlato.getContentPane());
         lblNewLabel_2.setForeground(new Color(0, 0, 0));
         lblNewLabel_2.setFont(new Font("DialogInput", Font.BOLD, 20));
         frmPlato.getContentPane().add(lblNewLabel_2);
 
         tiempoPreparacion = new JTextField();
-        springLayout.putConstraint(SpringLayout.NORTH, tiempoPreparacion, 187, SpringLayout.NORTH, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, tiempoPreparacion, 320, SpringLayout.WEST, frmPlato.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, tiempoPreparacion, 570, SpringLayout.WEST, frmPlato.getContentPane());
+        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, 0, SpringLayout.SOUTH, tiempoPreparacion);
+        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_2, -11, SpringLayout.WEST, tiempoPreparacion);
+        springLayout.putConstraint(SpringLayout.NORTH, tiempoPreparacion, 27, SpringLayout.SOUTH, nombre);
+        springLayout.putConstraint(SpringLayout.SOUTH, tiempoPreparacion, -22, SpringLayout.NORTH, textPrecio);
+        springLayout.putConstraint(SpringLayout.WEST, tiempoPreparacion, 0, SpringLayout.WEST, nombre);
+        springLayout.putConstraint(SpringLayout.EAST, tiempoPreparacion, 401, SpringLayout.WEST, frmPlato.getContentPane());
         frmPlato.getContentPane().add(tiempoPreparacion);
         tiempoPreparacion.setColumns(10);
 
