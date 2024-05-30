@@ -10,6 +10,8 @@ public interface DaoGasto {
 	public boolean borrar(int id);
 	public boolean modificar(Gasto g);
 	public Gasto buscar(int id);
-	public List<Gasto> listar();
-
-}
+	List<Gasto> listar();
+	List<Gasto> listarPorMes(int mes, int anio);
+    List<Gasto> listarPorProveedor(int idProveedor);
+	
+	}

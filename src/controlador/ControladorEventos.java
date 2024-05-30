@@ -12,12 +12,16 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import modelo.entidad.Gasto;
 import modelo.entidad.Ingrediente;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.interfaces.DaoMateriaPrima;
+import modelo.persistance.interfaces.DaoUsuario;
+import modelo.persistance.mysql.DaoGastoMySql;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
 import modelo.entidad.Pedido;
@@ -56,6 +60,7 @@ public class ControladorEventos implements ActionListener {
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
     private DaoPlatoMySql daoPlato;
+    private DaoGastoMySql daoGastos;
     private int indice;
   
     private LocalDate fechaLocal = LocalDate.now();
@@ -78,6 +83,7 @@ public class ControladorEventos implements ActionListener {
         this.daoProveedor = new DaoProveedorMySql();
         this.daoUsuario = new DaoUsuarioMySql();
         this.daoPlato = new DaoPlatoMySql();
+        this.daoGastos = new DaoGastoMySql();
         
 
         // Ocultar todas las vistas excepto la de inicio de sesión al iniciar
@@ -92,17 +98,22 @@ public class ControladorEventos implements ActionListener {
         gastos.setVisible(false);
 
         // Establecer los ActionListener
-        login.inciarListener(this);
-        home.iniciarListener(this);
-        ventanaProveedor.iniciarListener(this);
-        almacen.iniciarListener(this);
-        ventanaUsuario.inciarListener(this);
+      
+       // home.iniciarListener(this);
+       // ventanaProveedor.iniciarListener(this);
+       // almacen.iniciarListener(this);
+       // ventanaUsuario.inciarListener(this);
         
-        cargarProveedoresEnPedido();
+        cargarProveedoresEnPedido1();
         
     }
     
-   
+    private void cargarProveedoresEnPedido1() {
+        List<Proveedor> proveedores = daoProveedor.listar();
+        for (Proveedor proveedor : proveedores) {
+            ventanaPedido.getCombo().addItem(proveedor.getId() + " " + proveedor.getNombre());
+        }
+    }
 
 
     @Override
@@ -254,10 +265,12 @@ public class ControladorEventos implements ActionListener {
         // Eventos para la ventana Proveedor
         else if (e.getSource() == ventanaProveedor.getBtnGuardar()) {
             try {
-                String nombre = ventanaProveedor.getNombre().getText();
-                String descripcion = ventanaProveedor.getDescripcion().getText();
-                String telefono = ventanaProveedor.getTelefono().getText();
-                String direccion = ventanaProveedor.getDireccion().getText();
+
+            	 int id = Integer.parseInt(ventanaProveedor.getId().getText());
+                 String nombre = ventanaProveedor.getNombre().getText();
+                 String descripcion = ventanaProveedor.getDescripcion().getText();
+                 String telefono = ventanaProveedor.getTelefono().getText();
+                 String direccion = ventanaProveedor.getDireccion().getText();
                 Proveedor proveedor = new Proveedor(nombre, descripcion, telefono, direccion);
                 DefaultTableModel modelo = (DefaultTableModel) ventanaProveedor.getTable().getModel();
                 modelo.addRow(new Object[]{proveedor.getId(), nombre, descripcion, telefono, direccion});
@@ -318,8 +331,7 @@ public class ControladorEventos implements ActionListener {
             }
         }
         
-        //ventana Pedido
-      
+      //ventana Pedido
         else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
             if (ventanaPedido.getProducto().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -334,7 +346,12 @@ public class ControladorEventos implements ActionListener {
             } else if (!textPrecio.matches("\\d+")) {
                 JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else {
+
             	String usuario = ControladorEventos.this.usuarioLogueado().getNombre();;
+
+            	int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
+                String idUsuarioString = String.valueOf(idUsuario);
+
                 String proveedor = (String) ventanaPedido.getCombo().getSelectedItem();
                 String producto = ventanaPedido.getProducto().getText();
                 float cantidad = Float.parseFloat(ventanaPedido.getCantidad().getText());
@@ -342,7 +359,7 @@ public class ControladorEventos implements ActionListener {
                 LocalDate fechaPedido = LocalDate.now();
 
                 ventanaPedido.getTableModel().addRow(new Object[]{
-                        "",
+                        idUsuarioString,
                         usuario,
                         proveedor,
                         producto,
@@ -365,10 +382,16 @@ public class ControladorEventos implements ActionListener {
                 return;
             }
 
-            int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
+          
             
             for (int i = 0; i < rowCount; i++) {
-                        
+            int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
+            	
+            	
+            	System.out.println(idUsuario);
+                System.out.println(idUsuario);
+
+
                 String cellValue = (String) modelo.getValueAt(i, 2);
                 String[] parts = cellValue.split(" ");
                 int proveedor = Integer.parseInt(parts[0]);
@@ -379,9 +402,12 @@ public class ControladorEventos implements ActionListener {
 
                 Pedido p = new Pedido();
                 p.setIdUsuario(idUsuario);
+               System.out.println("El id de usuario es " + idUsuario); 
+               
                 p.setIdProveedor(proveedor);
                 p.setMateriaPrima(producto);
                 p.setCantidad(cantidad);
+                System.out.println("La cantidad de materia prima es: "+ cantidad);
                 p.setFechaPedido(fechaPedido);
                 p.setCostoTotal(precio);
                 
@@ -403,10 +429,11 @@ public class ControladorEventos implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
-        } else if (e.getSource() == ventanaPedido.getBtnGastos()) {
-            // Manejar el evento del botón de gestión de gastos aquí
-        }
-    }
+        }}
+            
+    
+             
+
      
     
 //Obtner método para usuario logueado. 
@@ -455,6 +482,16 @@ public class ControladorEventos implements ActionListener {
             ventanaPedido.getCombo().addItem(proveedor.getId() + " " + proveedor.getNombre());
         }
     }
+    
+   /* private void cargarProveedores() {
+        List<Proveedor> proveedores = daoProveedor.listar();
+        gastos.getProveedores().removeAllItems();
+        for (Proveedor proveedor : proveedores) {
+            gastos.getProveedores().addItem(proveedor.getId() + " - " + proveedor.getNombre());
+        }
+    }*/
+    
+    
 
 
   
@@ -610,9 +647,23 @@ public class ControladorEventos implements ActionListener {
             JOptionPane.showMessageDialog(null, "Error al listar los platos", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    //PLATO <--
-
+    
+    
+    
+ 
    
+//obtener id de usuario
+    
+    public int obtenerIdUsuarioPorNombre(String nombreUsuario) {
+        // Crear una instancia del DAO de Usuario
+        DaoUsuario daoUsuario = new DaoUsuarioMySql(); // Suponiendo que tienes una implementación específica de MySQL
+        
+        // Llamar al método buscarIdUsuarioPorNombre del DAO para obtener el ID del usuario
+        int idUsuario = daoUsuario.buscarIdUsuarioPorNombre(nombreUsuario);
+        
+        // Devolver el ID del usuario si se encontró, de lo contrario, devolver -1
+        return idUsuario;
+    }
 
     
     
@@ -621,4 +672,3 @@ public class ControladorEventos implements ActionListener {
 }
     	
     
-

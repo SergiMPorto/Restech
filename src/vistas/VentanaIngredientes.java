@@ -68,6 +68,7 @@ public class VentanaIngredientes {
         frmIngredientes.setBounds(100, 100, 750, 750);
         frmIngredientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
+        frmIngredientes.setResizable(false);
 
         modeloIngredientes = new DefaultTableModel() {
             @Override

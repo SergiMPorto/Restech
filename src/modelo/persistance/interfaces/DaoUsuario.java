@@ -13,6 +13,7 @@ public interface DaoUsuario {
 	public List<Usuario> listar();
 	public int obtenerPermisoPorId(int id);
 	public Usuario buscarNombre(String nombre);
+	public int buscarIdUsuarioPorNombre(String nombreUsuario);
 	
 	
 

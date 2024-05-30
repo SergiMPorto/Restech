@@ -145,8 +145,7 @@ public class VentanaPlato {
         springLayout.putConstraint(SpringLayout.WEST, guardar, 400, SpringLayout.WEST, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, guardar, 550, SpringLayout.WEST, frmPlato.getContentPane());
         guardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        guardar.setBackground(new Color(255, 255, 255));
-        guardar.setForeground(Color.BLACK);
+      
         frmPlato.getContentPane().add(guardar);
 
         borrar = new JButton("BORRAR");
@@ -154,8 +153,7 @@ public class VentanaPlato {
         springLayout.putConstraint(SpringLayout.WEST, borrar, 560, SpringLayout.WEST, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, borrar, 710, SpringLayout.WEST, frmPlato.getContentPane());
         borrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        borrar.setBackground(new Color(255, 255, 255));
-        borrar.setForeground(Color.BLACK);
+    
         frmPlato.getContentPane().add(borrar);
 
         lblNewLabel_3 = new JLabel("PLATO");
@@ -209,9 +207,9 @@ public class VentanaPlato {
         springLayout.putConstraint(SpringLayout.NORTH, listarPlatos, 0, SpringLayout.NORTH, guardar);
         springLayout.putConstraint(SpringLayout.WEST, listarPlatos, 17, SpringLayout.WEST, nombre_1);
         springLayout.putConstraint(SpringLayout.EAST, listarPlatos, -6, SpringLayout.WEST, guardar);
-        listarPlatos.setForeground(Color.BLACK);
+     
         listarPlatos.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        listarPlatos.setBackground(new Color(255, 255, 255));
+        
         listarPlatos.setPreferredSize(new Dimension(125, 30));
         listarPlatos.setMaximumSize(new Dimension(125, 30));
         listarPlatos.setMinimumSize(new Dimension(125, 30));

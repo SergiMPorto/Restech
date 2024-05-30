@@ -55,7 +55,6 @@ public class Almacen {
     private JLabel lblNewLabel_3;
     private JTable table;
     private JScrollPane scrollPane;
-    private JTextField ID;
     private JTextField Producto;
     private JTextField Cantidad;
     private JTextField FechaCaducidad;
@@ -97,6 +96,7 @@ public class Almacen {
         almacen.getContentPane().setLayout(null);
         almacen.getContentPane().setBackground(new Color(54,217,187));
         almacen.setResizable(false);
+        almacen.setForeground(new Color(102, 153, 204));
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -219,19 +219,6 @@ public class Almacen {
         JlMerma.setBounds(177, 615, 63, 23);
         almacen.getContentPane().add(JlMerma);
         
-        ID = new JTextField();
-        ID.setColumns(10);
-        ID.setBounds(250, 392, 63, 27);
-        almacen.getContentPane().add(ID);
-        
-        JLabel lblId = new JLabel("ID");
-        lblId.setBackground(new Color(0, 0, 0));
-        lblId.setForeground(new Color(0, 0, 0));
-        lblId.setHorizontalAlignment(SwingConstants.CENTER);
-        lblId.setFont(new Font("DialogInput", Font.BOLD, 20));
-        lblId.setBounds(216, 399, 29, 20);
-        almacen.getContentPane().add(lblId);
-        
 
         btnExportar = new JButton("Exportar a Excel");
         btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -251,13 +238,7 @@ public class Almacen {
 
     }
 
-    public JTextField getID() {
-		return ID;
-	}
-
-	public void setID(JTextField iD) {
-		ID = iD;
-	}
+   
 
 	public JFrame getAlmacen() {
         return almacen;
