@@ -417,6 +417,7 @@ public class ControladorEventos implements ActionListener {
         
            else if(e.getSource()==gastos.getBtnBuscar()) {
         	   System.out.println("Pulsado botón buscar");
+        	   buscarGastosPorProveedor();
         	   }
            }
 
@@ -443,11 +444,10 @@ public class ControladorEventos implements ActionListener {
                  break;
          }
      }
-   	 
    	private void buscarGastosPorProveedor() {
-   	    int idProveedor = Integer.parseInt(gastos.getProveedores().getSelectedItem().toString().split(" - ")[0]); 
+   	    int idProveedor = Integer.parseInt(gastos.getProveedores().getSelectedItem().toString().split(" - ")[0]);
    	    List<Gasto> gastosList = daoGastos.listarPorProveedor(idProveedor);
-   	    gastos.actualizarTablaGastos(gastosList); 
+   	    gastos.actualizarTablaGastosConPedidos(gastosList);
    	}
 
    	private void buscarGastosPorMes() {
@@ -520,7 +520,7 @@ public class ControladorEventos implements ActionListener {
         List<Proveedor> proveedores = daoProveedor.listar();
         gastos.getProveedores().removeAllItems();
         for (Proveedor proveedor : proveedores) {
-            gastos.getProveedores().addItem(proveedor.getNombre());
+            gastos.getProveedores().addItem(proveedor.getId() + " - " + proveedor.getNombre());
         }
     }
     

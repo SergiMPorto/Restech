@@ -190,17 +190,18 @@ public class Gastos {
         btnBuscar.addActionListener(controlador);
     }
     
-    public void actualizarTablaGastosConPedidos(List<Gasto> gastosPorProveedor) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);  
-        for (Gasto gasto : gastosPorProveedor) {
-            model.addRow(new Object[]{
-                gasto.getIdGasto(),
-                gasto.getPedido().getId(),
-                gasto.getCosto(),
-                gasto.getFecha()
-            });
-        }
+public void actualizarTablaGastosConPedidos(List<Gasto> gastosPorProveedor) {
+    DefaultTableModel model = (DefaultTableModel) table.getModel();
+    model.setRowCount(0);  
+    for (Gasto gasto : gastosPorProveedor) {
+        model.addRow(new Object[]{
+            gasto.getIdGasto(),
+            gasto.getPedido().getId(),
+            gasto.getCosto(),
+            gasto.getFecha()
+        });
     }
+}
+
 
 }
