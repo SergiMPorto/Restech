@@ -51,6 +51,13 @@ public class DaoPedidoMySql implements DaoPedido {
         }
 
         boolean insertar = true;
+        
+        // Verificar si el usuario existe
+        if (!usuarioExiste(pd.getIdUsuario())) {
+            System.err.println("Usuario con id " + pd.getIdUsuario() + " no existe.");
+            return false;
+        }
+
         String query = "INSERT INTO pedido (id_usuario, id_proveedor, materia_prima, cantidad, fecha_pedido, precio) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setInt(1, pd.getIdUsuario());
@@ -59,7 +66,7 @@ public class DaoPedidoMySql implements DaoPedido {
             ps.setDouble(4, pd.getCantidad());
             ps.setDate(5, java.sql.Date.valueOf(pd.getFechaPedido()));
             ps.setDouble(6, pd.getCostoTotal());
-            
+
             int filasAfectadas = ps.executeUpdate();
             insertar = filasAfectadas > 0;
         } catch (SQLException e) {
@@ -71,6 +78,21 @@ public class DaoPedidoMySql implements DaoPedido {
         }
         return insertar;
     }
+
+    private boolean usuarioExiste(int idUsuario) {
+        String query = "SELECT COUNT(*) FROM usuarios WHERE id_usuario = ?";
+        try (PreparedStatement ps = conexion.prepareStatement(query)) {
+            ps.setInt(1, idUsuario);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 
     @Override
     public boolean borrar(int id) {

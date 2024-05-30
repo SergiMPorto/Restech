@@ -373,6 +373,7 @@ public class ControladorEventos implements ActionListener {
 
             for (int i = 0; i < rowCount; i++) {
                 int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
+           
                 String cellValue = (String) modelo.getValueAt(i, 2);
                 String[] parts = cellValue.split(" ");
                 int proveedor = Integer.parseInt(parts[0]);
@@ -383,9 +384,12 @@ public class ControladorEventos implements ActionListener {
 
                 Pedido p = new Pedido();
                 p.setIdUsuario(idUsuario);
+               System.out.println("El id de usuario es " + idUsuario); 
+               
                 p.setIdProveedor(proveedor);
                 p.setMateriaPrima(producto);
                 p.setCantidad(cantidad);
+                System.out.println("La cantidad de materia prima es: "+ cantidad);
                 p.setFechaPedido(fechaPedido);
                 p.setCostoTotal(precio);
 
@@ -678,8 +682,7 @@ public class ControladorEventos implements ActionListener {
     
     
     
-    //PLATO <--
-
+ 
    
 
     
