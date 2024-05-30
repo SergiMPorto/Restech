@@ -54,7 +54,6 @@ public class VentanaProveedor {
     private JLabel lblNewLabel_3;
     private JButton btnGuardar;
     private JButton btnBorrar;
-    private JTextField textID;
 
     private JButton btnExportar; 
 
@@ -71,19 +70,7 @@ public class VentanaProveedor {
         this.telefono.setText(telefono);
         this.direccion.setText(direccion);
         
-        textID = new JTextField();
-        textID.setColumns(10);
-        textID.setBounds(187, 432, 119, 27);
-        proveedor.getContentPane().add(textID);
-        
         cargarProveedores();
-        
-        JLabel lblId = new JLabel("Id");
-        lblId.setBackground(new Color(0, 0, 0));
-        lblId.setForeground(new Color(0, 0, 0));
-        lblId.setFont(new Font("DialogInput", Font.BOLD, 20));
-        lblId.setBounds(147, 432, 30, 27);
-        proveedor.getContentPane().add(lblId);
         
         lblNewLabel_4 = new JLabel("Proveedor");
         lblNewLabel_4.setBackground(new Color(0, 0, 0));
@@ -100,12 +87,13 @@ public class VentanaProveedor {
 
     private void initialize() {
         proveedor = new JFrame();
-        proveedor.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaProveedor.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+        proveedor.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaProveedor.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
         proveedor.setBounds(100, 100, 750, 750);
         proveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         proveedor.getContentPane().setLayout(null);
         proveedor.getContentPane().setBackground(new Color(54,217,187));
         proveedor.setResizable(false);
+       proveedor.setForeground(new Color(102, 153, 204));
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Teléfono", "Dirección"}));
         
         

@@ -63,6 +63,7 @@ public class Login {
 		frame.getContentPane().setForeground(new Color(56, 61, 67));
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
+		frame.setForeground(new Color(102, 153, 204));
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setBounds(293, 207, 215, 38);

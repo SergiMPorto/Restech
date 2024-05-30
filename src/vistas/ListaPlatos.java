@@ -22,6 +22,7 @@ import modelo.persistance.interfaces.DaoPlato;
 import modelo.persistance.mysql.DaoPlatoMySql;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,10 +61,15 @@ public class ListaPlatos {
 
     private void initialize() {
         frmPlatos = new JFrame();
+        frmPlatos.setIconImage(Toolkit.getDefaultToolkit().getImage(ListaPlatos.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
         frmPlatos.setTitle("Lista de Platos");
         frmPlatos.setBounds(100, 100, 750, 750);
+        frmPlatos.getContentPane().setBackground(new Color(54,217,187));
+		frmPlatos.getContentPane().setForeground(new Color(54,217,187));
         frmPlatos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPlatos.getContentPane().setLayout(new BorderLayout());
+        frmPlatos.setForeground(new Color(102, 153, 204));
+        frmPlatos.setResizable(false);
 
         modeloPlatos = new DefaultTableModel();
         modeloPlatos.setColumnIdentifiers(new Object[]{"Nombre", "Precio", "Tiempo de Preparación"});

@@ -122,15 +122,12 @@ public class VentanaUsuario {
 		Nombre.setFont(new Font("Lucida Sans", Font.BOLD, 18));
 		
 	    btnGuardar = new JButton("GUARDAR");
-		btnGuardar.setBackground(new Color(255, 255, 255));
 		btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-		btnGuardar.setForeground(new Color(0, 0, 0));
 		btnGuardar.setBounds(466, 630, 125, 30);
 		frmUsuario.getContentPane().add(btnGuardar);
 		
 		btnBorrar = new JButton("BORRAR");
-		btnBorrar.setBackground(new Color(255, 255, 255));
-		btnBorrar.setForeground(new Color(0, 0, 0));
+		
 		btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
 		btnBorrar.setBounds(601, 630, 125, 30);
 		frmUsuario.getContentPane().add(btnBorrar);
@@ -138,7 +135,7 @@ public class VentanaUsuario {
 		lblNewLabel_3 = new JLabel("USUARIO");
 		lblNewLabel_3.setForeground(new Color(0, 0, 0));
 		lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
-		lblNewLabel_3.setBounds(292, 49, 207, 47);
+		lblNewLabel_3.setBounds(292, 49, 221, 47);
 		frmUsuario.getContentPane().add(lblNewLabel_3);
 		
 		Permiso = new JTextField();

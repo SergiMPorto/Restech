@@ -51,7 +51,7 @@ public class VentanaPedido  {
             public void run() {
                 try {
                     VentanaPedido window = new VentanaPedido();    
-                    //window.setVisible(true);
+                    window.frmPedido.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -63,7 +63,7 @@ public class VentanaPedido  {
      */
     public VentanaPedido() {
         initialize();
-        frmPedido.setVisible(true);  // no borrar, si no no funciona MainPedido
+       // frmPedido.setVisible(true);  // no borrar, si no no funciona MainPedido
     }
    	/**
      * Initialize the contents of the frame.
@@ -76,6 +76,7 @@ public class VentanaPedido  {
         frmPedido.setTitle("Pedido");
         frmPedido.getContentPane().setBackground(new Color(54,217,187));
         frmPedido.getContentPane().setForeground(new Color(54,217,187));
+        frmPedido.setForeground(new Color(102, 153, 204));
         frmPedido.setBounds(730, 50, 750, 750);
         frmPedido.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPedido.getContentPane().setLayout(null);

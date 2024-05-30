@@ -30,9 +30,7 @@ public class Gastos {
     private JFrame frameGastos;
     private JLabel titulo;
     private JTable table;
-    private JComboBox<String> proveedores;
     private JComboBox<String> meses;
-    private JComboBox<String> seleccion;
     private JButton btnBuscar;
     private DaoProveedor daoProveedor;
     private DefaultTableModel model;
@@ -68,10 +66,11 @@ public class Gastos {
     private void initialize() {
         frameGastos = new JFrame();
         frameGastos.setBackground(Color.WHITE);
-        frameGastos.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPedido.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
+        frameGastos.setIconImage(Toolkit.getDefaultToolkit().getImage(Gastos.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
         frameGastos.setTitle("Gastos");
         frameGastos.getContentPane().setBackground(new Color(54,217,187));
         frameGastos.getContentPane().setForeground(new Color(54,217,187));
+        frameGastos.setForeground(new Color(102, 153, 204));
         frameGastos.setBounds(730, 50, 750, 750);
         frameGastos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frameGastos.getContentPane().setLayout(null);
@@ -103,14 +102,6 @@ public class Gastos {
     
      
         String[] seleccionArray = {"Seleccione", "Listar por Proveedor", "Listar Por Meses"};
-        seleccion = new JComboBox<>(seleccionArray);
-        seleccion.setBounds(242, 104, 453, 30);
-        frameGastos.getContentPane().add(seleccion);
-     
-        proveedores = new JComboBox<>();
-        proveedores.setBounds(242, 144, 453, 30);
-        frameGastos.getContentPane().add(proveedores);
-        proveedores.setEnabled(false); // Inicialmente deshabilitado
      
         String[] mesesArray = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
         meses = new JComboBox<>(mesesArray);
@@ -123,15 +114,13 @@ public class Gastos {
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBounds(10, 255, 716, 408);
         frameGastos.getContentPane().add(scrollPane);
+        
+        JLabel lblNewLabel = new JLabel("Seleccione Mes ");
+        lblNewLabel.setBounds(325, 194, 45, 13);
+        frameGastos.getContentPane().add(lblNewLabel);
     }
 
-    public JComboBox<String> getSeleccion() {
-        return seleccion;
-    }
-
-    public void setSeleccion(JComboBox<String> seleccion) {
-        this.seleccion = seleccion;
-    }
+   
 
     public void setVisible(boolean b) {
         frameGastos.setVisible(b);
@@ -159,13 +148,7 @@ public class Gastos {
         this.table = table;
     }
 
-    public JComboBox<String> getProveedores() {
-        return proveedores;
-    }
-
-    public void setProveedores(JComboBox<String> proveedores) {
-        this.proveedores = proveedores;
-    }
+ 
 
     public JComboBox<String> getMeses() {
         return meses;
@@ -184,10 +167,8 @@ public class Gastos {
     }
     
     public void iniciarListener(ControladorEventos controlador) {
-        proveedores.addActionListener(controlador);
-        meses.addActionListener(controlador);
-        seleccion.addActionListener(controlador);
-        btnBuscar.addActionListener(controlador);
+     meses.addActionListener(controlador);
+     btnBuscar.addActionListener(controlador);
     }
     
 public void actualizarTablaGastosConPedidos(List<Gasto> gastosPorProveedor) {
@@ -202,6 +183,4 @@ public void actualizarTablaGastosConPedidos(List<Gasto> gastosPorProveedor) {
         });
     }
 }
-
-
 }

@@ -567,10 +567,15 @@ public class ControladorEventos implements ActionListener {
 
         float precio = 0;
         int tiempoPreparacion = 0;
+        String textoPrecio = ventanaPlato.getTextPrecio().getText().trim();
+        System.out.println("Texto del precio ingresado: " + textoPrecio);
+     // Reemplazar la coma decimal por un punto decimal
+        textoPrecio = textoPrecio.replace(",", ".");
 
         // Validación del precio como float
         try {
-            precio = Float.parseFloat(ventanaPlato.getTextPrecio().getText().trim());
+        	 precio = Float.parseFloat(textoPrecio);
+        	 System.out.println("Precio parseado correctamente: " + precio);
             if (precio <= 0) {
                 JOptionPane.showMessageDialog(null, "El precio debe ser un número positivo mayor que cero.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -669,7 +674,7 @@ public class ControladorEventos implements ActionListener {
     
     private void limpiarFormulario() {
         ventanaPlato.getNombre().setText("");
-        ventanaPlato.getPrecio().setText("");
+        //ventanaPlato.getPrecio().setText("");
         ventanaPlato.getTiempoPreparacion().setText("");
         ((DefaultTableModel) ventanaPlato.getTable().getModel()).setRowCount(0);
     }
