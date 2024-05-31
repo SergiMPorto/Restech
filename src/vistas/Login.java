@@ -26,6 +26,7 @@ public class Login {
 	private JButton btnValidar;
 	private JPasswordField passwordField;
 	private JLabel lblNewLabel_2;
+	private Gradiel mainPanel;
 
 	/**
 	 * Launch the application.
@@ -55,15 +56,21 @@ public class Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
-		//frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+	//frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+	
 		frame.setBounds(100, 100, 750, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setBackground(new Color(54,217,187));
-		frame.getContentPane().setForeground(new Color(56, 61, 67));
+		
 		frame.getContentPane().setLayout(null);
 		frame.setResizable(false);
-		frame.setForeground(new Color(102, 153, 204));
+		
+		Color startColor = new Color(54, 217, 187);
+		Color endColor = new Color(220, 234, 242);
+		Gradiel mainPanel = new Gradiel(startColor, endColor);
+		mainPanel.setLayout(null);
+		frame.setContentPane(mainPanel);
+		        
+		
 		
 		txtUsuario = new JTextField();
 		txtUsuario.setBounds(293, 207, 215, 38);
@@ -102,7 +109,7 @@ public class Login {
 
 		lblNewLabel_2.setBounds(250, 450, 250, 250);
 
-		lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/RESTECH_ImageICono.jpeg")));
+		//lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/imagenes/RESTECH_ImageICono.jpeg")));
 		lblNewLabel_2.setBounds(250, 450, 250, 239);
 
 		frame.getContentPane().add(lblNewLabel_2);

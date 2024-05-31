@@ -28,6 +28,7 @@ public class Home {
 	    private JButton btnPedido;
 	    private JButton btnUsuario;
 	    private JButton btnProveedor;
+	    
 
 	/**
 	 * Launch the application.
@@ -65,6 +66,12 @@ public class Home {
 		frmMen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmMen.getContentPane().setLayout(null);
 		frmMen.setResizable(false);
+		
+	    Color startColor = new Color(54, 217, 187);
+        Color endColor = new Color(220, 234, 242);
+        JPanel mainPanel = new Gradiel(startColor, endColor);
+        mainPanel.setLayout(null);
+        frmMen.setContentPane(mainPanel);
 		JLabel lblNewLabel = new JLabel("Menú");
 		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setBackground(new Color(0, 0, 0));

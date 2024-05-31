@@ -54,6 +54,7 @@ public class VentanaProveedor {
     private JLabel lblNewLabel_3;
     private JButton btnGuardar;
     private JButton btnBorrar;
+    private Gradiel mainPanel;
 
     private JButton btnExportar; 
 
@@ -87,13 +88,21 @@ public class VentanaProveedor {
 
     private void initialize() {
         proveedor = new JFrame();
+        proveedor.setTitle("PROVEEDORES");
         proveedor.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaProveedor.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
         proveedor.setBounds(100, 100, 750, 750);
         proveedor.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         proveedor.getContentPane().setLayout(null);
-        proveedor.getContentPane().setBackground(new Color(54,217,187));
+       
         proveedor.setResizable(false);
-       proveedor.setForeground(new Color(102, 153, 204));
+        
+        Color startColor = new Color(54, 217, 187);
+        Color endColor = new Color(220, 234, 242);
+        Gradiel mainPanel = new Gradiel(startColor, endColor);
+        mainPanel.setLayout(null);
+        proveedor.setContentPane(mainPanel);
+        
+     
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Teléfono", "Dirección"}));
         
         

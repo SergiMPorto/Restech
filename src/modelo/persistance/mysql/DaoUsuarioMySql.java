@@ -16,8 +16,8 @@ public class DaoUsuarioMySql implements DaoUsuario {
 	private Connection conexion;
 
     private boolean abrirConexion() {
-        String url = "jdbc:mysql://localhost:3309"
-        		+ "/bbdd";
+        String url = "jdbc:mysql://localhost:3306/bbdd";
+        		
         String usuario = "root";
         String password = "";
         try {
