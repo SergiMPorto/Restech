@@ -40,6 +40,7 @@ public class VentanaUsuario {
 	private JScrollPane scrollPane;
 	private JTextField Codigo;
 	private JLabel lblNewLabel;
+	private Gradiel mainPanel;
 
 
 
@@ -72,16 +73,22 @@ public class VentanaUsuario {
 	private void initialize() {
 		frmUsuario= new JFrame();
 		frmUsuario.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaUsuario.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-		frmUsuario.getContentPane().setBackground(new Color(54,217,187));
-		frmUsuario.getContentPane().setForeground(new Color(54,217,187));
+		
 		frmUsuario.setForeground(new Color(102, 153, 204));
 		frmUsuario.setFont(new Font("Lucida Sans", Font.BOLD | Font.ITALIC, 18));
-		frmUsuario.setTitle("PLATO");
+		frmUsuario.setTitle("USUARIO");
 		frmUsuario.setBounds(750, 50, 750, 750);
 		frmUsuario.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmUsuario.getContentPane().setLayout(null);
 		frmUsuario.setResizable(false);
 		
+
+		Color startColor = new Color(54, 217, 187);
+		Color endColor = new Color(220, 234, 242);
+		Gradiel mainPanel = new Gradiel(startColor, endColor);
+		mainPanel.setLayout(null);
+		frmUsuario.setContentPane(mainPanel);
+
 		 // Add window listener to clear fields on close
         frmUsuario.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -89,6 +96,7 @@ public class VentanaUsuario {
                 limpiarCampos();
             }
         });
+
 		
 		
 		table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Id","Nombre", "Permiso", "Codigo"}));
@@ -140,8 +148,8 @@ public class VentanaUsuario {
 		
 		lblNewLabel_3 = new JLabel("USUARIO");
 		lblNewLabel_3.setForeground(new Color(0, 0, 0));
-		lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD, 20));
-		lblNewLabel_3.setBounds(292, 49, 221, 47);
+		lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
+		lblNewLabel_3.setBounds(264, 51, 215, 47);
 		frmUsuario.getContentPane().add(lblNewLabel_3);
 		
 		Permiso = new JTextField();

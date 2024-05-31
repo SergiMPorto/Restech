@@ -36,6 +36,7 @@ public class VentanaIngredientes {
     private JTextField cantidad;
     private JButton guardar;
     private JButton borrar;
+    private Gradiel mainPanel;
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
@@ -63,12 +64,18 @@ public class VentanaIngredientes {
         frmIngredientes = new JFrame();
         frmIngredientes.setForeground(new Color(0, 128, 128));
         frmIngredientes.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaIngredientes.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
-        frmIngredientes.setBackground(new Color(255, 255, 255));
-        frmIngredientes.setTitle("Ingredientes Disponibles");
+      
+        frmIngredientes.setTitle("INGREDIENTES DISPONIBLES");
         frmIngredientes.setBounds(100, 100, 750, 750);
         frmIngredientes.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frmIngredientes.getContentPane().setBackground(new Color(56, 61, 67));
+       
         frmIngredientes.setResizable(false);
+        
+        Color startColor = new Color(54, 217, 187);
+        Color endColor = new Color(220, 234, 242);
+        JPanel mainPanel = new Gradiel(startColor, endColor);
+        mainPanel.setLayout(null);
+        frmIngredientes.setContentPane(mainPanel);
 
         modeloIngredientes = new DefaultTableModel() {
             @Override
@@ -89,9 +96,10 @@ public class VentanaIngredientes {
         cantidad.setColumns(10);
         
         JLabel lblNewLabel = new JLabel("Cantidad");
-        lblNewLabel.setForeground(new Color(255, 255, 255));
-        lblNewLabel.setFont(new Font("Cambria", Font.PLAIN, 20));
-        lblNewLabel.setBounds(211, 676, 80, 27);
+        lblNewLabel.setBackground(new Color(0, 0, 0));
+        lblNewLabel.setForeground(new Color(0, 0, 0));
+        lblNewLabel.setFont(new Font("DialogInput", Font.BOLD, 20));
+        lblNewLabel.setBounds(190, 676, 100, 27);
         frmIngredientes.getContentPane().add(lblNewLabel);
         
         guardar = new JButton("Guardar");

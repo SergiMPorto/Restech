@@ -64,6 +64,7 @@ public class Almacen {
     private JTextField Proveedor;
     private JTextField Merma;
     private DefaultTableModel model;
+    private Gradiel mainPanel;
 
     private JButton btnExportar; // Declaración del botón de exportación
     private JLabel lblNewLabel;
@@ -91,21 +92,33 @@ public class Almacen {
         cargarMateriasPrimas();    }
 
     private void initialize() {
+    	
+    	Color endColor = new Color(220, 234, 242);
+        Color startColor = new Color(54, 217, 187);
         almacen = new JFrame();
+        almacen.setTitle("ALMACËN");
         almacen.setIconImage(Toolkit.getDefaultToolkit().getImage(Almacen.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
         almacen.setBounds(700, 70, 750, 750);
         almacen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         almacen.getContentPane().setLayout(null);
-        almacen.getContentPane().setBackground(new Color(54,217,187));
+        mainPanel = new Gradiel(startColor, endColor);
         almacen.setResizable(false);
         almacen.setForeground(new Color(102, 153, 204));
         
+
+        mainPanel.setLayout(null); // Importante para posicionar los componentes manualmente
+        mainPanel.setBounds(0, 0, 750, 750); // Asegura que cubre todo el JFrame
+        almacen.setContentPane(mainPanel);
+        
+        
+
         almacen.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 limpiarCampos();
             }
         });
+
 
 
         btnGuardar = new JButton("Guardar");

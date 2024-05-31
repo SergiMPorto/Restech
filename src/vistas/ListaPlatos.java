@@ -37,6 +37,7 @@ public class ListaPlatos {
     private DefaultTableModel modeloPlatos;
     private JButton borrar;
     private JButton btnExportar;
+    private Gradiel mainPanel;
 
     private DaoPlato daoPlato;
 
@@ -61,15 +62,20 @@ public class ListaPlatos {
 
     private void initialize() {
         frmPlatos = new JFrame();
-        frmPlatos.setIconImage(Toolkit.getDefaultToolkit().getImage(ListaPlatos.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
-        frmPlatos.setTitle("Lista de Platos");
+        frmPlatos.setIconImage(Toolkit.getDefaultToolkit().getImage(ListaPlatos.class.getResource("/imagenes/RESTECHWIndow(1).jpg")));
+        frmPlatos.setTitle("LISTA DE PLATOS");
         frmPlatos.setBounds(100, 100, 750, 750);
-        frmPlatos.getContentPane().setBackground(new Color(54,217,187));
-		frmPlatos.getContentPane().setForeground(new Color(54,217,187));
+     
         frmPlatos.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPlatos.getContentPane().setLayout(new BorderLayout());
         frmPlatos.setForeground(new Color(102, 153, 204));
         frmPlatos.setResizable(false);
+        
+        Color startColor = new Color(54, 217, 187);
+        Color endColor = new Color(220, 234, 242);
+        JPanel mainPanel = new Gradiel(startColor, endColor);
+        mainPanel.setLayout(null);
+        frmPlatos.setContentPane(mainPanel);
 
         modeloPlatos = new DefaultTableModel();
         modeloPlatos.setColumnIdentifiers(new Object[]{"Nombre", "Precio", "Tiempo de Preparación"});

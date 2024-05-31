@@ -45,7 +45,11 @@ public class VentanaPedido  {
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
     private JLabel lblNewLabel_2;
+
+    private Gradiel mainPanel;
+
     JButton btnGastos;
+
 
 
     /**
@@ -79,15 +83,21 @@ public class VentanaPedido  {
         frmPedido = new JFrame();
         frmPedido.setBackground(Color.WHITE);
         frmPedido.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPedido.class.getResource("/imagenes/RESTECHVENTANA.jpg")));
-        frmPedido.setTitle("Pedido");
-        frmPedido.getContentPane().setBackground(new Color(54,217,187));
-        frmPedido.getContentPane().setForeground(new Color(54,217,187));
+        frmPedido.setTitle("PEDIDO");
+        
         frmPedido.setForeground(new Color(102, 153, 204));
         frmPedido.setBounds(730, 50, 750, 750);
         frmPedido.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPedido.getContentPane().setLayout(null);
         frmPedido.setResizable(false);
         
+
+        Color startColor = new Color(54, 217, 187);
+        Color endColor = new Color(220, 234, 242);
+        Gradiel mainPanel = new Gradiel(startColor, endColor);
+        mainPanel.setLayout(null);
+        frmPedido.setContentPane(mainPanel);
+
         frmPedido.addWindowListener(new WindowAdapter() {
         	
             @Override
@@ -95,6 +105,7 @@ public class VentanaPedido  {
                 limpiarCampos();
             }
         });
+
 
         
 
@@ -207,21 +218,11 @@ public class VentanaPedido  {
         lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
         lblNewLabel_3.setBounds(285, 17, 199, 63);
         frmPedido.getContentPane().add(lblNewLabel_3);
-        
-        btnGastos = new JButton("Gestión Gastos");
-        btnGastos.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGastos.setBounds(577, 268, 157, 30);
-        frmPedido.getContentPane().add(btnGastos);
     }
    
     
 	
-	 public JButton getBtnGastos() {
-		return btnGastos;
-	}
-	public void setBtnGastos(JButton btnGastos) {
-		this.btnGastos = btnGastos;
-	}
+	
 	public void setVisible(boolean b) {
 	        frmPedido.setVisible(b);
 	    }
@@ -324,7 +325,7 @@ public class VentanaPedido  {
 		btnAnadir.addActionListener(controladorEventosPedido);
 		btnBorrar.addActionListener(controladorEventosPedido);
 		btnGuardar.addActionListener(controladorEventosPedido);
-		btnGastos.addActionListener(controladorEventosPedido);
+	
 	}
 	
 	public void cargarProveedoresEnCombo(List<Proveedor> proveedores) {

@@ -88,8 +88,12 @@ public class VentanaPlato {
         frmPlato.setTitle("PLATO");
         frmPlato.setBounds(750, 50, 750, 750);
         frmPlato.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frmPlato.getContentPane().setBackground(new Color(54, 217, 187));
+       
         SpringLayout springLayout = new SpringLayout();
+        
+        Gradiel gradielPanel = new Gradiel(new Color(54, 217, 187), new Color(20, 234, 242));
+        gradielPanel.setLayout(springLayout);
+        frmPlato.setContentPane(gradielPanel);
         frmPlato.getContentPane().setLayout(springLayout);
         frmPlato.setResizable(false);
 
@@ -150,6 +154,7 @@ public class VentanaPlato {
         frmPlato.getContentPane().add(guardar);
 
         borrar = new JButton("BORRAR");
+        springLayout.putConstraint(SpringLayout.SOUTH, guardar, 0, SpringLayout.SOUTH, borrar);
         springLayout.putConstraint(SpringLayout.NORTH, borrar, 630, SpringLayout.NORTH, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.WEST, borrar, 560, SpringLayout.WEST, frmPlato.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, borrar, 710, SpringLayout.WEST, frmPlato.getContentPane());
@@ -205,8 +210,9 @@ public class VentanaPlato {
         frmPlato.getContentPane().add(ingredientes);
 
         listarPlatos = new JButton("LISTA PLATOS");
-        springLayout.putConstraint(SpringLayout.NORTH, listarPlatos, 0, SpringLayout.NORTH, guardar);
-        springLayout.putConstraint(SpringLayout.WEST, listarPlatos, 17, SpringLayout.WEST, nombre_1);
+        springLayout.putConstraint(SpringLayout.NORTH, listarPlatos, 10, SpringLayout.SOUTH, scrollPane);
+        springLayout.putConstraint(SpringLayout.WEST, listarPlatos, 244, SpringLayout.WEST, frmPlato.getContentPane());
+        springLayout.putConstraint(SpringLayout.SOUTH, listarPlatos, 37, SpringLayout.SOUTH, scrollPane);
         springLayout.putConstraint(SpringLayout.EAST, listarPlatos, -6, SpringLayout.WEST, guardar);
      
         listarPlatos.setFont(new Font("Lucida Sans", Font.BOLD, 15));
