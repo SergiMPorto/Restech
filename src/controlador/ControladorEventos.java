@@ -250,7 +250,9 @@ public class ControladorEventos implements ActionListener {
                 float merma = Float.parseFloat(almacen.getMerma().getText());
 
                 // Formatear fecha para mostrarla en la tabla en formato español
-                String fechaCaducidadFormatted = fechaCaducidad.format(formato);
+                String fechaCaducidadTexto = almacen.getFechaCaducidad().getText();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                fechaCaducidad = LocalDate.parse(fechaCaducidadTexto, formatter);
 
                 // Insertar la nueva materia prima en la base de datos
                 int idAsignado = daoMateriaPrima.insertarDevolucionId(new MateriaPrima(producto, precio, proveedor, fechaCaducidad, cantidad, merma));
@@ -258,7 +260,7 @@ public class ControladorEventos implements ActionListener {
                 if (idAsignado != -1) { // Si la inserción fue exitosa
                     // Obtener el modelo de la tabla y agregar la fila con el ID asignado
                     DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
-                    modelo.addRow(new Object[]{idAsignado, producto, precio, proveedor, fechaCaducidadFormatted, cantidad, merma});
+                    modelo.addRow(new Object[]{idAsignado, producto, precio, proveedor, fechaCaducidad, cantidad, merma});
 
                     // Borrar datos de los campos
                     almacen.getProducto().setText("");
