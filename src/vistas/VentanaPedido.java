@@ -28,6 +28,7 @@ import javax.swing.ImageIcon;
 
 import controlador.ControladorEventos;
 import modelo.entidad.Proveedor;
+import modelo.persistance.mysql.DaoProveedorMySql;
 
 
 public class VentanaPedido  {
@@ -45,6 +46,7 @@ public class VentanaPedido  {
     private JScrollPane scrollPane;
     private JLabel lblNewLabel_2;
     JButton btnGastos;
+
 
     /**
      * Launch the application.
@@ -67,6 +69,7 @@ public class VentanaPedido  {
     public VentanaPedido() {
         initialize();
        // frmPedido.setVisible(true);  // no borrar, si no no funciona MainPedido
+        
     }
    	/**
      * Initialize the contents of the frame.
@@ -86,6 +89,7 @@ public class VentanaPedido  {
         frmPedido.setResizable(false);
         
         frmPedido.addWindowListener(new WindowAdapter() {
+        	
             @Override
             public void windowClosing(WindowEvent e) {
                 limpiarCampos();
@@ -328,6 +332,7 @@ public class VentanaPedido  {
 	            combo.addItem(proveedor.getNombre());
 	        }
 	    }
+	 
 	 
 	 public void limpiarCampos() {
 		    Producto.setText("");
