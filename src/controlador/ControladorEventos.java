@@ -188,7 +188,10 @@ public class ControladorEventos implements ActionListener {
             }
         } else if (e.getSource() == ventanaPlato.getGuardar()) {
             // Validar y guardar el plato
+        	
+        	
             guardarPlato();
+            
         } else if (e.getSource() == ventanaPlato.getListarPlatos()) {
             System.out.println("Ventana listar ingredientes pulsado");
             listaPlatos.setVisible(true);
@@ -339,7 +342,7 @@ public class ControladorEventos implements ActionListener {
                 int idProveedor = (Integer) modelo.getValueAt(filaSeleccionada, 0);
                 modelo.removeRow(filaSeleccionada);
                 if (daoProveedor.borrar(idProveedor)) {
-                   // JOptionPane.showMessageDialog(null, "Proveedor borrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Proveedor borrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al borrar el proveedor", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -347,45 +350,62 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-     // Eventos para la ventana Usuario
-           else if (e.getSource() == ventanaUsuario.getBtnGuardar()) {
-               try {
-                   if (ventanaUsuario.getTextNombre().getText().isEmpty()) {
-                       JOptionPane.showMessageDialog(null, "Campo nombre vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                   } else if (!ventanaUsuario.getTextNombre().getText().matches("[a-zA-Z]+")) {
-                       JOptionPane.showMessageDialog(null, "El campo nombre solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                   } else if (ventanaUsuario.getPermiso().getText().isEmpty()) {
-                       JOptionPane.showMessageDialog(null, "Campo permiso vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                   } else if (!ventanaUsuario.getPermiso().getText().matches("\\d+")) {
-                       JOptionPane.showMessageDialog(null, "El campo permiso solo admite 0 o 1", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                   } else if (ventanaUsuario.getCodigo().getText().isEmpty()) {
-                       JOptionPane.showMessageDialog(null, "Campo código vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                   } else {
-                       String nombre = ventanaUsuario.getTextNombre().getText();
-                       int permiso = Integer.parseInt(ventanaUsuario.getPermiso().getText());
-                       String codigo = ventanaUsuario.getCodigo().getText();
 
-                       Usuario usuario = new Usuario(0, nombre, permiso, codigo);
+        // Eventos para la ventana Usuario
+        else if (e.getSource() == ventanaUsuario.getBtnGuardar()) {
+            try {
+            	
+            	 if (ventanaUsuario.getTextNombre().getText().isEmpty()) {
+                     JOptionPane.showMessageDialog(null, "Campo nombre vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (!ventanaUsuario.getTextNombre().getText().matches("[a-zA-Z]+")) {
+                     JOptionPane.showMessageDialog(null, "El campo nombre solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (ventanaUsuario.getPermiso().getText().isEmpty()) {
+                     JOptionPane.showMessageDialog(null, "Campo permiso vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (!ventanaUsuario.getPermiso().getText().matches("[01]")) {
+                     JOptionPane.showMessageDialog(null, "El campo permiso solo admite 0 o 1", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (ventanaUsuario.getCodigo().getText().isEmpty()) {
+                     JOptionPane.showMessageDialog(null, "Campo código vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else {
+                     String nombre = ventanaUsuario.getTextNombre().getText();
+                     int permiso = Integer.parseInt(ventanaUsuario.getPermiso().getText());
+                     String codigo = ventanaUsuario.getCodigo().getText();
 
-                       int idAsignado = daoUsuario.insertarDevolucionId(usuario); // Insertar el usuario y obtener el ID asignado
+                     Usuario usuario = new Usuario(0, nombre, permiso, codigo);
 
-                       if (idAsignado != -1) { // Si la inserción fue exitosa
-                           // Obtener el modelo de la tabla y agregar la fila con el ID asignado
-                           DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
-                           modelo.addRow(new Object[]{idAsignado, nombre, permiso, codigo});
+                     int idAsignado = daoUsuario.insertarDevolucionId(usuario); // Insertar el usuario y obtener el ID asignado
 
-                           JOptionPane.showMessageDialog(null, "Usuario añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                           ventanaUsuario.limpiarCampos();
-                       } else {
-                           JOptionPane.showMessageDialog(null, "Error al agregar el usuario a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-                       }
-                   }
-               } catch (NumberFormatException ex) {
-                   // Excepción si el permiso no es un número válido
-                   // JOptionPane.showMessageDialog(null, "Ingrese un permiso válido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-               }
-           }
+                     if (idAsignado != -1) { // Si la inserción fue exitosa
+                         // Obtener el modelo de la tabla y agregar la fila con el ID asignado
+                         DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
+                         modelo.addRow(new Object[]{idAsignado, nombre, permiso, codigo});
 
+                         JOptionPane.showMessageDialog(null, "Usuario añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                         ventanaUsuario.limpiarCampos();
+                     } else {
+                         JOptionPane.showMessageDialog(null, "Error al agregar el usuario a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                     }
+               
+	            }  
+                
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "fallo en las validadciones???", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if (e.getSource() == ventanaUsuario.getBtnBorrar()) {
+            int filaSeleccionada = ventanaUsuario.getTable().getSelectedRow();
+            if (filaSeleccionada != -1) {
+                DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
+                int idUsuario = (Integer) modelo.getValueAt(filaSeleccionada, 0);
+                modelo.removeRow(filaSeleccionada);
+                if (daoUsuario.borrar(idUsuario)) {
+                    JOptionPane.showMessageDialog(null, "Usuario borrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al borrar el usuario", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
         
       //ventana Pedido
         else if (e.getSource() == ventanaPedido.getBtnAnadir()) {
@@ -454,12 +474,9 @@ public class ControladorEventos implements ActionListener {
 
                 Pedido p = new Pedido();
                p.setIdUsuario(idUsuario);
-               System.out.println("El id de usuario es " + idUsuario); 
-               
                 p.setIdProveedor(proveedor);
                 p.setMateriaPrima(producto);
                 p.setCantidad(cantidad);
-                System.out.println("La cantidad de materia prima es: "+ cantidad);
                 p.setFechaPedido(fechaPedido);
                 p.setCostoTotal(precio);
                 
@@ -476,6 +493,7 @@ public class ControladorEventos implements ActionListener {
         }
         else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
             if (indice != -1) {
+            	JOptionPane.showMessageDialog(null, "Pedido borrado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 ventanaPedido.getTableModel().removeRow(indice);
                 indice = -1;
             } else {
@@ -564,7 +582,7 @@ public class ControladorEventos implements ActionListener {
     private void guardarPlato() {
         String nombre = ventanaPlato.getNombre().getText().trim();
         if (nombre.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Error de Validación", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "El nombre no puede estar vacío.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
