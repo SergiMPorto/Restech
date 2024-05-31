@@ -13,15 +13,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.entidad.Gasto;
-import modelo.entidad.Ingrediente;
+//import modelo.entidad.Gasto;
+//import modelo.entidad.Ingrediente;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.interfaces.DaoMateriaPrima;
 import modelo.persistance.interfaces.DaoUsuario;
-import modelo.persistance.mysql.DaoGastoMySql;
+//import modelo.persistance.mysql.DaoGastoMySql;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
 import modelo.entidad.Pedido;
@@ -32,7 +32,7 @@ import modelo.persistance.mysql.DaoPedidoMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
-import vistas.Gastos;
+//import vistas.Gastos;
 import vistas.Home;
 import vistas.ListaPlatos;
 import vistas.Login;
@@ -53,20 +53,20 @@ public class ControladorEventos implements ActionListener {
     private VentanaIngredientes ingredientes;
     private VentanaProveedor ventanaProveedor;
     private ListaPlatos listaPlatos;
-    private Gastos gastos;
+    //private Gastos gastos;
  
     private DaoMateriaPrimaMySql daoMateriaPrima;
     private DaoPedidoMySql daoPedido;
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
     private DaoPlatoMySql daoPlato;
-    private DaoGastoMySql daoGastos;
+    //private DaoGastoMySql daoGastos;
     private int indice;
   
     private LocalDate fechaLocal = LocalDate.now();
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
-            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos, Gastos gastos) {
+            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos) {
         this.login = login;
         this.home = home;
         this.almacen = almacen;
@@ -76,14 +76,14 @@ public class ControladorEventos implements ActionListener {
         this.ventanaUsuario = usuario;
         this.ingredientes = ingredientes;
         this.ventanaProveedor = ventanaProveedor;
-        this.gastos = gastos;
+        //this.gastos = gastos;
         
         this.daoMateriaPrima = new DaoMateriaPrimaMySql();
         this.daoPedido = new DaoPedidoMySql();
         this.daoProveedor = new DaoProveedorMySql();
         this.daoUsuario = new DaoUsuarioMySql();
         this.daoPlato = new DaoPlatoMySql();
-        this.daoGastos = new DaoGastoMySql();
+        //this.daoGastos = new DaoGastoMySql();
         
 
         // Ocultar todas las vistas excepto la de inicio de sesión al iniciar
@@ -95,7 +95,7 @@ public class ControladorEventos implements ActionListener {
         login.setVisible(true);
         ventanaProveedor.setVisible(false);
         ingredientes.setVisible(false);
-        gastos.setVisible(false);
+        //gastos.setVisible(false);
 
         
         cargarProveedoresEnPedido1();
