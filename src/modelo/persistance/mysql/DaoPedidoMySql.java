@@ -23,7 +23,6 @@ public class DaoPedidoMySql implements DaoPedido {
 
 
         String url = "jdbc:mysql://localhost:3306/bbdd";
-
         String usuario = "root";
         String password = "";
         try {

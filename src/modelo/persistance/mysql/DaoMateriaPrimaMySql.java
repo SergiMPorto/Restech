@@ -15,7 +15,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 
     private boolean abrirConexion() {
 
-        String url = "jdbc:mysql://localhost:3309/bbdd";
+        String url = "jdbc:mysql://localhost:3306/bbdd";
         String usuario = "root"; 
         String password = ""; 
 
@@ -71,6 +71,42 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 
         return insertar;
     }
+    
+   @Override
+    public int insertarDevolucionId(MateriaPrima mp) {
+        if (!abrirConexion()) {
+            return -1; // Retorna -1 si no se puede abrir la conexión
+        }
+
+        int idAsignado = -1; // Inicializar el ID asignado a -1
+
+        String query = "INSERT INTO materias_primas (nombre, precio, proveedor, fecha_caducidad, cantidad_utilizada, merma) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            ps.setString(1, mp.getNombre());
+            ps.setFloat(2, mp.getPrecio());
+            ps.setString(3, mp.getProveedor());
+            ps.setDate(4, java.sql.Date.valueOf(mp.getFechaCaducidad()));
+            ps.setFloat(5, mp.getCantidadUtilizada());
+            ps.setFloat(6, mp.getMerma());
+
+            int numeroFilasAfectadas = ps.executeUpdate();
+            if (numeroFilasAfectadas > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    idAsignado = rs.getInt(1); // Obtener el ID asignado
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al insertar MateriaPrima: " + mp);
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+
+        return idAsignado; // Retorna el ID asignado
+    }
+
 
     @Override
     public boolean borrar(int id) {
@@ -86,7 +122,7 @@ public class DaoMateriaPrimaMySql implements DaoMateriaPrima {
 
             int numeroFilasAfectadas = ps.executeUpdate();
             if (numeroFilasAfectadas == 0) {
-                borrado = false;
+            	borrado = false;
             }
         } catch (SQLException e) {
             System.out.println("Error al borrar MateriaPrima con id " + id);

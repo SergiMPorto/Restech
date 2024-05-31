@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.EventQueue;
 
@@ -97,6 +99,14 @@ public class Almacen {
         almacen.getContentPane().setBackground(new Color(54,217,187));
         almacen.setResizable(false);
         almacen.setForeground(new Color(102, 153, 204));
+        
+        almacen.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                limpiarCampos();
+            }
+        });
+
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
@@ -405,11 +415,21 @@ public class Almacen {
         }
     }
 
-    public void cargarMateriasPrimas() {
-        DaoMateriaPrimaMySql daoMateriaPrima = new DaoMateriaPrimaMySql();
-        List<MateriaPrima> listaMateriasPrimas = daoMateriaPrima.listar();
-        llenarTabla(listaMateriasPrimas);
-    }
+	public void cargarMateriasPrimas() {
+	    DaoMateriaPrimaMySql daoMateriaPrima = new DaoMateriaPrimaMySql();
+	    List<MateriaPrima> listaMateriasPrimas = daoMateriaPrima.listar();
+	    List<MateriaPrima> listaFiltrada = new ArrayList<>();
+
+	    // Filtrar las materias primas que tienen cantidad > 0
+	    for (MateriaPrima mp : listaMateriasPrimas) {
+	        if (mp.getCantidadUtilizada() > 0) {
+	            listaFiltrada.add(mp);
+	        }
+	    }
+
+	    llenarTabla(listaFiltrada);
+	}
+
     
     
     //Exportar en Excel
@@ -460,6 +480,20 @@ public class Almacen {
                 e.printStackTrace();
             }
         }
+        
+        
     }
+    
+    public void limpiarCampos() {
+        Producto.setText("");
+        Cantidad.setText("");
+        FechaCaducidad.setText("");
+        Precio.setText("");
+        Proveedor.setText("");
+        Merma.setText("");
+    }
+    
+    
+
 
 }

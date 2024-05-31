@@ -8,6 +8,8 @@ import java.awt.Font;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -93,7 +95,15 @@ public class VentanaProveedor {
         proveedor.getContentPane().setLayout(null);
         proveedor.getContentPane().setBackground(new Color(54,217,187));
         proveedor.setResizable(false);
-       proveedor.setForeground(new Color(102, 153, 204));
+        proveedor.setForeground(new Color(102, 153, 204));
+        proveedor.addWindowListener(new WindowAdapter() {
+    	    @Override
+    	    public void windowClosing(WindowEvent e) {
+    	        limpiarCampos();
+    	    }
+    	});
+       
+       
         table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"ID","Nombre", "Descripción", "Teléfono", "Dirección"}));
         
         
@@ -401,6 +411,13 @@ public class VentanaProveedor {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public void limpiarCampos() {
+        nombre.setText("");
+        descripcion.setText("");
+        telefono.setText("");
+        direccion.setText("");
     }
 
 

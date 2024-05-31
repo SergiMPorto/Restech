@@ -21,6 +21,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.ImageIcon;
 
 import controlador.ControladorEventos;
@@ -81,6 +84,13 @@ public class VentanaPedido  {
         frmPedido.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frmPedido.getContentPane().setLayout(null);
         frmPedido.setResizable(false);
+        
+        frmPedido.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                limpiarCampos();
+            }
+        });
 
         
 
@@ -318,4 +328,10 @@ public class VentanaPedido  {
 	            combo.addItem(proveedor.getNombre());
 	        }
 	    }
+	 
+	 public void limpiarCampos() {
+		    Producto.setText("");
+		    Cantidad.setText("");
+		    Precio.setText("");
+		}
 }
