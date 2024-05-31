@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -730,16 +731,12 @@ public class ControladorEventos implements ActionListener {
              return false;
          }
     }
-    public boolean validarFecha(String text) {
-   	 try {
-   		 	fechaCaducidad = LocalDate.parse(almacen.getFechaCaducidad().getText(), formato);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-   }
-    //insertar materia prima con id actualizado
-    
+    public boolean validarFecha(String fecha) throws ParseException {
+        // Utiliza el formato para verificar si la cadena es una fecha válida
+		formato.parse(fecha);
+		return true;
+    }
+
     
     
 
