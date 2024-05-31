@@ -507,7 +507,7 @@ public class ControladorEventos implements ActionListener {
         }
         else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
             if (indice != -1) {
-            	JOptionPane.showMessageDialog(null, "Pedido borrado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            	JOptionPane.showMessageDialog(null, "Producto borrado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 ventanaPedido.getTableModel().removeRow(indice);
                 indice = -1;
             } else {
