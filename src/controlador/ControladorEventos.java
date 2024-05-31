@@ -62,6 +62,8 @@ public class ControladorEventos implements ActionListener {
     private DaoPlatoMySql daoPlato;
     private DaoGastoMySql daoGastos;
     private int indice;
+    private LocalDate fechaCaducidad;
+    private DateTimeFormatter formato;
   
     private LocalDate fechaLocal = LocalDate.now();
 
@@ -99,6 +101,10 @@ public class ControladorEventos implements ActionListener {
 
         
         cargarProveedoresEnPedido1();
+        
+        // Crear formato de fecha en español
+      formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        
         
     }
     
@@ -200,24 +206,48 @@ public class ControladorEventos implements ActionListener {
             System.out.println("Botón proveedor pulsado");
             ventanaProveedor.setVisible(true);
         }
+        
         // Eventos para la ventana Almacen
         else if (e.getSource() == almacen.getBtnGuardar()) {
-            try {
-                String nombre = almacen.getProducto().getText();
+        	
+        	
+        	
+          try {
+            	
+            	if (almacen.getProducto().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }else if (!almacen.getProducto().getText().matches("[a-zA-Z]+")) {
+                    JOptionPane.showMessageDialog(null, "El campo producto solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }   
+                else if (almacen.getPrecio().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo precio vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);  
+                }else if (!validarFloat(almacen.getPrecio().getText())) {
+                    JOptionPane.showMessageDialog(null, "El campo precio NO contiene un número valido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } 
+                else if (almacen.getProveedor().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo proveedor vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!almacen.getProveedor().getText().matches("[a-zA-Z]+")) {
+                    JOptionPane.showMessageDialog(null, "El campo proveedor solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }  
+                else if (almacen.getFechaCaducidad().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo fecha caducidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!validarFecha(almacen.getFechaCaducidad().getText())) {
+                    JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }  
+                else if (almacen.getCantidad().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo cantidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }else if (!validarFloat(almacen.getCantidad().getText())) {
+                    JOptionPane.showMessageDialog(null, "El campo cantidad NO contiene un número valido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } 
+                else if (almacen.getMerma().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo merma vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }else if (!validarFloat(almacen.getMerma().getText())) {
+                    JOptionPane.showMessageDialog(null, "El campo merma NO contiene un número valido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 }   
+            	
+                String producto = almacen.getProducto().getText();
                 float precio = Float.parseFloat(almacen.getPrecio().getText());
                 String proveedor = almacen.getProveedor().getText();
-
-             // Crear formato de fecha en español
-                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-                // Parsear fecha
-                LocalDate fechaCaducidad;
-                try {
-                    fechaCaducidad = LocalDate.parse(almacen.getFechaCaducidad().getText(), formato);
-                } catch (DateTimeParseException ex) {
-                    JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
 
                 float cantidad = Float.parseFloat(almacen.getCantidad().getText());
                 float merma = Float.parseFloat(almacen.getMerma().getText());
@@ -225,11 +255,11 @@ public class ControladorEventos implements ActionListener {
                 // Formatear fecha para mostrarla en la tabla en formato español
                 String fechaCaducidadFormatted = fechaCaducidad.format(formato);
 
-                MateriaPrima materiaPrima = new MateriaPrima(0, nombre, precio, proveedor, fechaCaducidad, cantidad, merma);
+                MateriaPrima materiaPrima = new MateriaPrima(0, producto, precio, proveedor, fechaCaducidad, cantidad, merma);
                 DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
                 
                 // Añadir fila a la tabla con la fecha formateada
-                modelo.addRow(new Object[]{materiaPrima.getId(), nombre, precio, proveedor, fechaCaducidadFormatted, cantidad, merma});
+                modelo.addRow(new Object[]{materiaPrima.getId(), producto, precio, proveedor, fechaCaducidadFormatted, cantidad, merma});
                 
                 // Borrar datos de los campos
                 almacen.getProducto().setText("");
@@ -243,11 +273,15 @@ public class ControladorEventos implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Materia prima añadida correctamente a la base de datos", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 }
 
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (DateTimeParseException ex) {
-                JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+               // JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
+             //   ex.printStackTrace();
+            } 
+          /*catch (DateTimeParseException ex) {
+               // JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
             }
+            */
         }
 
         else if (e.getSource() == almacen.getBtnBorrar()) {
@@ -259,7 +293,7 @@ public class ControladorEventos implements ActionListener {
                 if (daoMateriaPrima.borrar(idMateriaPrima)) {
                     JOptionPane.showMessageDialog(null, "Materia prima borrada correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al borrar la materia prima", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al borrar la materia prima", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -296,12 +330,17 @@ public class ControladorEventos implements ActionListener {
 	               
 	
 	                 if (daoProveedor.insertar(proveedor)) {
-	                    JOptionPane.showMessageDialog(null, "Proveedor añadido correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+	                    JOptionPane.showMessageDialog(null, "Proveedor añadido correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE); /// quitar???
 	                } else {
 	                    JOptionPane.showMessageDialog(null, "Error al añadir el proveedor a la base de datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 	                }
 	                 
-	                ventanaProveedor.cargarProveedores();  
+	                ventanaProveedor.cargarProveedores(); 
+
+	                ventanaProveedor.getNombre().setText(null);
+	                ventanaProveedor.getDescripcion().setText(null);
+	                ventanaProveedor.getTelefono().setText(null);
+	                ventanaProveedor.getDireccion().setText(null);
         }
            else if (e.getSource() == ventanaProveedor.getBtnBorrar()) {
             int filaSeleccionada = ventanaProveedor.getTable().getSelectedRow();
@@ -321,17 +360,36 @@ public class ControladorEventos implements ActionListener {
         // Eventos para la ventana Usuario
         else if (e.getSource() == ventanaUsuario.getBtnGuardar()) {
             try {
-                String nombre = ventanaUsuario.getTextNombre().getText();
-                int permiso = Integer.parseInt(ventanaUsuario.getPermiso().getText());
-                String codigo = ventanaUsuario.getCodigo().getText();
-                Usuario usuario = new Usuario(0, nombre, permiso, codigo);
-                DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
-                modelo.addRow(new Object[]{usuario.getId(), nombre, permiso, codigo});
-                if (daoUsuario.insertar(usuario)) {
-                    JOptionPane.showMessageDialog(null, "Usuario añadido correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            	
+            	if (ventanaUsuario.getTextNombre().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo nombre vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!ventanaUsuario.getTextNombre().getText().matches("[a-zA-Z]+")) {
+                    JOptionPane.showMessageDialog(null, "El campo nombre solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if (ventanaUsuario.getPermiso().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo permiso vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!ventanaUsuario.getPermiso().getText().matches("\\d+")) {
+                    JOptionPane.showMessageDialog(null, "El campo permiso solo admite 0 o 1", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else if (ventanaUsuario.getCodigo().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo código vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } 
+                else {
+	                String nombre = ventanaUsuario.getTextNombre().getText();
+	                int permiso = Integer.parseInt(ventanaUsuario.getPermiso().getText());
+	                String codigo = ventanaUsuario.getCodigo().getText();
+	                
+	                Usuario usuario = new Usuario(0, nombre, permiso, codigo);
+	                
+	                DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
+	                modelo.addRow(new Object[]{usuario.getId(), nombre, permiso, codigo});
+	                
+	                if (daoUsuario.insertar(usuario)) {
+	                    JOptionPane.showMessageDialog(null, "Usuario añadido correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
+	                }
                 }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Ingrese un permiso válido", "Error", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Ingrese un permiso válido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         else if (e.getSource() == ventanaUsuario.getBtnBorrar()) {
@@ -343,7 +401,7 @@ public class ControladorEventos implements ActionListener {
                 if (daoUsuario.borrar(idUsuario)) {
                     JOptionPane.showMessageDialog(null, "Usuario borrado correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al borrar el usuario", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al borrar el usuario", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
@@ -358,11 +416,11 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "El campo producto solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (ventanaPedido.getCantidad().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo cantidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else if (!textCantidad.matches("\\d+")) {
+            } else if (!validarFloat(ventanaPedido.getCantidad().getText())) {
                 JOptionPane.showMessageDialog(null, "El campo cantidad solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else if (ventanaPedido.getPrecio().getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Campo precio vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            } else if (!textPrecio.matches("\\d+")) {
+            } else if (!validarFloat(ventanaPedido.getPrecio().getText())) {
                 JOptionPane.showMessageDialog(null, "El campo precio solo admite números", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             } else {
 
@@ -399,15 +457,11 @@ public class ControladorEventos implements ActionListener {
             if (rowCount == 0) {
                 JOptionPane.showMessageDialog(null, "No hay ningún producto para guardar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 return;
-            }
-
-          
-            
+            }          
             for (int i = 0; i < rowCount; i++) {
             int idUsuario = ControladorEventos.this.usuarioLogueado().getId();
             	
-            	
-            	System.out.println(idUsuario);
+            
                 System.out.println(idUsuario);
 
 
@@ -420,7 +474,7 @@ public class ControladorEventos implements ActionListener {
                 LocalDate fechaPedido = LocalDate.now();
 
                 Pedido p = new Pedido();
-                p.setIdUsuario(idUsuario);
+               p.setIdUsuario(idUsuario);
                System.out.println("El id de usuario es " + idUsuario); 
                
                 p.setIdProveedor(proveedor);
@@ -435,25 +489,22 @@ public class ControladorEventos implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Error al guardar el pedido en la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-         
             }
             
             JOptionPane.showMessageDialog(null, "Pedido guardado correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             modelo.setRowCount(0);
             
-        } else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
+        }
+        else if (e.getSource() == ventanaPedido.getBtnBorrar()) {
             if (indice != -1) {
                 ventanaPedido.getTableModel().removeRow(indice);
                 indice = -1;
             } else {
-                JOptionPane.showMessageDialog(null, "No has seleccionado ningún producto", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }}
             
     
-             
-
-     
     
 //Obtner método para usuario logueado. 
     
@@ -684,7 +735,31 @@ public class ControladorEventos implements ActionListener {
         return idUsuario;
     }
 
-    
+    public boolean validarFloat(String text) {
+   	 try {
+            Float.parseFloat(text);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+   	
+   }
+    public boolean validarDouble(String text) {
+    	 try {
+             Double.parseDouble(text);
+             return true;
+         } catch (NumberFormatException e) {
+             return false;
+         }
+    }
+    public boolean validarFecha(String text) {
+   	 try {
+   		 	fechaCaducidad = LocalDate.parse(almacen.getFechaCaducidad().getText(), formato);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+   }
     
     
 

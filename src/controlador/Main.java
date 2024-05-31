@@ -34,6 +34,7 @@ public class Main {
 
         // Establecer los listeners para las vistas
         login.inciarListener(controlador);
+        almacen.iniciarListener(controlador);
         home.agregarListener(controlador);
         plato.iniciarListener(controlador);
         usuario.inciarListener(controlador);
