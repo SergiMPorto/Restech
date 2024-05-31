@@ -102,7 +102,7 @@ public class Home {
 		frmMen.getContentPane().add(btnPedido);
 
 		btnUsuario = new JButton("");
-		btnUsuario.setIcon(new ImageIcon(Home.class.getResource("/Imagenes/Personal.jpeg")));
+		btnUsuario.setIcon(new ImageIcon(Home.class.getResource("/imagenes/Personal.jpeg")));
 		btnUsuario.setFont(new Font("Lucida Sans", Font.BOLD, 30));
 		btnUsuario.setBounds(492, 477, 150, 150);
 		frmMen.getContentPane().add(btnUsuario);

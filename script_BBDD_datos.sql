@@ -27,7 +27,7 @@ CREATE TABLE Pedido (
     ID_Pedido INT PRIMARY KEY AUTO_INCREMENT,
     ID_Usuario INT,
     ID_Proveedor INT,
-    Nombre VARCHAR(255),
+    materia_prima VARCHAR(255),
     Cantidad DECIMAL(10,2),
     Fecha_Pedido DATE,
     Precio DECIMAL(10, 2),
