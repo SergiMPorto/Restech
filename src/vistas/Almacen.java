@@ -273,14 +273,6 @@ public class Almacen {
         this.btnGuardar = btnGuardar;
     }
 
-    public JButton getBtnCancelar() {
-        return btnCancelar;
-    }
-
-    public void setBtnCancelar(JButton btnCancelar) {
-        this.btnCancelar = btnCancelar;
-    }
-
     public JButton getBtnBorrar() {
         return btnBorrar;
     }
