@@ -73,7 +73,7 @@ public class VentanaIngredientes {
         
         Color startColor = new Color(54, 217, 187);
         Color endColor = new Color(220, 234, 242);
-        JPanel mainPanel = new Gradiel(startColor, endColor);
+        Gradiel mainPanel = new Gradiel(startColor, endColor);
         mainPanel.setLayout(null);
         frmIngredientes.setContentPane(mainPanel);
 
@@ -88,6 +88,7 @@ public class VentanaIngredientes {
         tablaIngredientes = new JTable(modeloIngredientes);
         JScrollPane scrollPane = new JScrollPane(tablaIngredientes);
         scrollPane.setBounds(0, 0, 736, 666);
+        mainPanel.add(scrollPane);
         frmIngredientes.getContentPane().add(scrollPane);
         
         cantidad = new JTextField();

@@ -71,11 +71,7 @@ public class ListaPlatos {
         frmPlatos.setForeground(new Color(102, 153, 204));
         frmPlatos.setResizable(false);
         
-        Color startColor = new Color(54, 217, 187);
-        Color endColor = new Color(220, 234, 242);
-        JPanel mainPanel = new Gradiel(startColor, endColor);
-        mainPanel.setLayout(null);
-        frmPlatos.setContentPane(mainPanel);
+       
 
         modeloPlatos = new DefaultTableModel();
         modeloPlatos.setColumnIdentifiers(new Object[]{"Nombre", "Precio", "Tiempo de Preparación"});
