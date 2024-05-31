@@ -64,7 +64,7 @@ public class ControladorEventos implements ActionListener {
     private DaoPlatoMySql daoPlato;
 
     private int indice;
-    private LocalDate fechaCaducidad;
+    private LocalDate fechaCaducidad = LocalDate.now();
     private DateTimeFormatter formato;
   
     private LocalDate fechaLocal = LocalDate.now();
@@ -274,7 +274,8 @@ public class ControladorEventos implements ActionListener {
                 }
             } catch (Exception ex) {
                 // Excepción genérica
-                // JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
+                 JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
+                 System.out.println(ex);
                 // ex.printStackTrace();
             }
         }
