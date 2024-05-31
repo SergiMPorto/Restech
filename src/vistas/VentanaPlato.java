@@ -91,7 +91,9 @@ public class VentanaPlato {
        
         SpringLayout springLayout = new SpringLayout();
         
-        Gradiel gradielPanel = new Gradiel(new Color(54, 217, 187), new Color(20, 234, 242));
+        Color startColor = new Color(54, 217, 187);
+        Color endColor = new Color(220, 234, 242);
+        Gradiel gradielPanel = new Gradiel(startColor, endColor);
         gradielPanel.setLayout(springLayout);
         frmPlato.setContentPane(gradielPanel);
         frmPlato.getContentPane().setLayout(springLayout);
