@@ -334,6 +334,8 @@ public class ControladorEventos implements ActionListener {
 	                ventanaProveedor.getDescripcion().setText(null);
 	                ventanaProveedor.getTelefono().setText(null);
 	                ventanaProveedor.getDireccion().setText(null);
+	                
+	                cargarProveedoresEnPedido1();
         }
            else if (e.getSource() == ventanaProveedor.getBtnBorrar()) {
             int filaSeleccionada = ventanaProveedor.getTable().getSelectedRow();

@@ -326,7 +326,8 @@ public class VentanaPedido  {
 		btnGuardar.addActionListener(controladorEventosPedido);
 		btnGastos.addActionListener(controladorEventosPedido);
 	}
-	 public void cargarProveedoresEnCombo(List<Proveedor> proveedores) {
+	
+	public void cargarProveedoresEnCombo(List<Proveedor> proveedores) {
 	        combo.removeAllItems();
 	        for (Proveedor proveedor : proveedores) {
 	            combo.addItem(proveedor.getNombre());
