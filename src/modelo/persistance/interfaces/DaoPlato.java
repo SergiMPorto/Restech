@@ -2,7 +2,7 @@ package modelo.persistance.interfaces;
 
 import java.util.List;
 
-import modelo.entidad.Ingrediente;
+
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 

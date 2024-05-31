@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import modelo.entidad.Ingrediente;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 import modelo.persistance.interfaces.DaoPlato;
@@ -18,7 +16,7 @@ public class DaoPlatoMySql implements DaoPlato{
 	private Connection conexion;
 
     private boolean abrirConexion() {
-        String url = "jdbc:mysql://localhost:3306/bbdd";
+        String url = "jdbc:mysql://localhost:3309/bbdd";
         String usuario = "root";
         String password = "";
         try {

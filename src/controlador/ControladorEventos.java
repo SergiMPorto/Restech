@@ -13,15 +13,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.entidad.Gasto;
-import modelo.entidad.Ingrediente;
+//import modelo.entidad.Gasto;
+//import modelo.entidad.Ingrediente;
 import modelo.entidad.MateriaPrima;
 import modelo.entidad.Plato;
 import modelo.entidad.Proveedor;
 import modelo.entidad.Usuario;
 import modelo.persistance.interfaces.DaoMateriaPrima;
 import modelo.persistance.interfaces.DaoUsuario;
-import modelo.persistance.mysql.DaoGastoMySql;
+//import modelo.persistance.mysql.DaoGastoMySql;
 import modelo.persistance.mysql.DaoMateriaPrimaMySql;
 import modelo.persistance.mysql.DaoPlatoMySql;
 import modelo.entidad.Pedido;
@@ -32,7 +32,7 @@ import modelo.persistance.mysql.DaoPedidoMySql;
 import modelo.persistance.mysql.DaoProveedorMySql;
 import modelo.persistance.mysql.DaoUsuarioMySql;
 import vistas.Almacen;
-import vistas.Gastos;
+//import vistas.Gastos;
 import vistas.Home;
 import vistas.ListaPlatos;
 import vistas.Login;
@@ -53,14 +53,14 @@ public class ControladorEventos implements ActionListener {
     private VentanaIngredientes ingredientes;
     private VentanaProveedor ventanaProveedor;
     private ListaPlatos listaPlatos;
-    private Gastos gastos;
+    //private Gastos gastos;
  
     private DaoMateriaPrimaMySql daoMateriaPrima;
     private DaoPedidoMySql daoPedido;
     private DaoProveedorMySql daoProveedor;
     private DaoUsuarioMySql daoUsuario;
     private DaoPlatoMySql daoPlato;
-    private DaoGastoMySql daoGastos;
+    //private DaoGastoMySql daoGastos;
     private int indice;
     private LocalDate fechaCaducidad;
     private DateTimeFormatter formato;
@@ -68,7 +68,7 @@ public class ControladorEventos implements ActionListener {
     private LocalDate fechaLocal = LocalDate.now();
 
     public ControladorEventos(Login login, Home home, Almacen almacen, VentanaPedido pedido, VentanaPlato plato, VentanaUsuario usuario,
-            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos, Gastos gastos) {
+            VentanaIngredientes ingredientes, VentanaProveedor ventanaProveedor, ListaPlatos listaPlatos) {
         this.login = login;
         this.home = home;
         this.almacen = almacen;
@@ -78,14 +78,14 @@ public class ControladorEventos implements ActionListener {
         this.ventanaUsuario = usuario;
         this.ingredientes = ingredientes;
         this.ventanaProveedor = ventanaProveedor;
-        this.gastos = gastos;
+        //this.gastos = gastos;
         
         this.daoMateriaPrima = new DaoMateriaPrimaMySql();
         this.daoPedido = new DaoPedidoMySql();
         this.daoProveedor = new DaoProveedorMySql();
         this.daoUsuario = new DaoUsuarioMySql();
         this.daoPlato = new DaoPlatoMySql();
-        this.daoGastos = new DaoGastoMySql();
+        //this.daoGastos = new DaoGastoMySql();
         
 
         // Ocultar todas las vistas excepto la de inicio de sesión al iniciar
@@ -97,7 +97,7 @@ public class ControladorEventos implements ActionListener {
         login.setVisible(true);
         ventanaProveedor.setVisible(false);
         ingredientes.setVisible(false);
-        gastos.setVisible(false);
+        //gastos.setVisible(false);
 
         
         cargarProveedoresEnPedido1();
@@ -210,44 +210,35 @@ public class ControladorEventos implements ActionListener {
             ventanaProveedor.setVisible(true);
         }
         
-        // Eventos para la ventana Almacen
+     // Eventos para la ventana Almacen
         else if (e.getSource() == almacen.getBtnGuardar()) {
-        	
-        	
-        	
-          try {
-            	
-            	if (almacen.getProducto().getText().isEmpty()) {
+            try {
+                if (almacen.getProducto().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo producto vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }else if (!almacen.getProducto().getText().matches("[a-zA-Z]+")) {
+                } else if (!almacen.getProducto().getText().matches("[a-zA-Z]+")) {
                     JOptionPane.showMessageDialog(null, "El campo producto solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }   
-                else if (almacen.getPrecio().getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo precio vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);  
-                }else if (!validarFloat(almacen.getPrecio().getText())) {
-                    JOptionPane.showMessageDialog(null, "El campo precio NO contiene un número valido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                 } 
-                else if (almacen.getProveedor().getText().isEmpty()) {
+                } else if (almacen.getPrecio().getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo precio vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!validarFloat(almacen.getPrecio().getText())) {
+                    JOptionPane.showMessageDialog(null, "El campo precio NO contiene un número válido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (almacen.getProveedor().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo proveedor vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 } else if (!almacen.getProveedor().getText().matches("[a-zA-Z]+")) {
                     JOptionPane.showMessageDialog(null, "El campo proveedor solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }  
-                else if (almacen.getFechaCaducidad().getText().isEmpty()) {
+                } else if (almacen.getFechaCaducidad().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo fecha caducidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                 } else if (!validarFecha(almacen.getFechaCaducidad().getText())) {
                     JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }  
-                else if (almacen.getCantidad().getText().isEmpty()) {
+                } else if (almacen.getCantidad().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo cantidad vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }else if (!validarFloat(almacen.getCantidad().getText())) {
-                    JOptionPane.showMessageDialog(null, "El campo cantidad NO contiene un número valido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                 } 
-                else if (almacen.getMerma().getText().isEmpty()) {
+                } else if (!validarFloat(almacen.getCantidad().getText())) {
+                    JOptionPane.showMessageDialog(null, "El campo cantidad NO contiene un número válido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else if (almacen.getMerma().getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Campo merma vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }else if (!validarFloat(almacen.getMerma().getText())) {
-                    JOptionPane.showMessageDialog(null, "El campo merma NO contiene un número valido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                 }   
-            	
+                } else if (!validarFloat(almacen.getMerma().getText())) {
+                    JOptionPane.showMessageDialog(null, "El campo merma NO contiene un número válido", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                }
+
                 String producto = almacen.getProducto().getText();
                 float precio = Float.parseFloat(almacen.getPrecio().getText());
                 String proveedor = almacen.getProveedor().getText();
@@ -258,33 +249,31 @@ public class ControladorEventos implements ActionListener {
                 // Formatear fecha para mostrarla en la tabla en formato español
                 String fechaCaducidadFormatted = fechaCaducidad.format(formato);
 
-                MateriaPrima materiaPrima = new MateriaPrima(0, producto, precio, proveedor, fechaCaducidad, cantidad, merma);
-                DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
-                
-                // Añadir fila a la tabla con la fecha formateada
-                modelo.addRow(new Object[]{materiaPrima.getId(), producto, precio, proveedor, fechaCaducidadFormatted, cantidad, merma});
-                
-                // Borrar datos de los campos
-                almacen.getProducto().setText("");
-                almacen.getPrecio().setText("");
-                almacen.getProveedor().setText("");
-                almacen.getFechaCaducidad().setText("");
-                almacen.getCantidad().setText("");
-                almacen.getMerma().setText("");
+                // Insertar la nueva materia prima en la base de datos
+                int idAsignado = daoMateriaPrima.insertarDevolucionId(new MateriaPrima(producto, precio, proveedor, fechaCaducidad, cantidad, merma));
 
-                if (daoMateriaPrima.insertar(materiaPrima)) {
+                if (idAsignado != -1) { // Si la inserción fue exitosa
+                    // Obtener el modelo de la tabla y agregar la fila con el ID asignado
+                    DefaultTableModel modelo = (DefaultTableModel) almacen.getTable().getModel();
+                    modelo.addRow(new Object[]{idAsignado, producto, precio, proveedor, fechaCaducidadFormatted, cantidad, merma});
+
+                    // Borrar datos de los campos
+                    almacen.getProducto().setText("");
+                    almacen.getPrecio().setText("");
+                    almacen.getProveedor().setText("");
+                    almacen.getFechaCaducidad().setText("");
+                    almacen.getCantidad().setText("");
+                    almacen.getMerma().setText("");
+
                     JOptionPane.showMessageDialog(null, "Materia prima añadida correctamente a la base de datos", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al agregar la materia prima a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
             } catch (Exception ex) {
-               // JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
-             //   ex.printStackTrace();
-            } 
-          /*catch (DateTimeParseException ex) {
-               // JOptionPane.showMessageDialog(null, "Por favor, ingrese una fecha válida en el formato dd/MM/yyyy", "Error", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
+                // Excepción genérica
+                // JOptionPane.showMessageDialog(null, "Por favor, ingrese valores numéricos válidos para precio, cantidad y merma", "Error", JOptionPane.ERROR_MESSAGE);
+                // ex.printStackTrace();
             }
-            */
         }
 
         else if (e.getSource() == almacen.getBtnBorrar()) {
@@ -360,41 +349,41 @@ public class ControladorEventos implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Seleccione una fila para borrar", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+
         // Eventos para la ventana Usuario
         else if (e.getSource() == ventanaUsuario.getBtnGuardar()) {
             try {
             	
-            	if (ventanaUsuario.getTextNombre().getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo nombre vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!ventanaUsuario.getTextNombre().getText().matches("[a-zA-Z]+")) {
-                    JOptionPane.showMessageDialog(null, "El campo nombre solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else if (ventanaUsuario.getPermiso().getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo permiso vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!ventanaUsuario.getPermiso().getText().matches("[01]")) {
-                    JOptionPane.showMessageDialog(null, "El campo permiso solo admite 0 o 1", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else if (ventanaUsuario.getCodigo().getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Campo código vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                }  else if (!ventanaUsuario.getCodigo().getText().matches("[a-zA-Z0-9]*")) {
-                    JOptionPane.showMessageDialog(null, "el password solo admite números y letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                } 
-                else {
-	                String nombre = ventanaUsuario.getTextNombre().getText();
-	                int permiso = Integer.parseInt(ventanaUsuario.getPermiso().getText());
-	                String codigo = ventanaUsuario.getCodigo().getText();
-	                
-	                Usuario usuario = new Usuario(0, nombre, permiso, codigo);
-	                
-	                DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
-	                modelo.addRow(new Object[]{usuario.getId(), nombre, permiso, codigo});
-	               try { 
-	                if (daoUsuario.insertar(usuario)) {
-	                    JOptionPane.showMessageDialog(null, "Usuario añadido correctamente", "Exito", JOptionPane.INFORMATION_MESSAGE);
-	                }    
-	                } catch (Exception ex2){
-	                    JOptionPane.showMessageDialog(null, "el password 6 caracteres máximo", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-	                }
+            	 if (ventanaUsuario.getTextNombre().getText().isEmpty()) {
+                     JOptionPane.showMessageDialog(null, "Campo nombre vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (!ventanaUsuario.getTextNombre().getText().matches("[a-zA-Z]+")) {
+                     JOptionPane.showMessageDialog(null, "El campo nombre solo admite letras", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (ventanaUsuario.getPermiso().getText().isEmpty()) {
+                     JOptionPane.showMessageDialog(null, "Campo permiso vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (!ventanaUsuario.getPermiso().getText().matches("[01]")) {
+                     JOptionPane.showMessageDialog(null, "El campo permiso solo admite 0 o 1", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else if (ventanaUsuario.getCodigo().getText().isEmpty()) {
+                     JOptionPane.showMessageDialog(null, "Campo código vacío", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                 } else {
+                     String nombre = ventanaUsuario.getTextNombre().getText();
+                     int permiso = Integer.parseInt(ventanaUsuario.getPermiso().getText());
+                     String codigo = ventanaUsuario.getCodigo().getText();
+
+                     Usuario usuario = new Usuario(0, nombre, permiso, codigo);
+
+                     int idAsignado = daoUsuario.insertarDevolucionId(usuario); // Insertar el usuario y obtener el ID asignado
+
+                     if (idAsignado != -1) { // Si la inserción fue exitosa
+                         // Obtener el modelo de la tabla y agregar la fila con el ID asignado
+                         DefaultTableModel modelo = (DefaultTableModel) ventanaUsuario.getTable().getModel();
+                         modelo.addRow(new Object[]{idAsignado, nombre, permiso, codigo});
+
+                         JOptionPane.showMessageDialog(null, "Usuario añadido correctamente", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                         ventanaUsuario.limpiarCampos();
+                     } else {
+                         JOptionPane.showMessageDialog(null, "Error al agregar el usuario a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+                     }
+               
 	            }  
                 
             } catch (Exception ex) {
@@ -767,6 +756,8 @@ public class ControladorEventos implements ActionListener {
             return false;
         }
    }
+    //insertar materia prima con id actualizado
+    
     
     
 
