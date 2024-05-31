@@ -14,6 +14,7 @@ public interface DaoUsuario {
 	public int obtenerPermisoPorId(int id);
 	public Usuario buscarNombre(String nombre);
 	public int buscarIdUsuarioPorNombre(String nombreUsuario);
+	public int insertarDevolucionId(Usuario u);
 	
 	
 

@@ -82,11 +82,21 @@ public class VentanaUsuario {
 		frmUsuario.getContentPane().setLayout(null);
 		frmUsuario.setResizable(false);
 		
+
 		Color startColor = new Color(54, 217, 187);
 		Color endColor = new Color(220, 234, 242);
 		Gradiel mainPanel = new Gradiel(startColor, endColor);
 		mainPanel.setLayout(null);
 		frmUsuario.setContentPane(mainPanel);
+
+		 // Add window listener to clear fields on close
+        frmUsuario.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                limpiarCampos();
+            }
+        });
+
 		
 		
 		table = new JTable(new DefaultTableModel(new Object[][]{}, new String[]{"Id","Nombre", "Permiso", "Codigo"}));
@@ -305,5 +315,12 @@ public class VentanaUsuario {
         DaoUsuarioMySql daoUsuario = new DaoUsuarioMySql();
         List<Usuario> listaUsuario = daoUsuario.listar();
         llenarTabla(listaUsuario);
+    }
+    
+ // Método para limpiar los campos
+    public void limpiarCampos() {
+        textNombre.setText("");
+        Permiso.setText("");
+        Codigo.setText("");
     }
 }

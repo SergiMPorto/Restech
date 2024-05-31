@@ -21,10 +21,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.ImageIcon;
 
 import controlador.ControladorEventos;
 import modelo.entidad.Proveedor;
+import modelo.persistance.mysql.DaoProveedorMySql;
 
 
 public class VentanaPedido  {
@@ -41,7 +45,13 @@ public class VentanaPedido  {
     private DefaultTableModel tableModel;
     private JScrollPane scrollPane;
     private JLabel lblNewLabel_2;
+
     private Gradiel mainPanel;
+
+    JButton btnGastos;
+
+
+
     /**
      * Launch the application.
      */
@@ -63,6 +73,7 @@ public class VentanaPedido  {
     public VentanaPedido() {
         initialize();
        // frmPedido.setVisible(true);  // no borrar, si no no funciona MainPedido
+        
     }
    	/**
      * Initialize the contents of the frame.
@@ -80,11 +91,21 @@ public class VentanaPedido  {
         frmPedido.getContentPane().setLayout(null);
         frmPedido.setResizable(false);
         
+
         Color startColor = new Color(54, 217, 187);
         Color endColor = new Color(220, 234, 242);
         Gradiel mainPanel = new Gradiel(startColor, endColor);
         mainPanel.setLayout(null);
         frmPedido.setContentPane(mainPanel);
+
+        frmPedido.addWindowListener(new WindowAdapter() {
+        	
+            @Override
+            public void windowClosing(WindowEvent e) {
+                limpiarCampos();
+            }
+        });
+
 
         
 
@@ -306,10 +327,18 @@ public class VentanaPedido  {
 		btnGuardar.addActionListener(controladorEventosPedido);
 	
 	}
-	 public void cargarProveedoresEnCombo(List<Proveedor> proveedores) {
+	
+	public void cargarProveedoresEnCombo(List<Proveedor> proveedores) {
 	        combo.removeAllItems();
 	        for (Proveedor proveedor : proveedores) {
 	            combo.addItem(proveedor.getNombre());
 	        }
 	    }
+	 
+	 
+	 public void limpiarCampos() {
+		    Producto.setText("");
+		    Cantidad.setText("");
+		    Precio.setText("");
+		}
 }

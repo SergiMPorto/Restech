@@ -3,6 +3,8 @@ package controlador;
 import modelo.entidad.Usuario;
 import vistas.Almacen;
 
+
+
 import vistas.Home;
 import vistas.ListaPlatos;
 import vistas.VentanaIngredientes;
@@ -24,7 +26,9 @@ public class Main {
         VentanaIngredientes ingredientes = new VentanaIngredientes();
         VentanaProveedor proveedor = new VentanaProveedor(null, null, null, null);
         ListaPlatos listaPlatos = new ListaPlatos();
+
     
+
 
         // Obtener el usuario logueado
         Usuario usuarioLogueado = obtenerUsuarioLogueado();
@@ -34,11 +38,13 @@ public class Main {
 
         // Establecer los listeners para las vistas
         login.inciarListener(controlador);
+        almacen.iniciarListener(controlador);
         home.agregarListener(controlador);
         plato.iniciarListener(controlador);
         usuario.inciarListener(controlador);
         pedido.establecerControlador(controlador);
-        
+
+
         ingredientes.iniciarListener(controlador);
         proveedor.iniciarListener(controlador);
     }

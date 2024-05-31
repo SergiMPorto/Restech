@@ -16,8 +16,10 @@ public class DaoUsuarioMySql implements DaoUsuario {
 	private Connection conexion;
 
     private boolean abrirConexion() {
+
         String url = "jdbc:mysql://localhost:3306/bbdd";
         		
+
         String usuario = "root";
         String password = "";
         try {
@@ -67,6 +69,38 @@ public class DaoUsuarioMySql implements DaoUsuario {
 
         return insertado;
     }
+    
+    @Override
+    public int insertarDevolucionId(Usuario u) {
+        if (!abrirConexion()) {
+            return -1; // Devolver -1 si hay un error al abrir la conexión
+        }
+
+        int idAsignado = -1; // Valor por defecto si la inserción falla
+        String query = "INSERT INTO usuarios (nombre, permisos, codigo) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement ps = conexion.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS); // Obtener las claves generadas
+            ps.setString(1, u.getNombre());
+            ps.setInt(2, u.getPermisos());
+            ps.setString(3, u.getCodigo());
+
+            int numeroFilasAfectadas = ps.executeUpdate();
+            if (numeroFilasAfectadas > 0) {
+                ResultSet rs = ps.getGeneratedKeys(); // Obtener las claves generadas
+                if (rs.next()) {
+                    idAsignado = rs.getInt(1); // Obtener el ID asignado
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al insertar Usuario: " + u);
+            e.printStackTrace();
+        } finally {
+            cerrarConexion();
+        }
+
+        return idAsignado; // Devolver el ID asignado
+    }
+
 
     @Override
     public boolean borrar(int id) {

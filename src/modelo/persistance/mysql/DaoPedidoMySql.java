@@ -23,7 +23,6 @@ public class DaoPedidoMySql implements DaoPedido {
 
 
         String url = "jdbc:mysql://localhost:3306/bbdd";
-
         String usuario = "root";
         String password = "";
         try {
@@ -63,7 +62,7 @@ public class DaoPedidoMySql implements DaoPedido {
             return false;
         }
 
-        String query = "INSERT INTO pedido (id_usuario, id_proveedor, materia_prima, cantidad, fecha_pedido, precio) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO pedido (id_usuario, id_proveedor, materiyo d_prima, cantidad, fecha_pedido, precio) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conexion.prepareStatement(query)) {
             ps.setInt(1, pd.getIdUsuario());
             ps.setInt(2, pd.getIdProveedor());

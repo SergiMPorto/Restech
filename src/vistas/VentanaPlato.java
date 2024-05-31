@@ -237,10 +237,10 @@ public class VentanaPlato {
             @Override
             public void actionPerformed(ActionEvent e) {
                
-                int confirm = JOptionPane.showConfirmDialog(frmPlato, "¿Estás seguro de que quieres borrar los elementos seleccionados?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
+               // int confirm = JOptionPane.showConfirmDialog(frmPlato, "¿Estás seguro de que quieres borrar los elementos seleccionados?", "Confirmar borrado", JOptionPane.YES_NO_OPTION);
                 
                 
-                if (confirm == JOptionPane.YES_OPTION) {
+               // if (confirm == JOptionPane.YES_OPTION) {
                     DefaultTableModel model = (DefaultTableModel) table.getModel();
                     int[] selectedRows = table.getSelectedRows();
 
@@ -249,7 +249,7 @@ public class VentanaPlato {
                     }
 
                     calcularPrecioPlato();
-                }
+                //}
             }
         });
         
