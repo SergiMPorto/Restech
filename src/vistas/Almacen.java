@@ -51,7 +51,6 @@ public class Almacen {
 	private JFrame frame;
     private JFrame almacen;
     private JButton btnGuardar;
-    private JButton btnCancelar;
     private JButton btnBorrar;
   
     private JLabel lblNewLabel_3;
@@ -123,13 +122,8 @@ public class Almacen {
 
         btnGuardar = new JButton("Guardar");
         btnGuardar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnGuardar.setBounds(300, 660, 125, 30);
+        btnGuardar.setBounds(466, 660, 125, 30);
         almacen.getContentPane().add(btnGuardar);
-
-        btnCancelar = new JButton("Cancelar");
-        btnCancelar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnCancelar.setBounds(570, 660, 125, 30);
-        almacen.getContentPane().add(btnCancelar);
 
         lblNewLabel_3 = new JLabel("Almacén");
         lblNewLabel_3.setFont(new Font("DialogInput", Font.BOLD | Font.ITALIC, 49));
@@ -206,7 +200,7 @@ public class Almacen {
 
         btnBorrar = new JButton("Borrar");
         btnBorrar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnBorrar.setBounds(435, 660, 125, 30);
+        btnBorrar.setBounds(601, 660, 125, 30);
         almacen.getContentPane().add(btnBorrar);
 
         Precio = new JTextField();
@@ -245,7 +239,7 @@ public class Almacen {
 
         btnExportar = new JButton("Exportar a Excel");
         btnExportar.setFont(new Font("Lucida Sans", Font.BOLD, 15));
-        btnExportar.setBounds(120, 660, 170, 30);
+        btnExportar.setBounds(278, 660, 170, 30);
         almacen.getContentPane().add(btnExportar);
         
         lblNewLabel = new JLabel("");
